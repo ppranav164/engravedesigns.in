@@ -32,6 +32,8 @@ public class searchContents extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    String paramt = "";
+
     RecyclerView recyclerView;
 
     // TODO: Rename and change types of parameters
@@ -66,7 +68,8 @@ public class searchContents extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        loadData();
+        paramt = "mac";
+        loadData(paramt);
     }
 
     @Override
@@ -110,18 +113,15 @@ public class searchContents extends Fragment {
 
 
 
-    public void loadData()
+    public void loadData(String params)
     {
 
-        new syncFeatured(getContext(), new featured() {
+        new syncSearch(getContext(), params, new info() {
             @Override
-            public void loadFeatured(String data) {
-
+            public void getInfo(String data) {
                 setsearchdata(data);
-
             }
         }).execute();
-
 
     }
 
