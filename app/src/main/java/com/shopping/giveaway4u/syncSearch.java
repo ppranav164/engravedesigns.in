@@ -68,7 +68,7 @@ public class syncSearch extends AsyncTask<String,String,String>
 
         try {
 
-            URL url = new URL(API_URL);
+            URL url = new URL(API_URL+params);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
