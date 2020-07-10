@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/breakupbutton"
+            android:id="@+id/sort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
@@ -25,22 +25,81 @@
             android:text="Sort"
             />
         <Button
-            android:id="@+id/startPay"
+            android:id="@+id/filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Confirm"
+            android:text="Filter"
             android:background="@drawable/border"
             android:textColor="@color/black"
             android:layout_weight="1.0"
             />
     </LinearLayout>
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/header"
         android:id="@+id/vrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:padding="20dp"
+        android:visibility="invisible"
+        android:id="@+id/filters">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="7dp"
+            android:text="Sort By"/>
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:id="@+id/filtergroup">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/defaults"
+                android:checked="true"
+                android:text="Default"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/high"
+                android:text="Price (High)"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/low"
+                android:text="Price (Low)"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingH"
+                android:text="Rating (Highest)"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingL"
+                android:text="Rating (Lowest)"/>
+
+
+        </RadioGroup>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

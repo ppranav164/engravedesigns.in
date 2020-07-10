@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +40,10 @@ public class searchContents extends Fragment {
     RecyclerView recyclerView;
 
     Dialog dialog;
+
+    LinearLayout filterlayout;
+
+    Button sortButton;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,11 +82,26 @@ public class searchContents extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+        View view = getView();
+
+        filterlayout = view.findViewById(R.id.filters);
+
+        sortButton = view.findViewById(R.id.sort);
+
         dialog = new Dialog(getContext());
 
         openDialog();
 
         loadData(paramt);
+
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUpFilters();
+            }
+        });
+
     }
 
 
@@ -99,6 +120,19 @@ public class searchContents extends Fragment {
         dialog.dismiss();
     }
 
+
+    public void showUpFilters()
+    {
+
+        if (filterlayout.getVisibility() != View.VISIBLE)
+        {
+            filterlayout.setVisibility(View.VISIBLE);
+        }else {
+
+            filterlayout.setVisibility(View.INVISIBLE);
+        }
+
+    }
 
 
 
