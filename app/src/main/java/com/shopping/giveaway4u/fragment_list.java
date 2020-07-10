@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -54,7 +55,7 @@ import com.google.android.material.navigation.NavigationView;
 
     public    ListView mylist;
 
-    String[] data = { "MacBook Pro 16","iMac Pro 5K","iPhone 11 Pro","iPad Pro 12"};
+    String[] data = { "T-Shirt Printing","Mac","Engraving","Personalised Gifts"};
 
     public static ArrayAdapter<String> adapter;
 
@@ -130,6 +131,22 @@ import com.google.android.material.navigation.NavigationView;
            adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,data);
 
            mylist.setAdapter(adapter);
+
+           mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+               @Override
+               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                   String value = data[position];
+
+                   FragmentManager manager = getFragmentManager();
+
+                   FragmentTransaction transaction = manager.beginTransaction();
+
+                   transaction.replace(R.id.mainframeL,new searchContents(value)).commit();
+
+               }
+           });
 
        }
 

@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity
 
                 FragmentTransaction transaction = manager.beginTransaction();
 
-                transaction.replace(R.id.mainframeL,new searchContents());
+                transaction.replace(R.id.mainframeL,new searchContents(query));
 
                 transaction.commit();
 

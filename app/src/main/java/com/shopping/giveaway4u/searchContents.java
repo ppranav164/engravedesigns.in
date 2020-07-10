@@ -46,6 +46,11 @@ public class searchContents extends Fragment {
         // Required empty public constructor
     }
 
+    public searchContents(String query)
+    {
+        paramt += "search="+query;
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -67,8 +72,6 @@ public class searchContents extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        paramt = "mac";
         loadData(paramt);
     }
 
