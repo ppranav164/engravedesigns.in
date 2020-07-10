@@ -139,7 +139,6 @@ import com.google.android.material.navigation.NavigationView;
                @Override
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
                    String value = data[position];
 
                    FragmentManager manager = getFragmentManager();
@@ -147,6 +146,8 @@ import com.google.android.material.navigation.NavigationView;
                    FragmentTransaction transaction = manager.beginTransaction();
 
                    transaction.replace(R.id.mainframeL,new searchContents(value)).commit();
+
+                   transaction.addToBackStack("main");
 
                }
            });
