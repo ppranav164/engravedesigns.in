@@ -32,6 +32,7 @@
                 android:value="com.shopping.giveaway4u.MainActivity" />
         </activity>
         <activity android:name=".instamojo" />
+        <activity android:name=".ReviewlCheckout" />
         <activity android:name=".syncInformations" />
         <activity android:name=".Activity_wishlist" />
         <activity android:name=".Activity_products" />

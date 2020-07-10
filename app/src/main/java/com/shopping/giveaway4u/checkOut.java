@@ -893,7 +893,7 @@ public class checkOut extends Fragment {
                 switch (paymentOption.getTag().toString())
 
                 {
-                    case "cod" : cashOnDelivery();
+                    case "cod" : reviewChckout();
                     break;
 
                     case "instamojo" : paymentGateway();
@@ -961,6 +961,25 @@ public class checkOut extends Fragment {
 
 
     }
+
+
+
+
+    public void reviewChckout()
+
+    {
+
+        Intent intent = new Intent(getContext(),ReviewlCheckout.class);
+
+        intent.putExtra("order_id",orderId);
+
+        startActivity(intent);
+
+
+    }
+
+
+
 
 
 
