@@ -1,5 +1,6 @@
 package com.shopping.giveaway4u;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ import com.google.android.material.navigation.NavigationView;
 
     Context context;
 
+    Dialog dialog;
 
     public    ListView mylist;
 
@@ -94,6 +96,7 @@ import com.google.android.material.navigation.NavigationView;
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
 
 
         ActionBar actionBar = ((AppCompatActivity )getActivity()).getSupportActionBar();

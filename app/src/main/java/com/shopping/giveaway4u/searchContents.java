@@ -1,5 +1,6 @@
 package com.shopping.giveaway4u;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class searchContents extends Fragment {
     String paramt = "";
 
     RecyclerView recyclerView;
+
+    Dialog dialog;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -72,8 +75,33 @@ public class searchContents extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        dialog = new Dialog(getContext());
+
+        openDialog();
+
         loadData(paramt);
     }
+
+
+    public void openDialog() {
+
+        dialog.setContentView(R.layout.dialog_demo);
+        dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        dialog.show();
+    }
+
+
+
+    public void closeDialog()
+    {
+
+        dialog.dismiss();
+    }
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -170,6 +198,8 @@ public class searchContents extends Fragment {
         productsBySearch_adapter recadapter = new productsBySearch_adapter(getContext(),array);
 
         recyclerView.setAdapter(recadapter);
+
+        closeDialog();
 
 
     }
