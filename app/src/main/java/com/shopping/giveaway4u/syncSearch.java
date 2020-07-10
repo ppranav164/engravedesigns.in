@@ -23,15 +23,18 @@ public class syncSearch extends AsyncTask<String,String,String>
 
     int proid;
 
+    String params;
 
     String API_URL = hosts.searchBy;
 
-    public syncSearch(Context cxt, info info)
+    public syncSearch(Context cxt,String param, info info)
     {
 
         this.context = cxt;
 
         this.info = info;
+
+        this.params = param;
 
     }
 
