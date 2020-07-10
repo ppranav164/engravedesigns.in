@@ -7,18 +7,26 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 /**
@@ -45,6 +53,10 @@ public class searchContents extends Fragment {
 
     Button sortButton;
 
+    RadioGroup filtergroup;
+
+    HashMap<String,String> params = new HashMap<>();
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -57,7 +69,7 @@ public class searchContents extends Fragment {
 
     public searchContents(String query)
     {
-        paramt += "search="+query;
+        paramt = query;
     }
 
     /**
@@ -83,15 +95,23 @@ public class searchContents extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
+
         View view = getView();
+
+        dialog = new Dialog(getContext());
+        openDialog();
 
         filterlayout = view.findViewById(R.id.filters);
 
         sortButton = view.findViewById(R.id.sort);
 
-        dialog = new Dialog(getContext());
+        filtergroup = view.findViewById(R.id.filtergroup);
 
-        openDialog();
+        recyclerView = view.findViewById(R.id.vrecyclerview);
+
+
+
+
 
         loadData(paramt);
 
@@ -131,6 +151,56 @@ public class searchContents extends Fragment {
 
             filterlayout.setVisibility(View.INVISIBLE);
         }
+
+
+        filtergroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                RadioButton radioButton = group.findViewById(checkedId);
+
+                String tag = radioButton.getTag().toString();
+
+                switch (tag)
+                {
+                    case "high" : params.put("sort","p.price");
+                                  params.put("order","DESC");
+                                  params.put("search",paramt);
+                                  setFilter();
+                                  break;
+
+                    case "low" : params.put("sort","p.price");
+                                 params.put("order","ASC");
+                                 params.put("search",paramt);
+                                 setFilter();
+                                 break;
+
+
+                    case "ratinghigh" : params.put("sort","rating");
+                                        params.put("order","DESC");
+                                        params.put("search",paramt);
+                                        setFilter();
+                                        break;
+
+                    case "ratinglow" : params.put("sort","rating");
+                                       params.put("order","ASC");
+                                       params.put("search",paramt);
+                                       setFilter();
+                                       break;
+
+                    case "default" :
+                                       params.put("search",paramt);
+                                       params.put("order","");
+                                       params.put("sort","");
+
+                                       setFilter();
+                                       break;
+                }
+
+            }
+        });
+
 
     }
 
@@ -181,6 +251,40 @@ public class searchContents extends Fragment {
     public void loadData(String params)
     {
 
+        params = "search="+params;
+
+        new syncSearch(getContext(), params, new info() {
+            @Override
+            public void getInfo(String data) {
+                setsearchdata(data);
+            }
+        }).execute();
+
+    }
+
+
+    public void setFilter()
+    {
+
+       String sort = params.get("sort");
+
+       String order = params.get("order");
+
+       String search = params.get("search");
+
+       Log.e("filter",sort+order+search);
+
+       String keyvals = "sort="+sort+"&order="+order+"&search="+search;
+
+       Log.e("param",keyvals);
+
+       filter(keyvals);
+
+    }
+
+
+    public void filter(String params)
+    {
         new syncSearch(getContext(), params, new info() {
             @Override
             public void getInfo(String data) {
@@ -202,7 +306,22 @@ public class searchContents extends Fragment {
 
             JSONArray array = object.getJSONArray("products");
 
-            setsetsearchInfo(array);
+           if (array.isNull(0))
+           {
+
+               FragmentManager manager = getFragmentManager();
+
+               FragmentTransaction transaction = manager.beginTransaction();
+
+               transaction.replace(R.id.mainframeL,new ERROR("Nothing found"));
+               transaction.commit();
+
+               closeDialog();
+
+           }else {
+
+               setsetsearchInfo(array);
+           }
 
 
         }catch (Exception e)
@@ -232,6 +351,8 @@ public class searchContents extends Fragment {
         productsBySearch_adapter recadapter = new productsBySearch_adapter(getContext(),array);
 
         recyclerView.setAdapter(recadapter);
+
+        recadapter.notifyDataSetChanged();
 
         closeDialog();
 

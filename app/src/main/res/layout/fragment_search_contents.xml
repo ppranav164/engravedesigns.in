@@ -15,16 +15,9 @@
         android:padding="@dimen/fragment_title_padding_10"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
+
         <Button
-            android:id="@+id/sort"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:textColor="@color/black"
-            android:layout_weight="1.0"
-            android:text="Sort"
-            />
-        <Button
+            android:visibility="invisible"
             android:id="@+id/filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +25,18 @@
             android:background="@drawable/border"
             android:textColor="@color/black"
             android:layout_weight="1.0"
+            />
+        <Button
+            android:id="@+id/sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filterbutton"
+            android:textColor="@color/black"
+            android:layout_weight="1.0"
+            android:text="Sort"
+            android:drawableStart="@drawable/ic_sort"
+            android:paddingLeft="50dp"
+            android:gravity="left|top|right|bottom"
             />
     </LinearLayout>
 
@@ -70,30 +75,35 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/defaults"
                 android:checked="true"
+                android:tag="default"
                 android:text="Default"/>
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/high"
+                android:tag="high"
                 android:text="Price (High)"/>
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/low"
+                android:tag="low"
                 android:text="Price (Low)"/>
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingH"
+                android:tag="ratinghigh"
                 android:text="Rating (Highest)"/>
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingL"
+                android:tag="ratinglow"
                 android:text="Rating (Lowest)"/>
 
 
