@@ -55,14 +55,37 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+
+        String order = getIntent().getStringExtra("orders");
+
+        Toast.makeText(getApplicationContext(),""+order,Toast.LENGTH_LONG).show();
+
+        if (order != null)
+        {
+
+            Fragment fragment = new orders();
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.mainframeL,fragment,"orders");
+            transaction.addToBackStack("home");
+            transaction.commit();
+
+        }
+
+
+
+        setContentView(R.layout.activity_main);
 
         dialog = new Dialog(this); // Context, this, etc.
 
         loadinglayout = findViewById(R.id.loadinglayout);
 
         loadingview = findViewById(R.id.loadingview);
+
+
+
+
 
 
 

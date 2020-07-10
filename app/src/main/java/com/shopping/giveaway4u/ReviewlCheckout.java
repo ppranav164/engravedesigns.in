@@ -1,10 +1,16 @@
 package com.shopping.giveaway4u;
 
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -161,11 +167,8 @@ public class ReviewlCheckout extends AppCompatActivity implements View.OnClickLi
 
                 Log.e("Order Success",data);
 
-                FragmentManager manager = getSupportFragmentManager();
-
-                FragmentTransaction transaction = manager.beginTransaction();
-
-                transaction.replace(R.id.mainframeL,new success("Thank you for purchasing with us you will receive a confirmation message")).commit();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
 
             }
         }).execute();
@@ -344,17 +347,44 @@ public class ReviewlCheckout extends AppCompatActivity implements View.OnClickLi
 
 
     public void notifyThis(String title, String message) {
-        NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
-        b.setAutoCancel(true)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis()+4)
-                .setSmallIcon(R.drawable.logosplash)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setContentInfo("INFO");
 
-        NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(1, b.build());
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification.Builder notification = new Notification.Builder(getApplicationContext())
+                .setContentTitle("Breaking News")
+                .setContentText(title)
+                .setSmallIcon(R.drawable.icon)
+                .setAutoCancel(true);
+
+        notification.build().flags |= Notification.FLAG_AUTO_CANCEL;
+
+        Uri sounds = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+//                notification.setSound(sounds);
+//                notification.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+//                notification.setLights(Color.RED, 3000, 3000);
+
+        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class); //to open an activity on touch notification
+
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+        resultIntent.putExtra("orders","orders");
+
+        int requestID = (int) System.currentTimeMillis();
+
+        PendingIntent resultPendingIntent = PendingIntent
+                .getActivity(getApplicationContext(),requestID,resultIntent,0);
+
+        notification.setContentIntent(resultPendingIntent);
+
+        int idv = 1;
+
+        //notificationManager.notify(String.valueOf(idv),i,notification.build());
+
+        notificationManager.notify("mine",idv,notification.build());
+
+
     }
 
 
