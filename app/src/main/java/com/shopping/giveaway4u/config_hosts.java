@@ -110,7 +110,9 @@ public class config_hosts {
 
 
     //Search Product link
-    public final String searchBy = hostname+"index.php?route=api/search";
+    //Accepts Param : search , sort , order ,
+    //Ex search=iphone , sort=p.price , order=ASC OR DESC <- Must be capital letter
+    public final String searchBy = hostname+"index.php?route=api/search&";
 
 
 
