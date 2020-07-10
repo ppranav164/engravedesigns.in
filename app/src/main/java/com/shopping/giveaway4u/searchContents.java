@@ -4,11 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 /**
@@ -24,6 +31,8 @@ public class searchContents extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    RecyclerView recyclerView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -51,6 +60,13 @@ public class searchContents extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        loadData();
     }
 
     @Override
@@ -89,6 +105,81 @@ public class searchContents extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+
+
+
+    public void loadData()
+    {
+
+        new syncFeatured(getContext(), new featured() {
+            @Override
+            public void loadFeatured(String data) {
+
+                setsearchdata(data);
+
+            }
+        }).execute();
+
+
+    }
+
+
+
+    public void setsearchdata(String info)
+    {
+
+
+        try {
+
+            JSONObject object = new JSONObject(info);
+
+            JSONArray array = object.getJSONArray("products");
+
+            setsetsearchInfo(array);
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
+
+    public void setsetsearchInfo(JSONArray array)
+
+    {
+
+        View view = getView();
+
+        recyclerView  =  view.findViewById(R.id.vrecyclerview);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2, LinearLayoutManager.VERTICAL,false));
+
+        recyclerView.smoothScrollToPosition(0);
+
+
+        productsBySearch_adapter recadapter = new productsBySearch_adapter(getContext(),array);
+
+        recyclerView.setAdapter(recadapter);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this

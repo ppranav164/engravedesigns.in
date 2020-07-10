@@ -5,12 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".searchContents">
 
-
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vrecyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hi Searchables"
-        android:gravity="center"
-        android:textSize="55dp"/>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
