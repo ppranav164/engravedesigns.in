@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/headers"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:paddingLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_orders"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="Cart (1)"
+            android:textColor="@color/darkbl"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/cartCounts"
+            />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/headers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cart_recyclerview">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <Button
+        android:id="@+id/addToCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Procceed to Checkout"
+        android:background="@color/darkbl"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
+</RelativeLayout>
+
+
+

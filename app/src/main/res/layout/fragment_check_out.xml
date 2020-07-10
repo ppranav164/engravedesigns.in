@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+ <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".checkOut"
+    android:background="@color/lightGrey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             >
+             <RelativeLayout
+                 android:id="@+id/first"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@color/white">
+                 <LinearLayout
+                     android:id="@+id/deliveryGroup"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:paddingTop="10dp"
+                     android:clickable="true"
+                     android:orientation="vertical">
+
+                     <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:padding="10dp">
+
+                         <ImageView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:src="@drawable/ic_location"/>
+
+                         <TextView
+                             android:id="@+id/defAddresDel"
+                             android:layout_marginLeft="5dp"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:text="Delivery Address" />
+                     </LinearLayout>
+
+                     <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:layout_gravity="center_vertical"
+                         android:orientation="horizontal">
+                         <RelativeLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent">
+                             <TextView
+                                 android:id="@+id/defaultAddressTextDel"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:padding="20dp"
+                                 android:textColor="@color/base_dark" />
+
+                             <ImageView
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="match_parent"
+                                 android:src="@drawable/ic_right"
+                                 android:gravity="center"
+                                 android:textColor="@color/base_dark"
+                                 android:layout_alignParentRight="true"/>
+
+                         </RelativeLayout>
+                     </LinearLayout>
+
+
+                 </LinearLayout>
+             </RelativeLayout>
+
+
+             <RelativeLayout
+                 android:background="@color/white"
+                 android:id="@+id/thd"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/first"
+                 android:layout_marginTop="5dp"
+                 android:gravity="left"
+                 android:padding="10dp"
+                 android:orientation="horizontal">
+
+                 <TextView
+                     android:id="@+id/headerShipping"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="Please select the preferred Shipping method"
+                     android:textColor="@color/base_dark" />
+
+                 <RadioGroup
+                     android:id="@+id/shippingtOptions"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/headerShipping">
+
+                 </RadioGroup>
+
+
+             </RelativeLayout>
+
+
+             <RelativeLayout
+                 android:id="@+id/frd"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/thd"
+                 android:layout_marginTop="5dp"
+                 android:gravity="left"
+                 android:orientation="horizontal"
+                 android:padding="10dp"
+                 android:background="@color/white">
+
+                 <TextView
+                     android:id="@+id/headerPayment"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="Please select the preferred Payment method"
+                     android:textColor="@color/base_dark" />
+
+                 <RadioGroup
+                     android:id="@+id/paymentGroup"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/headerPayment">
+
+                 </RadioGroup>
+
+
+             </RelativeLayout>
+
+
+             <RelativeLayout
+                 android:id="@+id/couponview"
+                 android:orientation="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_below="@id/frd"
+                 >
+
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/innerl2"
+                     android:background="@color/white"
+                     android:layout_marginTop="5dp"
+                     >
+
+                     <LinearLayout
+                         android:id="@+id/couponBox"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@id/cart_recyclerview"
+                         android:orientation="horizontal"
+                         android:layout_gravity="center_vertical"
+                         android:padding="10dp"
+                         >
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:gravity="center">
+
+                             <TextView
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Have a coupon code? "/>
+                             <TextView
+                                 android:id="@+id/entercoupon"
+                                 android:layout_marginLeft="10dp"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:textColor="@color/darkbl"
+                                 android:clickable="true"
+                                 android:focusable="true"
+                                 android:text="Enter here"/>
+
+                         </LinearLayout>
+
+                     </LinearLayout>
+
+
+
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_below="@id/innerl2"
+                     android:id="@+id/messageview"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal"
+                     android:gravity="center"
+                     android:background="@color/white"
+                     android:padding="10dp">
+
+                     <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/iconAlert"
+                         />
+                     <TextView
+                         android:id="@+id/messagealert"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:paddingTop="2dp"
+                         />
+                 </LinearLayout>
+
+
+             </RelativeLayout>
+
+
+         </RelativeLayout>
+
+
+     </ScrollView>
+
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center"
+        android:padding="@dimen/fragment_title_padding_10"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/breakupbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/payumoney_black"
+            android:layout_weight="1.0"
+            android:text="Loading..."
+            />
+        <Button
+            android:id="@+id/startPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:background="@color/darkbl"
+            android:textColor="@color/white"
+            android:layout_weight="1.0"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

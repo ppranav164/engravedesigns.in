@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+
+    <item android:title="Home and Categories">
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_home"
+                android:title="Home" />
+
+            <item
+                android:id="@+id/cat"
+                android:icon="@drawable/menu_account"
+                android:title="T-Shirt Printing" />
+
+        </menu>
+    </item>
+
+    <item android:title="Accounts">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/menu_account"
+                android:title="My Account" />
+
+            <item
+                android:id="@+id/nav_orders"
+                android:icon="@drawable/menu_orders"
+                android:title="Orders" />
+
+
+            <item
+                android:id="@+id/nav_wishlist"
+                android:icon="@drawable/menu_wishlist"
+                android:title="Wishlist" />
+
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>

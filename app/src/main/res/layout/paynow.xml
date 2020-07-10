@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/llot"
+    android:background="@color/lightGray"
+    android:padding="@dimen/dimen_10dp"
+    >
+
+
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/white"
+       android:id="@+id/innerL">
+
+       <ImageView
+           android:layout_width="130dp"
+           android:layout_height="130dp"
+           android:id="@+id/thumbs"
+           android:layout_alignParentLeft="true"
+           android:padding="10dp"
+           />
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/name"
+           android:textSize="15dp"
+           android:textColor="@color/darkbl"
+           android:text="Polo T-shirt"
+           android:padding="4dp"
+           android:layout_alignParentRight="true"
+           android:gravity="center"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/models"
+           android:text="Model No 999"
+           android:layout_alignParentRight="true"
+           android:layout_below="@id/name"
+           android:gravity="center"
+          />
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/status"
+           android:layout_alignParentRight="true"
+           android:layout_below="@id/models"
+           android:gravity="center"
+           />
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/qty"
+           android:layout_below="@id/status"
+           android:layout_alignParentRight="true"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/prices"
+           android:layout_below="@id/qty"
+           android:layout_alignParentRight="true"/>
+
+   </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/innerL"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:background="@color/white"
+       >
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

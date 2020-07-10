@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="darkbl">#3C145F</color>
+    <color name="red">#ED1C24</color>
+
+    <color name="duskYellow">#ffc922</color>
+    <color name="lightGrey">#d3d3d3</color>
+    <color name="green"></color>
+    <color name="lightGray">#f5f5f5</color>
+
+
+    <color name="cardBackgroundColor">#FF0000</color>
+    <color name="app_button_color">#2CA6CF</color>
+    <color name="light_white">#fcfcfc</color>
+</resources>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_Register"
+    android:background="@color/darkbl">
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:id="@+id/logo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create an Account"
+        android:layout_below="@id/logo"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:id="@+id/ltext"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ltext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:id="@+id/Elays"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shapedesign"
+            android:id="@+id/fname"
+            android:hint="First Name"
+            android:paddingLeft="25dp"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shapedesign"
+            android:id="@+id/Lname"
+            android:hint="Last Name"
+            android:paddingLeft="25dp"
+            android:layout_marginTop="14dp"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shapedesign"
+            android:id="@+id/Enemail"
+            android:hint="Email"
+            android:paddingLeft="25dp"
+            android:layout_marginTop="14dp"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shapedesign"
+            android:id="@+id/Enpass"
+            android:hint="Password"
+            android:paddingLeft="25dp"
+            android:layout_marginTop="14dp"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shapedesign"
+            android:id="@+id/cpass"
+            android:hint="Confirm Password"
+            android:paddingLeft="25dp"
+            android:layout_marginTop="14dp"
+            />
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_below="@id/Elays"
+        android:layout_centerHorizontal="true"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:id="@+id/butnsL"
+        >
+
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Blogin"
+            android:text="Sign Up"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shapedesign_bg"
+            android:textColor="@color/white"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Cancel"
+            android:text="Cancel"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shapedesign_can"
+            android:textColor="@color/cardview_dark_background"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
