@@ -5,7 +5,40 @@
     android:layout_height="match_parent"
     tools:context=".searchContents">
 
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center"
+        android:padding="@dimen/fragment_title_padding_10"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/breakupbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:layout_weight="1.0"
+            android:text="Sort"
+            />
+        <Button
+            android:id="@+id/startPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:layout_weight="1.0"
+            />
+    </LinearLayout>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/header"
         android:id="@+id/vrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
