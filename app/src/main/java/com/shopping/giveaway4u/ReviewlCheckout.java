@@ -165,9 +165,14 @@ public class ReviewlCheckout extends AppCompatActivity implements View.OnClickLi
             @Override
             public void getInfo(String data) {
 
-                Log.e("Order Success",data);
+                Log.e("Review ch Order Success",data);
 
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+
+                intent.putExtra("success","success");
+
+                startActivity(intent);
+
                 finish();
 
             }
@@ -351,8 +356,8 @@ public class ReviewlCheckout extends AppCompatActivity implements View.OnClickLi
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification.Builder notification = new Notification.Builder(getApplicationContext())
-                .setContentTitle("Breaking News")
-                .setContentText(title)
+                .setContentTitle(title)
+                .setContentText(message)
                 .setSmallIcon(R.drawable.icon)
                 .setAutoCancel(true);
 

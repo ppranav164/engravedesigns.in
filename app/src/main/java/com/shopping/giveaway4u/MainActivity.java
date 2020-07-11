@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        dialog = new Dialog(this); // Context, this, etc.
 
-        String order = getIntent().getStringExtra("orders");
+        openDialog();
 
-        Toast.makeText(getApplicationContext(),""+order,Toast.LENGTH_LONG).show();
 
-        if (order != null)
+        if (getIntent().getStringExtra("orders") != null)
         {
 
             Fragment fragment = new orders();
@@ -70,6 +70,28 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.mainframeL,fragment,"orders");
             transaction.addToBackStack("home");
             transaction.commit();
+
+            closeDialog();
+
+        }else if (getIntent().getStringExtra("success") !=null)
+        {
+
+            Fragment succesfrag = new success("Thank you for purchasing with us");
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.mainframeL,succesfrag);
+            transaction.commit();
+
+            closeDialog();
+
+        }else {
+
+            Fragment mainfragment = new fragment_main();
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(R.id.mainframeL,mainfragment);
+            transaction.commit();
+            closeDialog();
 
         }
 
@@ -120,12 +142,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
 
-
-        Fragment mainfragment = new fragment_main();
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.mainframeL,mainfragment);
-        transaction.commit();
 
         SharedPreferences preferences = getSharedPreferences("cookie",MODE_PRIVATE);
         String tok = preferences.getString("token","null");

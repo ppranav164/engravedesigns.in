@@ -106,7 +106,7 @@ public class config_hosts {
 
 
     //Orders Link
-    public final String orders = hostname+"index.php?route=api/order";
+    public final String orders = hostname+"index.php?route=api/orders";
 
 
     //Search Product link

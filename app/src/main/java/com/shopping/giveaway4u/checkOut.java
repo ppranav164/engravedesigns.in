@@ -127,12 +127,22 @@ public class checkOut extends Fragment {
 
     Dialog dialog;
 
+    boolean isUpdated = false;
+    String addressId;
+
 
     private String coupon_string = "";
 
 
     public checkOut() {
         // Required empty public constructor
+    }
+
+    public checkOut(boolean isUpdated , String addressId) {
+
+        this.isUpdated = isUpdated;
+        this.addressId = addressId;
+
     }
 
 
@@ -147,6 +157,9 @@ public class checkOut extends Fragment {
         dialog = new Dialog(getContext());
 
         openDialog();
+
+
+
 
         alertbox = view.findViewById(R.id.messagealert);
 
@@ -169,11 +182,25 @@ public class checkOut extends Fragment {
         userDataEditor = userDataEditor = getContext().getSharedPreferences("user_data",Context.MODE_PRIVATE).edit();
 
 
-        getBillingAddress();
-        setBillingAddress();
+        if (isUpdated == true)
+        {
+            updateShippingAddress();
+            setUpdatedShippingAddress();
+            setUpdatedtBillingAddress();
 
-        getShippingAddress();
-        setShippingAddress();
+        }else {
+
+
+            getShippingAddress();
+            setShippingAddress();
+            setBillingAddress();
+        }
+
+        Toast.makeText(getContext(),""+addressId,Toast.LENGTH_LONG).show();
+
+
+
+        getBillingAddress();
 
         getShippingMethod();
         setShippingService();
@@ -243,7 +270,7 @@ public class checkOut extends Fragment {
                 FragmentTransaction transaction = manager.beginTransaction();
 
                 transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                transaction.replace(R.id.mainframeL,new editDelivery());
+                transaction.replace(R.id.mainframeL,new editAddress());
                 transaction.addToBackStack("checkout");
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.commit();
@@ -308,6 +335,54 @@ public class checkOut extends Fragment {
     }
 
 
+    public void updateShippingAddress()
+    {
+
+        //Retrive main user address details (UPDATE)
+
+        new syncShipping_address(getContext(), new info() {
+            @Override
+            public void getInfo(String data) {
+
+
+                try {
+
+                    JSONObject object = new JSONObject(data);
+
+                    JSONObject address = object.getJSONObject("addresses");
+
+                    JSONObject fields = address.getJSONObject(addressId);
+
+                    String fname = fields.getString("firstname");
+
+                    String lname = fields.getString("lastname");
+
+                    String address1 = fields.getString("address_1");
+
+                    String city = fields.getString("city");
+
+                    String zone = fields.getString("zone");
+
+                    String country = fields.getString("country");
+
+                    String postcode = fields.getString("postcode");
+
+                    defAddDel.setText(fname +" "+ lname + System.lineSeparator() + address1 + System.lineSeparator() + city + System.lineSeparator() + zone + System.lineSeparator() + country +System.lineSeparator() + "PIN : " + postcode  );
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).execute();
+
+
+
+    }
+
+
 
 
 
@@ -324,9 +399,17 @@ public class checkOut extends Fragment {
 
                 try {
 
+
+
                     SharedPreferences preferences = getActivity().getSharedPreferences("cookie",Context.MODE_PRIVATE);
 
-                    String addressId = preferences.getString("address_id",null);
+                    SharedPreferences getaddress = getActivity().getSharedPreferences("addresses",Context.MODE_PRIVATE);
+
+                    String daddress = preferences.getString("address_id",null);
+
+
+                    addressId = getaddress.getString("default_address",daddress);
+
 
                     JSONObject object = new JSONObject(data);
 
@@ -371,6 +454,7 @@ public class checkOut extends Fragment {
         String addressId1 = preferences1.getString("address_id",null);
 
 
+
         String shipping = "shipping_address=existing&address_id="+addressId1;
 
 
@@ -384,6 +468,25 @@ public class checkOut extends Fragment {
         }).execute();
 
     }
+
+
+    public void setUpdatedShippingAddress()
+    {
+
+        String shipping = "shipping_address=existing&address_id="+addressId;
+
+
+        new syncSaveShippingAddress(getContext(), shipping, new info() {
+            @Override
+            public void getInfo(String data) {
+
+                Log.e("Update Address",data);
+
+            }
+        }).execute();
+
+    }
+
 
 
 
@@ -872,6 +975,28 @@ public class checkOut extends Fragment {
         }).execute();
 
     }
+
+
+
+
+    public void setUpdatedtBillingAddress()
+    {
+
+        String existing = "payment_address=existing&address_id="+addressId;
+
+
+        new syncSavePayment(getContext(), existing, new info() {
+            @Override
+            public void getInfo(String data) {
+
+                Log.e("Payment Address",data);
+
+            }
+        }).execute();
+
+    }
+
+
 
 
 
