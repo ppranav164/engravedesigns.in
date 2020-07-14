@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity
 
         openDialog();
 
+        setContentView(R.layout.activity_main);
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
 
         if (getIntent().getStringExtra("orders") != null)
         {
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.mainframeL,fragment,"orders");
             transaction.addToBackStack("home");
             transaction.commit();
+
+            drawerLayout.closeDrawers();
 
             closeDialog();
 
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.mainframeL,succesfrag);
             transaction.commit();
 
+            drawerLayout.closeDrawers();
             closeDialog();
 
         }else {
@@ -97,15 +103,11 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        setContentView(R.layout.activity_main);
-
         dialog = new Dialog(this); // Context, this, etc.
 
         loadinglayout = findViewById(R.id.loadinglayout);
 
         loadingview = findViewById(R.id.loadingview);
-
-
 
 
 
@@ -139,7 +141,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.logot);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
 
 
@@ -420,9 +421,15 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.logout) {
             Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
             SharedPreferences.Editor preferences = getSharedPreferences("cookie",MODE_PRIVATE).edit();
+            SharedPreferences.Editor addrepref =   getSharedPreferences("addresses",MODE_PRIVATE).edit();
+
             preferences.putString("token","null");
             preferences.putBoolean("logged_in",false);
             preferences.apply();
+
+            addrepref.putString("address_id",null);
+            addrepref.apply();
+
             Intent intent = new Intent(getApplicationContext(),Activity_login.class);
             startActivity(intent);
             finish();

@@ -14,6 +14,12 @@
         android:padding="10dp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressID"
+            />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,7 +121,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/saveAddress1"
+        android:id="@+id/savenewAddress"
         android:background="@color/duskYellow"
         android:layout_alignParentBottom="true"
         android:text="Save"/>

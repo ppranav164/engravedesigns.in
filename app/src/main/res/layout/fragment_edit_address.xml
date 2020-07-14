@@ -60,7 +60,13 @@
                 android:orientation="vertical">
             </LinearLayout>
 
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NEW ADDRES"
+                android:background="@color/duskYellow"
+                android:layout_marginTop="40dp"
+                android:id="@+id/addnew"/>
         </LinearLayout>
 
         <Button

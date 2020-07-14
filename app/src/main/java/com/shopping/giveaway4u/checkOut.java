@@ -160,7 +160,6 @@ public class checkOut extends Fragment {
 
 
 
-
         alertbox = view.findViewById(R.id.messagealert);
 
         shippingOPtions = view.findViewById(R.id.shippingtOptions);
@@ -195,8 +194,6 @@ public class checkOut extends Fragment {
             setShippingAddress();
             setBillingAddress();
         }
-
-        Toast.makeText(getContext(),""+addressId,Toast.LENGTH_LONG).show();
 
 
 
@@ -270,7 +267,7 @@ public class checkOut extends Fragment {
                 FragmentTransaction transaction = manager.beginTransaction();
 
                 transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                transaction.replace(R.id.mainframeL,new editAddress());
+                transaction.replace(R.id.mainframeL,new editAddress(),"editAddress");
                 transaction.addToBackStack("checkout");
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.commit();
@@ -297,16 +294,27 @@ public class checkOut extends Fragment {
 
                 try {
 
-
                     SharedPreferences preferences = getActivity().getSharedPreferences("cookie",Context.MODE_PRIVATE);
 
-                    String addressId = preferences.getString("address_id",null);
+                    SharedPreferences getDefaultAddr = getActivity().getSharedPreferences("addresses",Context.MODE_PRIVATE);
+
+                    String daddress = null;
+
+                    if (getDefaultAddr.getString("address_id",null) != null)
+                    {
+                        daddress = getDefaultAddr.getString("address_id",null);
+
+                    }else
+                    {
+                        daddress = preferences.getString("address_id",null);
+                    }
+
 
                     JSONObject object = new JSONObject(data);
 
                     JSONObject address = object.getJSONObject("addresses");
 
-                    JSONObject fields = address.getJSONObject(addressId);
+                    JSONObject fields = address.getJSONObject(daddress);
 
                     String fname = fields.getString("firstname");
 
@@ -400,22 +408,26 @@ public class checkOut extends Fragment {
                 try {
 
 
-
                     SharedPreferences preferences = getActivity().getSharedPreferences("cookie",Context.MODE_PRIVATE);
 
-                    SharedPreferences getaddress = getActivity().getSharedPreferences("addresses",Context.MODE_PRIVATE);
+                    SharedPreferences getDefaultAddr = getActivity().getSharedPreferences("addresses",Context.MODE_PRIVATE);
 
-                    String daddress = preferences.getString("address_id",null);
+                    String daddress = null;
 
-
-                    addressId = getaddress.getString("default_address",daddress);
+                    if (getDefaultAddr.getString("address_id",null) != null)
+                    {
+                        daddress = getDefaultAddr.getString("address_id",null);
+                    }else
+                    {
+                        daddress = preferences.getString("address_id",null);
+                    }
 
 
                     JSONObject object = new JSONObject(data);
 
                     JSONObject address = object.getJSONObject("addresses");
 
-                    JSONObject fields = address.getJSONObject(addressId);
+                    JSONObject fields = address.getJSONObject(daddress);
 
                     String fname = fields.getString("firstname");
 
@@ -452,7 +464,6 @@ public class checkOut extends Fragment {
         SharedPreferences preferences1 = getActivity().getSharedPreferences("cookie",Context.MODE_PRIVATE);
 
         String addressId1 = preferences1.getString("address_id",null);
-
 
 
         String shipping = "shipping_address=existing&address_id="+addressId1;
@@ -570,7 +581,6 @@ public class checkOut extends Fragment {
 
                 String codeValue = paymentOption.getTag().toString();
 
-                Toast.makeText(getContext(),""+codeValue,Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -735,7 +745,6 @@ public class checkOut extends Fragment {
 
                 String text = delveryOption.getTag().toString();
 
-                Toast.makeText(getContext(),""+text,Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -57,6 +57,8 @@ public class editAddress extends Fragment {
 
     SharedPreferences.Editor editor ;
 
+    Button addnewbtn;
+
     public editAddress() {
         // Required empty public constructor
     }
@@ -110,9 +112,13 @@ public class editAddress extends Fragment {
 
         saveBtn = view.findViewById(R.id.save);
 
+        addnewbtn = view.findViewById(R.id.addnew);
+
         getPaymentAddress();
 
         saveAddress();
+
+        addNewAddress();
     }
 
     @Override
@@ -138,6 +144,7 @@ public class editAddress extends Fragment {
 
         dialog.dismiss();
     }
+
 
 
 
@@ -186,7 +193,6 @@ public class editAddress extends Fragment {
 
         RelativeLayout.LayoutParams infoparam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        Toast.makeText(getContext(),"Default address is"+defaddress,Toast.LENGTH_LONG).show();
 
         getAddress = defaddress;
 
@@ -238,7 +244,7 @@ public class editAddress extends Fragment {
 
 
 
-                if (getaddress.getString("address_id",null).equals(address_id))
+                if (getaddress.getString("address_id",defaddress).equals(address_id))
                 {
                     layouts[index].setBackgroundResource(R.drawable.border_pressed);
                     layouts[index].setSelected(true);
@@ -303,6 +309,24 @@ public class editAddress extends Fragment {
     }
 
 
+    public void addNewAddress()
+    {
+        addnewbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+             FragmentManager manager = getFragmentManager();
+             FragmentTransaction transaction = manager.beginTransaction();
+             transaction.addToBackStack("editAddress");
+             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+             transaction.replace(R.id.mainframeL,new editDelivery(),"editDelivery");
+             transaction.commit();
+
+            }
+        });
+    }
+
+
 
     public void saveAddress()
     {
@@ -342,6 +366,12 @@ public class editAddress extends Fragment {
             }
         });
 
+    }
+
+
+    public void alert(String message,int duration)
+    {
+        Toast.makeText(getContext(),message,duration).show();
     }
 
 

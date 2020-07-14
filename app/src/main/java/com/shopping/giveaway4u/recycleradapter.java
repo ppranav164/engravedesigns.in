@@ -5,9 +5,11 @@ package com.shopping.giveaway4u;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class recycleradapter  extends RecyclerView.Adapter <recycleradapter.MyViewHolder>  {
 
@@ -38,14 +41,18 @@ public class recycleradapter  extends RecyclerView.Adapter <recycleradapter.MyVi
 
     JSONArray array;
 
+    config_hosts hosts = new config_hosts();
 
 
-    public  recycleradapter(Context context,JSONArray images)
+    ArrayList<String> wishlists;
+
+    public  recycleradapter(Context context,JSONArray images,ArrayList<String> wishlistdata)
     {
         this.ctx = context;
 
         this.array = images;
 
+        this.wishlists = wishlistdata;
     }
 
 
@@ -191,7 +198,96 @@ public class recycleradapter  extends RecyclerView.Adapter <recycleradapter.MyVi
         });
 
 
+        holder.wishbutton.setId(Integer.parseInt(ids.get(pos)));
+
+        holder.wishbutton.setBackgroundResource(R.drawable.wishlist);
+
+        holder.wishbutton.setTag("yellow");
+
+        Iterator<String> iterator = wishlists.iterator();
+
+        while (iterator.hasNext())
+        {
+
+            String idee = iterator.next();
+
+            if (ids.get(pos).equals(idee))
+            {
+
+                holder.wishbutton.setBackgroundResource(R.drawable.wishlistp);
+                holder.wishbutton.setTag("red");
+
+            }
+
+        }
+
+
+        holder.wishbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String tag = String.valueOf(v.getId());
+
+                String color = v.getTag().toString();
+
+                ImageButton buttonw = v.findViewById(v.getId());
+
+                buttonw.setBackgroundResource(R.drawable.wishlistp);
+                buttonw.setTag("red");
+
+                switch (color)
+                {
+                    case "yellow" :  buttonw.setBackgroundResource(R.drawable.wishlistp);
+                        buttonw.setTag("red");
+                        addWishlist(Integer.parseInt(tag));
+                        break;
+
+                    case "red"    :  buttonw.setBackgroundResource(R.drawable.wishlist);
+                        buttonw.setTag("yellow");
+                        removeWishlist(Integer.parseInt(tag));
+                        break;
+                }
+
+            }
+        });
+
+
+
     }
+
+
+
+
+
+
+    public void addWishlist(int id)
+    {
+
+        new syncWishlist(ctx,id).execute();
+
+        Log.e("wishlistadd",String.valueOf(id));
+
+    }
+
+
+
+    public void removeWishlist(int id)
+    {
+
+        String link = hosts.wishlist_remove+id;
+
+        new syncRemoveWishlist(ctx,link,"GET").execute();
+
+    }
+
+
+
+
+
+
+
+
+
 
     @Override
     public int getItemCount() {
@@ -219,6 +315,7 @@ public class recycleradapter  extends RecyclerView.Adapter <recycleradapter.MyVi
 
         RelativeLayout relativeLayout;
 
+        ImageButton wishbutton;
 
         public MyViewHolder( View itemView) {
 
@@ -231,6 +328,8 @@ public class recycleradapter  extends RecyclerView.Adapter <recycleradapter.MyVi
             Tprice = itemView.findViewById(R.id.price);
 
             relativeLayout = itemView.findViewById(R.id.lu);
+
+            wishbutton = itemView.findViewById(R.id.wishlistB);
 
 
         }

@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -59,6 +60,11 @@ public class fragment_main extends Fragment {
     RecyclerView recyclerView;
 
     ArrayList<String> sliderURL= new ArrayList<>();
+
+    HashMap<String,String> keyvalswishlist = new HashMap<>();
+
+    ArrayList<String> wishlist_products = new ArrayList<>();
+
 
     public fragment_main() {
         // Required empty public constructor
@@ -116,6 +122,8 @@ public class fragment_main extends Fragment {
     public void loadData()
     {
 
+        getWishlistData();
+
         new syncFeatured(getContext(), new featured() {
             @Override
             public void loadFeatured(String data) {
@@ -141,6 +149,58 @@ public class fragment_main extends Fragment {
         }).execute();
 
     }
+
+
+
+
+    public void getWishlistData()
+    {
+        new sync_get_wishlist(getContext(), new wishlist() {
+
+            @Override
+            public void loadWishlist(String data) {
+                try {
+
+                    JSONObject object = new JSONObject(data);
+
+                    JSONArray products = object.getJSONArray("products");
+
+                    setWishlistData(products);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+        }).execute();
+
+    }
+
+
+
+    public void setWishlistData(JSONArray products)
+    {
+
+        try {
+
+            for (int i=0; i < products.length(); i++)
+            {
+                JSONObject id = products.getJSONObject(i);
+
+                String product_id = id.getString("product_id");
+
+                wishlist_products.add(product_id);
+            }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
 
 
     public void getSlideShowImage(String info)
@@ -281,13 +341,14 @@ public class fragment_main extends Fragment {
         recyclerView.smoothScrollToPosition(0);
 
 
-        featured_recycler_adapter recadapter = new featured_recycler_adapter(getContext(),array);
+        featured_recycler_adapter recadapter = new featured_recycler_adapter(getContext(),array,wishlist_products);
 
         recyclerView.setAdapter(recadapter);
 
         recyclerView.setFocusable(false);
 
         recyclerView.setNestedScrollingEnabled(false);
+
 
 
     }
@@ -309,7 +370,7 @@ public class fragment_main extends Fragment {
 
 
 
-        recycleradapter recadapter = new recycleradapter(getContext(),array);
+        recycleradapter recadapter = new recycleradapter(getContext(),array,wishlist_products);
 
         recyclerView.setAdapter(recadapter);
 

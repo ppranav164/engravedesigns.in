@@ -1,14 +1,20 @@
 package com.shopping.giveaway4u;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -31,9 +37,16 @@ public class editDelivery extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    TextView idview;
+
+    Button saveaddressbtn;
+
+    config_hosts hosts = new config_hosts();
+
     public editDelivery() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -52,6 +65,7 @@ public class editDelivery extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +90,28 @@ public class editDelivery extends Fragment {
         }
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        View view = getView();
+
+        idview = view.findViewById(R.id.addressID);
+        saveaddressbtn = view.findViewById(R.id.savenewAddress);
+
+
+        SharedPreferences addressgroup = getActivity().getSharedPreferences("cookie",Context.MODE_PRIVATE);
+
+        String idee = addressgroup.getString("address_id",null);
+
+        idview.setText(idee);
+
+        saveAddress();
+
+        getCountry();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -87,6 +123,52 @@ public class editDelivery extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+
+    public void saveAddress()
+    {
+
+        saveaddressbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+             new syncSavePayment(getContext(), "", new info() {
+                 @Override
+                 public void getInfo(String data) {
+
+                     Log.e("editDelivery",data);
+                 }
+             }).execute();
+            }
+        });
+
+    }
+
+
+    public  void  getCountry()
+    {
+
+        String country = hosts.country;
+
+        new syncCountry(getContext(),country, new info() {
+            @Override
+            public void getInfo(String data) {
+
+                Log.e("country",data);
+            }
+        }).execute();
+    }
+
+
+
+
+    public void alert(String message,int duration)
+    {
+        Toast.makeText(getContext(),message,duration).show();
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

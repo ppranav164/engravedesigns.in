@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
     View view;
 
 
+
     JSONArray array;
 
     ArrayList<String> product_name = new ArrayList<>();
@@ -63,6 +65,9 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
     ArrayList<String> brand = new ArrayList<>();
 
+    ArrayList<String> images = new ArrayList<>();
+
+    JSONArray thumblink;
 
     public recycleradapter_orders(Context context, JSONArray mdata)
     {
@@ -76,33 +81,29 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
           {
               JSONObject object = array.getJSONObject(i);
 
-              String ida = object.getString("product_id");
-
+              String order_id = object.getString("order_id");
+              String stock = object.getString("status");
+              String dated = object.getString("date_added");
+              String price = object.getString("total");
               String name = object.getString("name");
 
-              String stock = object.getString("status");
+              images.add(object.getJSONArray("images").toString());
 
-              String price = object.getString("total");
+//              String ida = object.getString("product_id");
 
-              String images = object.getString("image");
-
-              String order_id = object.getString("order_id");
-
-              String dated = object.getString("date_added");
-
-              String status = object.getString("status");
-
-              String branddetail = object.getString("brand");
-
-              product_name.add(name);
-              stock_avl.add(stock);
-              price_tag.add(price);
-              prod_id.add(ida);
-              thumbnails.add(images);
+//              String images = object.getString("image");
+//              String branddetail = object.getString("brand");
 
               orderId.add(order_id);
               dateOfOrder.add(dated);
-              brand.add(branddetail);
+              stock_avl.add(stock);
+              price_tag.add(price);
+              product_name.add(name);
+
+
+//              prod_id.add(ida);
+//              thumbnails.add(images);
+//              brand.add(branddetail);
 
 
           }
@@ -134,7 +135,7 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
     public void onBindViewHolder(final MyViewHolder holder, final int pos) {
 
 
-        holder.name.setText(brand.get(pos));
+        //holder.name.setText(brand.get(pos));
 
         holder.dateviewTv.setText("Order Date : "+dateOfOrder.get(pos));
 
@@ -146,32 +147,58 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
         holder.shipto.setText(product_name.get(pos));
 
-        Picasso.get().load(thumbnails.get(pos)).into(holder.imageView);
+        //Picasso.get().load(thumbnails.get(pos)).into(holder.imageView);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ImageView[] imageViews = new ImageView[5];
+
+        try {
+
+            String arrays = images.get(pos);
+
+            JSONArray array = new JSONArray(arrays);
+
+          for (int i=0; i < array.length(); i++)
+          {
+              JSONObject jsonObject = array.getJSONObject(i);
+
+              String thum = jsonObject.getString("thumb");
+              imageViews[i] = new ImageView(ctx.getApplicationContext());
+              holder.relativeLayout.addView(imageViews[i]);
+              Picasso.get().load(thum).resize(300,300).into(imageViews[i]);
+          }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
 
+        holder.setIsRecyclable(false);
 
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        holder.imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String product_id = prod_id.get(holder.getAdapterPosition());
+//
+//                Bundle bundle = new Bundle();
+//
+//                bundle.putString("_id",product_id);
+//
+//                Fragment fragment = new products_fragment();
+//
+//                fragment.setArguments(bundle);
+//
+//                FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
+//                FragmentTransaction transaction = manager.beginTransaction();
+//                transaction.replace(R.id.mainframeL,fragment);
+//                transaction.commit();
+//
+//
+//            }
+//        });
 
-                String product_id = prod_id.get(holder.getAdapterPosition());
 
-                Bundle bundle = new Bundle();
-
-                bundle.putString("_id",product_id);
-
-                Fragment fragment = new products_fragment();
-
-                fragment.setArguments(bundle);
-
-                FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.mainframeL,fragment);
-                transaction.commit();
-
-
-            }
-        });
 
     }
 
@@ -214,7 +241,7 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
         ImageView imageView,cart,remove;
 
-        LinearLayout linearLayout;
+        LinearLayout linearLayout; LinearLayout relativeLayout;
 
 
 
@@ -245,6 +272,7 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
             dateviewTv = itemView.findViewById(R.id.datedoforder);
 
+            relativeLayout = itemView.findViewById(R.id.productImageshow);
 
         }
 

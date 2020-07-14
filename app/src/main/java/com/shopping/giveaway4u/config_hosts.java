@@ -79,7 +79,6 @@ public class config_hosts {
     public final String paymentMethod = hostname+"index.php?route=api/payment_method";
 
     //set Payment Method
-
     public final String setPayment = hostname+"index.php?route=api/payment_method/save";
 
 
@@ -99,14 +98,16 @@ public class config_hosts {
 
 
 
-
-
     //Instamojo Payment Gateway Link
     public final String instamojo = hostname+"index.php?route=api/instamojo/start";
 
 
     //Orders Link
     public final String orders = hostname+"index.php?route=api/orders";
+
+
+    //get country lists
+    public final String country = hostname+"index.php?route=checkout/checkout/country&country_id=99";
 
 
     //Search Product link

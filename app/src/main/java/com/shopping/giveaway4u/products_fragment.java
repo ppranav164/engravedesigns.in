@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -177,6 +178,9 @@ public class products_fragment extends Fragment {
 
     HashMap<Integer,String> uploadKeys = new HashMap<>();
 
+    HashMap<String,Boolean> rules = new HashMap<>();
+
+    ArrayList<String> fileErrors = new ArrayList<>();
 
 
     RadioGroup customRadio;
@@ -619,6 +623,7 @@ public class products_fragment extends Fragment {
            Toast.makeText(getContext(),"You don not have granted permission access storage",Toast.LENGTH_SHORT).show();
 
           try {
+
               requestPermissionForReadExtertalStorage();
 
               hasPermission = true;
@@ -677,6 +682,7 @@ public class products_fragment extends Fragment {
             codd = view.findViewById(R.id.codes);
 
             new syncUpload_image(getContext(),filePath, new upload() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void status(String status) {
 
@@ -687,6 +693,8 @@ public class products_fragment extends Fragment {
                         codd.setText(code);
                         uploadCodes = code;
                         keyValue.put(requestCode,code);
+                        String cod = String.valueOf(requestCode);
+                        rules.replace(cod,false);
                         Log.e("final",keyValue.toString());
                         if (code == null)
                         {
@@ -911,6 +919,15 @@ public class products_fragment extends Fragment {
 
                    LinearLayout.LayoutParams.WRAP_CONTENT);
 
+           LinearLayout.LayoutParams radiogroupparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+
+                   LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+           LinearLayout.LayoutParams textviewparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+
+           textviewparam.setMargins(20,20,0,0);
+
 
 
 
@@ -930,8 +947,8 @@ public class products_fragment extends Fragment {
 
               radioHeader[l] = new TextView(getContext());
               radioHeader[l].setText(title);
-              radioHeader[l].setLayoutParams(groupmargin);
-              radioHeader[l].setGravity(Gravity.RIGHT | Gravity.CENTER_HORIZONTAL);
+              radioHeader[l].setLayoutParams(textviewparam);
+              radioHeader[l].setTextColor(getResources().getColor(R.color.black));
 
 
 
@@ -942,6 +959,7 @@ public class products_fragment extends Fragment {
               radioGroups[l] = new RadioGroup(getContext());
               radioGroups[l].setTag(title);
               radioGroups[l].setId(Integer.parseInt(optionId));
+              radioGroups[l].setOrientation(LinearLayout.HORIZONTAL);
 
               radioGroup.addView(radioGroups[l]);
 
@@ -949,9 +967,9 @@ public class products_fragment extends Fragment {
 
 
 
-              LinearLayout.LayoutParams radioparams = new LinearLayout.LayoutParams(300,LinearLayout.LayoutParams.WRAP_CONTENT);
+              LinearLayout.LayoutParams radioparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 
-              radioparams.setMargins(0,100,0,0);
+              radioparams.setMargins(20,20,0,0);
 
 
 
@@ -1114,6 +1132,10 @@ public class products_fragment extends Fragment {
               uploadButton[index].setBackgroundResource(R.drawable.upload_active);
 
 
+              String codes = String.valueOf(id);
+
+              rules.put(codes,true);
+
 
               uploadlayout.addView(uploadButton[index]);
 
@@ -1159,8 +1181,6 @@ public class products_fragment extends Fragment {
 
 
 
-
-
        view.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -1172,6 +1192,9 @@ public class products_fragment extends Fragment {
 
 
                Log.e("Cart ",keyValue.toString());
+
+               Log.e("rules",rules.toString());
+
 
 
 
@@ -1190,6 +1213,10 @@ public class products_fragment extends Fragment {
                String id = radiotxt.getText().toString();
 
 
+
+
+
+
                if (isCheckRequired == true && isChecked != true)
                {
 
@@ -1205,11 +1232,25 @@ public class products_fragment extends Fragment {
                else if (isFileRequired != false && uploadCodes == null) {
 
 
-                   Snackbar.make(view,"Please Upload a File/Image",Snackbar.LENGTH_SHORT).show();
-
+                   Toast.makeText(getContext(),"Please Upload files",Toast.LENGTH_SHORT).show();
                    error = true;
 
-               }else {
+               }
+
+               else  if (rules.containsValue(true))
+               {
+
+                   Toast.makeText(getContext(),"Please Upload files",Toast.LENGTH_SHORT).show();
+                   error = true;
+                   Iterator iter = rules.entrySet().iterator();
+                   while (iter.hasNext())
+                   {
+                       Map.Entry keys = (Map.Entry) iter.next();
+                       boolean val = (Boolean) keys.getValue();
+                   }
+               }
+               else
+               {
 
                    error = false;
                }
