@@ -107,7 +107,10 @@ public class config_hosts {
 
 
     //get country lists
-    public final String country = hostname+"index.php?route=checkout/checkout/country&country_id=99";
+    public final String country = hostname+"index.php?route=api/country";
+
+    //get State list by Country id = ""
+    public final String states = hostname+"index.php?route=api/country/country&country_id=";
 
 
     //Search Product link

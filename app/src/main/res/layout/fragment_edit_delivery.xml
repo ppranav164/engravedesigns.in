@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/addressID"
+            android:visibility="gone"
             />
 
         <EditText
@@ -93,28 +94,23 @@
             android:imeOptions="actionNext"
             android:maxLines="1"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="number"
             />
-        <EditText
+
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/country"
-            android:hint="Country"
-            android:imeOptions="actionNext"
-            android:maxLines="1"
-            android:ems="10"
-            android:inputType="text"
+            android:id="@+id/countrySpinner"
+            android:spinnerMode="dropdown"
             />
-        <EditText
+
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/region"
-            android:hint="Region / State"
-            android:maxLines="1"
-            android:ems="10"
-            android:inputType="text"
-            android:imeOptions="actionDone"
+            android:id="@+id/regionsSpinner"
+            android:spinnerMode="dropdown"
             />
+
     </LinearLayout>
 
 

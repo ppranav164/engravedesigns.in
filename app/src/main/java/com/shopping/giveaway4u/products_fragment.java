@@ -1388,8 +1388,7 @@ public class products_fragment extends Fragment {
 
        FragmentTransaction transaction = manager.beginTransaction();
 
-       transaction.replace(R.id.mainframeL,fragment,"home");
-       transaction.addToBackStack("home");
+       transaction.replace(R.id.mainframeL,fragment);
        transaction.commit();
 
    }

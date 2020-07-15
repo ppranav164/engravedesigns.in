@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
 
             Fragment mainfragment = new fragment_main();
             FragmentManager manager = getSupportFragmentManager();
+            manager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.mainframeL,mainfragment);
             transaction.commit();
@@ -230,9 +231,8 @@ public class MainActivity extends AppCompatActivity
         if(getFragmentManager().getBackStackEntryCount() > 0){
             getFragmentManager().popBackStack();
         }
-        else {
-            getFragmentManager().popBackStack();
-        }
+
+
     }
 
 
@@ -303,7 +303,6 @@ public class MainActivity extends AppCompatActivity
                 onOptionsItemSelected(seachItem);
             }
         });
-
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -406,6 +405,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             Fragment fragment = new fragment_main();
             FragmentManager manager = getSupportFragmentManager();
+            manager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.mainframeL,fragment,"home");
             transaction.addToBackStack("home");
