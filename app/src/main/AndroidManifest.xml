@@ -20,10 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".MyAccount"></activity>
+        <activity android:name=".AddAddress"></activity>
+        <activity android:name=".MyAccount" />
         <activity
             android:name=".logo_splash"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name=".PayUMoney">
             <meta-data
                 android:name=".MainActivity"

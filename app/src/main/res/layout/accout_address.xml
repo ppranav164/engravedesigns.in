@@ -4,41 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".editAddress"
-    android:id="@+id/containers">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/headers"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="wrap_content">
+   >
 
-
-        <ImageView
-            android:paddingLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_address"/>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
-            android:text="My Address Book"
-            android:textColor="@color/darkbl"
-            android:paddingLeft="10dp"
-            android:id="@+id/cartCounts"
-            android:gravity="left|center"
-            />
-
-    </LinearLayout>
 
 
     <RelativeLayout
-        android:layout_below="@id/headers"
+
         android:id="@+id/first"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,7 +22,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
             >
             <LinearLayout
                 android:id="@+id/deliveryGroup"
@@ -94,11 +65,12 @@
             android:layout_weight="1.0"
             android:text="Add New"
             />
+
         <Button
             android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Make Deafult"
+            android:text="Make Default"
             android:background="@color/duskYellow"
             android:textColor="@color/black"
             android:layout_weight="1.0"

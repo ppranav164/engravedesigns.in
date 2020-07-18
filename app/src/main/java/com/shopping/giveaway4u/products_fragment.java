@@ -235,8 +235,6 @@ public class products_fragment extends Fragment {
         //getActivity().getMenuInflater().inflate(R.menu.main, menu);
 
         final MenuItem menuItem = menu.findItem(R.id.cart);
-
-
         menutabs = MenuItemCompat.getActionView(menuItem);
 
 
@@ -302,8 +300,6 @@ public class products_fragment extends Fragment {
         transaction.commit();
 
         final Boolean[] clicked = {false};
-
-
 
 
 

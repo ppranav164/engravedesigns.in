@@ -2,16 +2,13 @@ package com.shopping.giveaway4u;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +18,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import org.json.JSONObject;
 
 import java.util.Iterator;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link editAddress#newInstance} factory method to
+ * Use the {@link AccountAddress#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class editAddress extends Fragment {
+public class AccountAddress extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,10 +50,12 @@ public class editAddress extends Fragment {
     TextView[] infotext = new TextView[5];
     SharedPreferences.Editor editor ;
 
+    private Handler handler;
+
 
     String getAddress = "";
-
     Button saveBtn;
+    RelativeLayout relativeLayout;
 
 
 
@@ -61,7 +65,7 @@ public class editAddress extends Fragment {
 
     Button addnewbtn;
 
-    public editAddress() {
+    public AccountAddress() {
         // Required empty public constructor
     }
 
@@ -74,8 +78,8 @@ public class editAddress extends Fragment {
      * @return A new instance of fragment editAddress.
      */
     // TODO: Rename and change types and number of parameters
-    public static editAddress newInstance(String param1, String param2) {
-        editAddress fragment = new editAddress();
+    public static AccountAddress newInstance(String param1, String param2) {
+        AccountAddress fragment = new AccountAddress();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -120,6 +124,7 @@ public class editAddress extends Fragment {
 
 
         linearLayout = view.findViewById(R.id.showaddress);
+        relativeLayout = view.findViewById(R.id.containers);
 
         saveBtn = view.findViewById(R.id.save);
 
@@ -154,6 +159,12 @@ public class editAddress extends Fragment {
         dialog.dismiss();
     }
 
+
+    public void refreshAddress()
+    {
+        linearLayout.removeAllViews();
+        getPaymentAddress();
+    }
 
 
 
@@ -324,12 +335,7 @@ public class editAddress extends Fragment {
             @Override
             public void onClick(View v) {
 
-             FragmentManager manager = getFragmentManager();
-             FragmentTransaction transaction = manager.beginTransaction();
-             transaction.addToBackStack("editAddress");
-             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-             transaction.replace(R.id.mainframeL,new editDelivery(),"editDelivery");
-             transaction.commit();
+                startActivity(new Intent(getContext(),AddAddress.class));
 
             }
         });
@@ -345,31 +351,22 @@ public class editAddress extends Fragment {
             public void onClick(View v) {
 
                 openDialog();
-
-                final String existing = "payment_address=existing&address_id="+getAddress;
-
                 editor.putString("address_id",getAddress);
                 editor.putString("default_address",getAddress);
                 editor.apply();
+                linearLayout.removeAllViews();
+                getPaymentAddress();
 
-                new syncSavePayment(getContext(), existing, new info() {
+                handler = new Handler();
+
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void getInfo(String data) {
+                    public void run() {
 
-                        Log.e("editAddress Address",data + existing);
+                       closeDialog();
 
                     }
-                }).execute();
-
-
-                closeDialog();
-
-
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.mainframeL,new checkOut(true,getAddress));
-                transaction.addToBackStack(null);
-                transaction.commit();
+                },800);
 
 
             }
@@ -382,6 +379,7 @@ public class editAddress extends Fragment {
     {
         Toast.makeText(getContext(),message,duration).show();
     }
+
 
 
 

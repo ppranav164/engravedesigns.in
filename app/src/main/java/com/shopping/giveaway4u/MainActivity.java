@@ -441,6 +441,11 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.mainframeL,fragment,"orders");
             transaction.addToBackStack("home");
             transaction.commit();
+        }else if (id == R.id.nav_account){
+
+            Intent intent = new Intent(getApplicationContext(),MyAccount.class);
+            startActivity(intent);
+            finish();
         }
 
 

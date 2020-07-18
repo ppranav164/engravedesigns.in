@@ -90,6 +90,8 @@ public class Activity_login extends AppCompatActivity {
 
                               sharedpref.putString("address_id",object.getString("address_id"));
 
+                              sharedpref.putString("customer_id",object.getString("customer_id"));
+
                               sharedpref.putBoolean("logged_in",true);
 
                               sharedpref.apply();
