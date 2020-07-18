@@ -122,8 +122,13 @@ public class config_hosts {
 
 
     //Edit Account Details
-
     public final String accountDetails = hostname+"index.php?route=api/accounts";
+
+
+    //show returns
+    public final String productreturns = hostname+"index.php?route=api/returns";
+
+
 
 
 

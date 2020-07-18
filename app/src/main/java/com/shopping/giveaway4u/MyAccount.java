@@ -92,7 +92,7 @@ public class MyAccount extends AppCompatActivity  {
 
          settingsTabAdapter adapter = new settingsTabAdapter(getSupportFragmentManager());
          adapter.addFragment(new editAccountInfo(),"Account Info");
-         adapter.addFragment(new AccountAddress(),"Returns");
+         adapter.addFragment(new account_returns(),"Returns");
          adapter.addFragment(new AccountAddress(),"Address Book");
          viewpager.setAdapter(adapter);
          adapter.notifyDataSetChanged();

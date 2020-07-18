@@ -44,6 +44,11 @@
         android:layout_below="@id/headers"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="First Name"
+            />
 
         <EditText
             android:layout_width="match_parent"
@@ -54,6 +59,13 @@
             android:maxLines="1"
             android:ems="10"
             android:inputType="text"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last Name"
             />
 
         <EditText
@@ -67,6 +79,13 @@
             android:inputType="text"
             />
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Address"
+            />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,6 +95,13 @@
             android:maxLines="1"
             android:ems="10"
             android:inputType="textEmailAddress"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number"
             />
 
         <EditText
