@@ -3,6 +3,8 @@ package com.shopping.giveaway4u;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -105,8 +107,9 @@ public class account_returns extends Fragment {
     public void setJsonArrays(JSONArray arrays)
     {
         recycleradapter_returns adapter = new recycleradapter_returns(getContext(),arrays);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
     }
 
 

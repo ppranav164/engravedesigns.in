@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -53,8 +55,8 @@ public class recycleradapter_returns extends RecyclerView.Adapter <recycleradapt
                 return_id.add(object.getString("return_id"));
                 order_id.add(object.getString("order_id"));
                 name.add(object.getString("name"));
-                status.add("status");
-                date_added.add("date_added");
+                status.add(object.getString("status"));
+                date_added.add(object.getString("date_added"));
             }
 
         }catch (Exception e)
@@ -68,7 +70,7 @@ public class recycleradapter_returns extends RecyclerView.Adapter <recycleradapt
     public MyViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
 
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productsimages,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.returns,parent,false);
 
         MyViewHolder vh = new MyViewHolder(view);
 
@@ -78,7 +80,18 @@ public class recycleradapter_returns extends RecyclerView.Adapter <recycleradapt
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int pos) {
 
+        holder.returnidtv.setText("Return ID :"+" #"+return_id.get(pos));
+        holder.orderidtv.setText("Order ID :"+ " #"+order_id.get(pos));
+        holder.datetv.setText(date_added.get(pos));
+        holder.statustv.setText(status.get(pos));
+        holder.statustv.setTextColor(ctx.getResources().getColor(R.color.black));
 
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ctx,""+return_id.get(holder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -99,10 +112,18 @@ public class recycleradapter_returns extends RecyclerView.Adapter <recycleradapt
 
     {
 
+        TextView statustv,datetv,orderidtv,returnidtv;
+        LinearLayout linearLayout;
 
         public MyViewHolder( View itemView) {
 
             super(itemView);
+
+            statustv = itemView.findViewById(R.id.status);
+            datetv = itemView.findViewById(R.id.datedofreturn);
+            orderidtv = itemView.findViewById(R.id.orderid);
+            returnidtv = itemView.findViewById(R.id.returnid);
+            linearLayout = itemView.findViewById(R.id.llot);
 
         }
 
