@@ -58,10 +58,7 @@ public class orders extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         dialog = new Dialog(getContext());
-
         openDialog();
-
-
     }
 
     /**
@@ -94,13 +91,15 @@ public class orders extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        listdata();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        listdata();
         return inflater.inflate(R.layout.fragment_orders, container, false);
     }
 

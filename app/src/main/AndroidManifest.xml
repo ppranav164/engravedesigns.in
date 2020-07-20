@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".AddAddress"></activity>
+        <activity android:name=".orderInfo"></activity>
+        <activity android:name=".AddAddress" />
         <activity android:name=".MyAccount" />
         <activity
             android:name=".logo_splash"

@@ -2,6 +2,7 @@ package com.shopping.giveaway4u;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -183,20 +184,9 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
                 Toast.makeText(ctx,orderIds,Toast.LENGTH_SHORT).show();
 
-                Bundle bundle = new Bundle();
-
-                bundle.putString("order_id",orderIds);
-
-                Fragment fragment = new products_fragment();
-
-                fragment.setArguments(bundle);
-
-                FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.mainframeL,fragment,"product");
-                transaction.addToBackStack("product");
-                transaction.commit();
-
+                Intent intent = new Intent(ctx,orderInfo.class);
+                intent.putExtra("order_id",orderIds);
+                ctx.startActivity(intent);
 
             }
         });
