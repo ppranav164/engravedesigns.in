@@ -175,50 +175,37 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
         holder.setIsRecyclable(false);
 
-//        holder.imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                String product_id = prod_id.get(holder.getAdapterPosition());
-//
-//                Bundle bundle = new Bundle();
-//
-//                bundle.putString("_id",product_id);
-//
-//                Fragment fragment = new products_fragment();
-//
-//                fragment.setArguments(bundle);
-//
-//                FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
-//                FragmentTransaction transaction = manager.beginTransaction();
-//                transaction.replace(R.id.mainframeL,fragment);
-//                transaction.commit();
-//
-//
-//            }
-//        });
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String orderIds = orderId.get(holder.getAdapterPosition());
+
+                Toast.makeText(ctx,orderIds,Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("order_id",orderIds);
+
+                Fragment fragment = new products_fragment();
+
+                fragment.setArguments(bundle);
+
+                FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.mainframeL,fragment,"product");
+                transaction.addToBackStack("product");
+                transaction.commit();
+
+
+            }
+        });
 
 
 
     }
 
 
-
-
-    public void syncRemove(String id)
-    {
-
-
-         link = hosts.wishlist_remove+id;
-
-         Log.e("remove wishlist id",id);
-
-         Log.e("link wishlist remove",link);
-
-         new syncRemoveWishlist(ctx,link,"GET").execute();
-
-
-    }
 
 
 

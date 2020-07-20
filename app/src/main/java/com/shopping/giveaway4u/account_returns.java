@@ -104,6 +104,8 @@ public class account_returns extends Fragment {
 
     }
 
+
+
     public void setJsonArrays(JSONArray arrays)
     {
         recycleradapter_returns adapter = new recycleradapter_returns(getContext(),arrays);
