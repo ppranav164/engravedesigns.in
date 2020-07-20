@@ -131,5 +131,11 @@ public class config_hosts {
 
 
 
+    //Order Info
+    public final String orderInfo = hostname+"index.php?route=api/orderinfo/info&order_id=";
+
+
+
+
 
 }

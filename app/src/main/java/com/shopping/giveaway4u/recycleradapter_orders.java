@@ -181,13 +181,9 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
             public void onClick(View v) {
 
                 String orderIds = orderId.get(holder.getAdapterPosition());
-
-                Toast.makeText(ctx,orderIds,Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(ctx,orderInfo.class);
                 intent.putExtra("order_id",orderIds);
                 ctx.startActivity(intent);
-
             }
         });
 
