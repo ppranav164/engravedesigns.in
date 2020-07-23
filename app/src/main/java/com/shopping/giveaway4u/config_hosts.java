@@ -136,6 +136,11 @@ public class config_hosts {
 
 
 
+    //Download Image
+
+    public final String downloadimage = hostname+"index.php?route=api/preview/download";
+
+
 
 
 }

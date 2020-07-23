@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -30,6 +31,8 @@ public class orderInfo extends AppCompatActivity {
     TextView ordersid,ordersDate,delAddress,orderstatus,headerCount;
     RecyclerView recyclerView,summrecyclerview;
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,10 @@ public class orderInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         orderId = getIntent().getStringExtra("order_id");
+
+        dialog = new Dialog(this);
+
+        openDialog();
 
         ordersid = findViewById(R.id.orderid);
         ordersDate = findViewById(R.id.orderdate);
@@ -117,16 +124,36 @@ public class orderInfo extends AppCompatActivity {
 
        recycleradapter_infos adapter = new recycleradapter_infos(getApplicationContext(),producstArray);
        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-       recyclerView.setAdapter(adapter);
        recyclerView.setNestedScrollingEnabled(false);
 
        recycleradapter_summarys summaryAdapter = new recycleradapter_summarys(getApplicationContext(),summaryArray);
        summrecyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-       summrecyclerview.setAdapter(summaryAdapter);
        summrecyclerview.setNestedScrollingEnabled(false);
+
+
+        recyclerView.setAdapter(adapter);
+        summrecyclerview.setAdapter(summaryAdapter);
+
+       closeDialog();
 
     }
 
+
+
+    public void openDialog() {
+
+        dialog.setContentView(R.layout.dialog_demo);
+        dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        dialog.show();
+    }
+
+
+
+    public void closeDialog()
+    {
+
+        dialog.dismiss();
+    }
 
 
 

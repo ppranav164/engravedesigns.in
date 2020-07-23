@@ -57,6 +57,7 @@
 
 
            <LinearLayout
+               android:id="@+id/addressbar"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
@@ -103,10 +104,9 @@
            </LinearLayout>
 
 
-           <LinearLayout
+           <RelativeLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:orientation="vertical"
                >
                <TextView
                    android:id="@+id/headercounts"
@@ -117,14 +117,15 @@
                    android:text="PRODUCTS (3 ITEMS)"/>
 
                <androidx.recyclerview.widget.RecyclerView
+                   android:layout_below="@id/headercounts"
                    android:padding="8dp"
                    android:id="@+id/inforecyclerview"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"/>
 
-           </LinearLayout>
+           </RelativeLayout>
 
-           <LinearLayout
+           <RelativeLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="vertical"
@@ -138,12 +139,13 @@
                    android:text="ORDER SUMMARY"/>
 
                <androidx.recyclerview.widget.RecyclerView
+                   android:layout_below="@id/headerSummary"
                    android:padding="8dp"
                    android:id="@+id/summaryrecyclerview"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"/>
 
-           </LinearLayout>
+           </RelativeLayout>
 
        </LinearLayout>
 

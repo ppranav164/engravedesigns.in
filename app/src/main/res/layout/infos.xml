@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:id="@+id/mainlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/infoGray"
@@ -83,6 +84,8 @@
                 android:gravity="left">
 
                <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/fileheader"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="horizontal">
@@ -101,27 +104,30 @@
                </LinearLayout>
 
               <LinearLayout
-                  android:id="@+id/optionsmenu"
+                  android:id="@+id/optionsfile"
                   android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="Front"/>
 
-                  <ImageButton
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:src="@drawable/viewfile"
-                      android:layout_below="@id/name"
-                      android:background="@color/white"
-                      />
               </LinearLayout>
 
             </LinearLayout>
 
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/optionsmenus"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/optionsmenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </TextView>
 
         </LinearLayout>
 

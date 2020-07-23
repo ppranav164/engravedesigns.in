@@ -2,6 +2,7 @@ package com.shopping.giveaway4u;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,14 +73,19 @@ public class recycleradapter_summarys extends RecyclerView.Adapter <recycleradap
 
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int pos) {
+    public void onBindViewHolder(final MyViewHolder holder, int pos) {
 
-        holder.titletv.setText(titles.get(pos));
-        holder.texttv.setText(texts.get(pos));
+        try {
+            JSONObject object = array.getJSONObject(pos);
+            holder.titletv.setText(object.getString("title"));
+            holder.texttv.setText(object.getString("text"));
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
+        Log.e("summary",texts.get(pos) + array.length());
     }
-
-
 
 
 
