@@ -2,10 +2,6 @@ package com.shopping.giveaway4u;
 
 import android.app.Application;
 
-/**
- * Created by Rahul Hooda on 14/7/17.
- */
-
 public class BaseApplication extends Application {
 
     AppEnvironment appEnvironment;

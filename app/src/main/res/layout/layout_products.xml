@@ -21,23 +21,36 @@
             android:background="@color/white">
 
            <RelativeLayout
+               android:id="@+id/previewer"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:padding="10dp">
 
-               <com.github.chrisbanes.photoview.PhotoView
-                   android:layout_width="match_parent"
-                   android:layout_height="300dp"
-                   android:id="@+id/previewer"
-                   />
+             <androidx.viewpager.widget.ViewPager
+                 android:layout_width="match_parent"
+                 android:layout_height="300dp"
+                 android:id="@+id/productslider"
+                 />
 
                <ImageButton
                    android:layout_width="40dp"
                    android:layout_height="40dp"
                    android:layout_alignParentRight="true"
                    android:layout_alignParentTop="true"
-                   android:layout_below="@id/previewer"
+                   android:layout_below="@id/productslider"
                    android:id="@+id/wishlistB"
+                   />
+
+               <ImageButton
+                   android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   android:layout_alignParentLeft="true"
+                   android:layout_alignParentTop="true"
+                   android:layout_below="@id/productslider"
+                   android:id="@+id/fullscreenB"
+                   android:src="@drawable/ic_fullscreen"
+                   android:background="@color/transparent"
+                   android:tooltipText="View in Full Screen"
                    />
 
 
@@ -53,7 +66,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:id="@+id/thumb_recyclerview">
 
                 </androidx.recyclerview.widget.RecyclerView>

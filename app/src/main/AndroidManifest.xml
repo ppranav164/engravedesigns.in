@@ -20,7 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".gallery"></activity>
+
+        <activity
+            android:name=".FullscreenSlider"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity android:name=".gallery" />
         <activity android:name=".orderInfo" />
         <activity android:name=".AddAddress" />
         <activity android:name=".MyAccount" />

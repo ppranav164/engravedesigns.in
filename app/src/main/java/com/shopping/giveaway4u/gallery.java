@@ -5,20 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Base64;
+
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import com.github.chrisbanes.photoview.PhotoView;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class gallery extends AppCompatActivity {

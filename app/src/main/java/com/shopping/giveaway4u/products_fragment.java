@@ -46,6 +46,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.snackbar.Snackbar;
@@ -60,11 +61,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Result;
 
-public class products_fragment extends Fragment {
+public class products_fragment extends Fragment implements RecyclerViewClickListener {
 
     private static final int RESULT_OK = 1 ;
     View view;
@@ -75,9 +77,15 @@ public class products_fragment extends Fragment {
 
     TextView textView,priceView,stockView,cid,offer,dfilename;
 
+    RecyclerView productsrecyclerviw;
+
+    ViewPager viewPager;
+
     LinearLayout linearLayout;
 
     Button UploadBtn;
+
+    ImageButton fullscreenBtn;
 
     TextView descp;
 
@@ -798,6 +806,8 @@ public class products_fragment extends Fragment {
 
            String minimum = objects.getString("minimum");
 
+           JSONArray imagesArray = objects.getJSONArray("images");
+
            limit = Integer.parseInt(minimum);
 
 
@@ -808,9 +818,14 @@ public class products_fragment extends Fragment {
            setTabTexts("loooooo");
 
 
-           photoView = view.findViewById(R.id.previewer);
+           //photoView = view.findViewById(R.id.previewer);
+
+
+           viewPager = view.findViewById(R.id.productslider);
 
            textView = view.findViewById(R.id.display);
+
+           fullscreenBtn = view.findViewById(R.id.fullscreenB);
 
            priceView = view.findViewById(R.id.priceView);
 
@@ -822,15 +837,54 @@ public class products_fragment extends Fragment {
 
            offer = view.findViewById(R.id.special);
 
+           productsrecyclerviw = view.findViewById(R.id.thumb_recyclerview);
+
+            ArrayList<String> imageData = new ArrayList<>();
+
+           final List<String> sendImage = new ArrayList<>();
 
 
+           imageData.add(image);
+           sendImage.add(image);
+
+           for (int k=0; k < imagesArray.length(); k++ )
+           {
+               JSONObject imageObject = imagesArray.getJSONObject(k);
+
+               String popups = imageObject.getString("popup");
+
+               imageData.add(popups);
+               sendImage.add(popups);
+
+           }
 
 
+           productsrecyclerviw.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
+
+           previewproducts_adapter adapter = new previewproducts_adapter(getContext(),imageData,this);
+
+           productsrecyclerviw.setAdapter(adapter);
+
+           viewPager.setAdapter(new slide_adapter_product(getContext(),imageData));
+
+
+           fullscreenBtn.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+
+                   int position = viewPager.getCurrentItem();
+
+                   Intent intent = new Intent(getContext(),FullscreenSlider.class);
+                   intent.putStringArrayListExtra("image", (ArrayList<String>) sendImage);
+                   intent.putExtra("position",position);
+                   startActivity(intent);
+               }
+           });
 
 
            //photoView.setImageResource(R.drawable.logo);
 
-           Picasso.get().load(image).into(photoView);
+           //Picasso.get().load(image).into(photoView);
 
 
            cid.setText(pid);
@@ -1151,14 +1205,6 @@ public class products_fragment extends Fragment {
 
 
           }
-
-
-
-           recyclerView = view.findViewById(R.id.thumb_recyclerview);
-
-           recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1, LinearLayoutManager.HORIZONTAL,false));
-
-
 
        }catch (Exception e)
        {
@@ -1507,6 +1553,12 @@ public class products_fragment extends Fragment {
             e.printStackTrace();
             throw e;
         }
+    }
+
+
+    @Override
+    public void recyclerViewListClicked(View v, int position) {
+        viewPager.setCurrentItem(position);
     }
 
 

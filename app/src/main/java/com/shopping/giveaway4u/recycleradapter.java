@@ -53,6 +53,8 @@ public class recycleradapter  extends RecyclerView.Adapter <recycleradapter.MyVi
         this.array = images;
 
         this.wishlists = wishlistdata;
+
+        //This is a module for "Featured Products" Part
     }
 
 
