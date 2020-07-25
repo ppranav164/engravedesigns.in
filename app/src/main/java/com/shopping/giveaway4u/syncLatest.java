@@ -2,6 +2,7 @@ package com.shopping.giveaway4u;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -55,15 +56,17 @@ public class syncLatest extends AsyncTask<String,String,String>
 
         StringBuilder builder = new StringBuilder();
 
+        SharedPreferences sharedpref = context.getSharedPreferences("cookie",Context.MODE_PRIVATE);
+        String token = sharedpref.getString("token","nil");
+
+
 
         try{
 
             URL link = new URL(api);
-
             HttpURLConnection connection = (HttpURLConnection) link.openConnection();
-
             connection.setRequestMethod("GET");
-
+            connection.setRequestProperty("Cookie","OCSESSID="+token+";");
             connection.connect();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

@@ -47,4 +47,13 @@
         </menu>
     </item>
 
+    <item android:title="Currency Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_currency"
+                android:icon="@drawable/ic_baseline_monetization_on_24"
+                android:title="Change Currency" />
+        </menu>
+    </item>
+
 </menu>

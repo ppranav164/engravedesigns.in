@@ -161,7 +161,6 @@ public class featured_recycler_adapter extends RecyclerView.Adapter <featured_re
 
                 FragmentTransaction transaction = manager.beginTransaction();
 
-                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                 transaction.replace(R.id.mainframeL,fragment,"product");
                 transaction.addToBackStack("main");
 

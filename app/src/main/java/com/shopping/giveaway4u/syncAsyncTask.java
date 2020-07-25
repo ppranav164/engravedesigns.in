@@ -75,9 +75,6 @@ public class syncAsyncTask extends AsyncTask<String,String,String>
 
             }
 
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-
             connection.setRequestProperty("Cookie","OCSESSID="+token+";");
 
             if (param != null)

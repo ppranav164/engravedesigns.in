@@ -143,4 +143,18 @@ public class config_hosts {
 
 
 
+    //Get Currency List GET
+
+    public final String getCurrency = hostname+"index.php?route=api/curruncy";
+
+
+    //Update Currency POST
+
+    public final String updateCurrency = hostname+"index.php?route=api/curruncy/currency";
+
+
+
+
+
+
 }

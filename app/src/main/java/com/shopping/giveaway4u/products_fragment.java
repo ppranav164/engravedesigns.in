@@ -207,12 +207,16 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     ImageView imageViews;
 
+    ImageButton share;
 
     LinearLayout previewLayout;
 
 
     boolean hasPermission;
 
+    String shareProductID = "";
+
+    String productShareTitle = "";
 
     public products_fragment() {
 
@@ -273,6 +277,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
         cartBtn = view.findViewById(R.id.addToCart);
 
+        share = view.findViewById(R.id.btnshare);
+
+        shareProduct();
 
         uploadlayout = view.findViewById(R.id.uploadbox);
 
@@ -789,6 +796,11 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            String mfg = objects.getString("heading_title");
 
            String price = objects.getString("price");
+
+           String sharelink = objects.getString("share");
+
+           shareProductID = sharelink;
+           productShareTitle = mfg;
 
            String stock = objects.getString("stock");
 
@@ -1554,6 +1566,25 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
             throw e;
         }
     }
+
+
+
+     public void shareProduct()
+     {
+
+         share.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 Intent sharing = new Intent(Intent.ACTION_SEND);
+                 sharing.setType("text/plain");
+                 sharing.putExtra(Intent.EXTRA_SUBJECT,productShareTitle);
+                 sharing.putExtra(Intent.EXTRA_TEXT,shareProductID);
+                 startActivity(Intent.createChooser(sharing,"Share via"));
+             }
+         });
+
+     }
 
 
     @Override

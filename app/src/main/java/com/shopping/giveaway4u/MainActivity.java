@@ -447,6 +447,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+        else if (id == R.id.nav_currency){
+
+            Intent intent = new Intent(getApplicationContext(),CurencySettings.class);
+            startActivity(intent);
+
+        }
 
 
 
