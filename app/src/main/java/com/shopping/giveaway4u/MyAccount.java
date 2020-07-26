@@ -101,13 +101,12 @@ public class MyAccount extends AppCompatActivity  {
 
 
 
-
-
-
     public void alerts(String message)
     {
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
     }
+
+
 
 
     @Override

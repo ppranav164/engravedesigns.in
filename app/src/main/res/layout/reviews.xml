@@ -43,6 +43,7 @@
             android:id="@+id/ratingbutton"
             android:layout_below="@id/comment"
             android:isIndicator="true"
+            android:theme="@style/RatingBar"
             style="@style/Widget.AppCompat.RatingBar.Small"
             />
 

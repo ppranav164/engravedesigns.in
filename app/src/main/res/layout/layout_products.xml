@@ -20,7 +20,73 @@
             android:orientation="vertical"
             android:background="@color/white">
 
-           <RelativeLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Brand: "
+                        android:textSize="18dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/brand"
+                        android:text="Loading.."
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        />
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:gravity="right"
+                        android:layout_height="match_parent">
+                        <RatingBar
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ratingbutton"
+                            android:isIndicator="true"
+                            android:theme="@style/RatingBar"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            />
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="Loading..."
+                            android:id="@+id/reviewsCount"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/display"
+                    android:text="Loading"/>
+            </LinearLayout>
+
+
+            <RelativeLayout
                android:id="@+id/previewer"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -72,7 +138,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/thumbs"
                 android:layout_below="@id/previewer">
 
@@ -98,16 +164,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/display"
-                    android:textSize="18dp"
-                    android:textColor="@color/darkbl"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/priceView"
-                    android:layout_below="@id/display"
                     android:textSize="32dp"
                     android:textColor="@color/design_default_color_primary"/>
 
@@ -241,13 +298,13 @@
             </com.google.android.material.tabs.TabLayout>
 
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/framwla"
                 android:layout_below="@id/mytabs"
                 android:paddingBottom="50dp">
-            </FrameLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>

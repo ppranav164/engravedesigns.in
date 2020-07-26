@@ -7,9 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 
@@ -31,7 +33,7 @@ public class specFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    TextView textView;
+    TextView textView; WebView webView;
 
     public static String data;
 
@@ -88,13 +90,10 @@ public class specFragment extends Fragment {
 
         View view = getView();
 
+        webView = view.findViewById(R.id.desps);
 
-
-        textView = view.findViewById(R.id.desp);
-
-        textView.setText(data);
-
-
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadDataWithBaseURL(null,data,"text/html","UTF-8",null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

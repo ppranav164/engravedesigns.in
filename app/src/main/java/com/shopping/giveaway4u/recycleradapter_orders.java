@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -146,8 +147,6 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
         holder.priceTv.setText(price_tag.get(pos));
 
-        holder.shipto.setText(product_name.get(pos));
-
         //Picasso.get().load(thumbnails.get(pos)).into(holder.imageView);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         ImageView[] imageViews = new ImageView[5];
@@ -188,6 +187,21 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
         });
 
 
+        holder.trackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String orderIds = orderId.get(holder.getAdapterPosition());
+                String orderDate = dateOfOrder.get(holder.getAdapterPosition());
+
+                Intent intent = new Intent(ctx,TrackPackage.class);
+                intent.putExtra("order_id",orderIds);
+                intent.putExtra("order_date",orderDate);
+                ctx.startActivity(intent);
+
+            }
+        });
+
 
     }
 
@@ -216,6 +230,8 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
         LinearLayout linearLayout; LinearLayout relativeLayout;
 
+        Button trackButton;
+
 
 
 
@@ -225,9 +241,6 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
 
             name = itemView.findViewById(R.id.name);
-
-            shipto = itemView.findViewById(R.id.customer);
-
 
             imageView = itemView.findViewById(R.id.thumbs);
 
@@ -246,6 +259,8 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
             dateviewTv = itemView.findViewById(R.id.datedoforder);
 
             relativeLayout = itemView.findViewById(R.id.productImageshow);
+
+            trackButton = itemView.findViewById(R.id.track);
 
         }
 

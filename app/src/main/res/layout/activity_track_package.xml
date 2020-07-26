@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".TrackPackage">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/track_header"
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/track_orderid"
+                android:layout_width="wrap_content"
+                android:text="Date"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/track_date_added"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:text="Date"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/track_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/track_recyclerview"
+        android:background="@color/white"
+        />
+
+</RelativeLayout>

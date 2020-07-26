@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,6 +44,10 @@ public class editAccountInfo extends Fragment {
     String custumerId;
     boolean errors;
     String ERROR_FNAME,ERROR_LNAME,ERROR_EMAIL,ERROR_MOBILE;
+
+    TextView errorTV;
+
+    SharedPreferences.Editor editor;
 
     public editAccountInfo() {
         // Required empty public constructor
@@ -81,6 +86,9 @@ public class editAccountInfo extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_edit_account_info, container, false);
 
+        editor = getContext().getSharedPreferences("cookie",Context.MODE_PRIVATE).edit();
+
+        errorTV = view.findViewById(R.id.errorView);
 
         firstName = view.findViewById(R.id.fname);
         lastName = view.findViewById(R.id.lname);
@@ -133,7 +141,16 @@ public class editAccountInfo extends Fragment {
                     ERROR_LNAME = object1.getString("error_lastname");
                     ERROR_EMAIL = object1.getString("error_email");
                     ERROR_MOBILE = object1.getString("error_telephone");
+
+                    editor.putString("firstname",FIRSTNAME);
+                    editor.putString("lastname",LASTNAME);
+                    editor.putString("username",FIRSTNAME);
+                    editor.putString("email",EMAIL);
+                    editor.putString("mobile",MOBILENO);
+                    editor.apply();
+
                     showDetails();
+
                 }catch (Exception e)
                 {
                     e.printStackTrace();
@@ -180,6 +197,9 @@ public class editAccountInfo extends Fragment {
                     ERROR_EMAIL = object1.getString("error_email");
                     ERROR_MOBILE = object1.getString("error_telephone");
 
+                    String errorTEXT = object1.getString("error_warning");
+
+                    errorTV.setText(errorTEXT);
 
                     if (ERROR_FNAME.length() > 1)
                     {
@@ -223,6 +243,7 @@ public class editAccountInfo extends Fragment {
 
 
     }
+
 
 
 }

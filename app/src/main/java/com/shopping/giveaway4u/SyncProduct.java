@@ -46,27 +46,13 @@ public class SyncProduct extends AsyncTask<String,String,String> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Loading");
-        dialog.setCancelable(false);
-        dialog.show();
-
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-
-
-        if (s!=null)
-        {
-            mproducts.loadProductInfo(s);
-
-
-            dialog.dismiss();
-        }
-
+        mproducts.loadProductInfo(s);
 
 
     }

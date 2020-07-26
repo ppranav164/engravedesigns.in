@@ -55,21 +55,12 @@ public class syncRemoveWishlist extends AsyncTask<String,String,String>
 
         super.onPreExecute();
 
-
-        dialog = new ProgressDialog(context);
-
-        dialog.setTitle("Loading");
-
-        dialog.show();
-
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-
-        dialog.dismiss();
 
         Log.e("SyncEvent",s);
 

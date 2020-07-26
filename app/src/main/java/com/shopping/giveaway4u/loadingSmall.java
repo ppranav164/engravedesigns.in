@@ -3,23 +3,25 @@ package com.shopping.giveaway4u;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link loading.OnFragmentInteractionListener} interface
+ * {@link loadingSmall.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link loading#newInstance} factory method to
+ * Use the {@link loadingSmall#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class loading extends Fragment {
+public class loadingSmall extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +33,9 @@ public class loading extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public loading() {
+    ImageView loadingview;
+
+    public loadingSmall() {
         // Required empty public constructor
     }
 
@@ -44,8 +48,8 @@ public class loading extends Fragment {
      * @return A new instance of fragment loading.
      */
     // TODO: Rename and change types and number of parameters
-    public static loading newInstance(String param1, String param2) {
-        loading fragment = new loading();
+    public static loadingSmall newInstance(String param1, String param2) {
+        loadingSmall fragment = new loadingSmall();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +70,14 @@ public class loading extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loading, container, false);
+
+        View view = inflater.inflate(R.layout.loading_small, container, false);
+
+        loadingview = view.findViewById(R.id.loadingview);
+
+        Glide.with(getContext()).asGif().load(R.drawable.loading).into(loadingview);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

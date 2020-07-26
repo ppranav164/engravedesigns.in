@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -24,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -32,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +79,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     ImageButton wishlist;
 
-    TextView textView,priceView,stockView,cid,offer,dfilename;
+    TextView textView,priceView,stockView,cid,offer,dfilename,brandTv;
+
+    String brandName = "";
 
     RecyclerView productsrecyclerviw;
 
@@ -101,6 +107,11 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     JSONArray reviewsJson;
 
+    int reviewsCount = 0;
+
+    TextView reviewTotalTv;
+    RatingBar ratingbar;
+
     private ImageView imageView,upimageshow;
 
     private Bitmap bitmap;
@@ -116,7 +127,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
      int product_option_id;
 
-    FrameLayout frameLayout;
+    RelativeLayout frameLayout;
 
     TabLayout tabLayout;
 
@@ -218,6 +229,10 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     String productShareTitle = "";
 
+
+
+    private Handler handler;
+
     public products_fragment() {
 
            //    default
@@ -271,6 +286,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
         qtext.setText(String.valueOf(limit));
 
+        reviewTotalTv = view.findViewById(R.id.reviewsCount);
+        ratingbar = view.findViewById(R.id.ratingbutton);
+
 
         quanityButton(view);
 
@@ -310,22 +328,31 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
         FragmentTransaction transaction = manager.beginTransaction();
 
-        transaction.replace(R.id.framwla,new specFragment());
+        transaction.replace(R.id.framwla,new specFragment(descriptions));
 
         transaction.commit();
 
         final Boolean[] clicked = {false};
-
-
-
          setWishlist(view);
-
-
          checkPermissionForReadExtertalStorage();
-
-
          hasPermission = checkPermissionForReadExtertalStorage();
 
+         handler = new Handler();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction stransaction = fragmentManager.beginTransaction();
+        stransaction.replace(R.id.framwla,new loadingSmall());
+        stransaction.commit();
+
+         handler.postDelayed(new Runnable() {
+             @Override
+             public void run() {
+                 FragmentManager fragmentManager = getFragmentManager();
+                 FragmentTransaction transaction = fragmentManager.beginTransaction();
+                 transaction.replace(R.id.framwla,new specFragment(descriptions));
+                 transaction.commit();
+             }
+         },1000);
 
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -673,19 +700,14 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
             final String fileName = parts[parts.length - 1];
 
-            int plus = 1;
+            final int plus = 1;
 
-            LinearLayout.LayoutParams previewparam = new LinearLayout.LayoutParams(300,300);
+            final LinearLayout.LayoutParams previewparam = new LinearLayout.LayoutParams(300,300);
 
             previewparam.setMargins(10,10,10,10);
 
 
-            ImageView imageView = new ImageView(getContext());
-            imageView.setId(plus+requestCode);
-            imageView.setLayoutParams(previewparam);
-            previewLayout.addView(imageView);
-            ImageView screen = (ImageView) previewLayout.findViewById(plus+requestCode);
-            screen.setImageURI(filePath);
+
 
 
             //dfilename.setText(fileName);
@@ -697,20 +719,34 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                 @Override
                 public void status(String status) {
 
+                    Log.e("error",status);
+
                     try {
 
                         JSONObject object = new JSONObject(status);
-                        String code = object.getString("code");
-                        codd.setText(code);
-                        uploadCodes = code;
-                        keyValue.put(requestCode,code);
-                        String cod = String.valueOf(requestCode);
-                        rules.replace(cod,false);
-                        Log.e("final",keyValue.toString());
-                        if (code == null)
+
+                        if (object.has("code"))
                         {
-                            Toast.makeText(getContext(),"Unsupported File or Something is wrong with image",Toast.LENGTH_SHORT).show();
+                            String code = object.getString("code");
+                            codd.setText(code);
+                            uploadCodes = code;
+                            keyValue.put(requestCode,code);
+                            String cod = String.valueOf(requestCode);
+                            rules.replace(cod,false);
+                            Log.e("final",keyValue.toString());
+                            ImageView imageView = new ImageView(getContext());
+                            imageView.setId(plus+requestCode);
+                            imageView.setLayoutParams(previewparam);
+                            previewLayout.addView(imageView);
+                            ImageView screen = (ImageView) previewLayout.findViewById(plus+requestCode);
+                            screen.setImageURI(filePath);
+                        }else
+                        {
+                            Log.e("isUploaded",object.getString("uploaded"));
+
+                            Toast.makeText(getContext(),object.getString("error"),Toast.LENGTH_SHORT).show();
                         }
+
                     }catch (Exception e)
                     {
                         e.printStackTrace();
@@ -755,6 +791,13 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     {
 
         this.reviewsJson = array;
+
+        String count =String.valueOf(array.length());
+
+        reviewTotalTv.setText("("+count+")");
+
+        ratingbar.setRating(reviewsCount);
+
     }
 
 
@@ -795,9 +838,13 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
            String mfg = objects.getString("heading_title");
 
+           String brand = objects.getString("manufacturer");
+
            String price = objects.getString("price");
 
            String sharelink = objects.getString("share");
+
+           reviewsCount = objects.getInt("rating");
 
            shareProductID = sharelink;
            productShareTitle = mfg;
@@ -805,6 +852,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            String stock = objects.getString("stock");
 
            String descps = objects.getString("description");
+
+           String description = objects.getString("description");
 
            String reviewTabtxt = objects.getString("tab_review");
 
@@ -837,13 +886,14 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
            textView = view.findViewById(R.id.display);
 
+           brandTv = view.findViewById(R.id.brand);
+
            fullscreenBtn = view.findViewById(R.id.fullscreenB);
 
            priceView = view.findViewById(R.id.priceView);
 
            stockView = view.findViewById(R.id.stock);
 
-           descp = view.findViewById(R.id.desp);
 
            cid = view.findViewById(R.id.cid);
 
@@ -902,6 +952,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            cid.setText(pid);
 
            textView.setText(mfg);
+           brandTv.setText(brand);
 
            if (cutPrice == "false"){
 
@@ -957,9 +1008,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
           {
               descps = descps.replace("&nbsp;"," ");
           }
-
-
-           descp.setText(descps);
 
 
            Map<String,String> radiokeys = new HashMap<>();

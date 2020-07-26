@@ -209,8 +209,6 @@ public class syncUpload_image extends AsyncTask<String,String,String>
 
             String message = builder.append(read).toString();
 
-            Log.e("Upload Status",message);
-
 
             //closing the input and output streams
             fileInputStream.close();

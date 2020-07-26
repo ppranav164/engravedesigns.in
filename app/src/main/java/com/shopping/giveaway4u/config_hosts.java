@@ -152,8 +152,10 @@ public class config_hosts {
 
     public final String updateCurrency = hostname+"index.php?route=api/curruncy/currency";
 
+    //Track Order
 
 
+    public final String TrackOrder = hostname+"index.php?route=api/track&order_id=";
 
 
 

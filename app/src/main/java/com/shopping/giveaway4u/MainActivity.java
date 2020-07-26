@@ -39,11 +39,6 @@ public class MainActivity extends AppCompatActivity
 
 
     TextView notify;
-    View menuview;
-    String api = "http://10.0.2.2/ecom/upload/index.php?route=api/featured";
-    private String totals;
-    private static int[] images;
-    Cart_details cart_details;
     TextView usernameView;
     Dialog dialog;
 
@@ -51,6 +46,13 @@ public class MainActivity extends AppCompatActivity
 
     ImageView loadingview;
 
+    config_hosts hosts = new config_hosts();
+
+    String url = hosts.accountDetails;
+
+    String FIRSTNAME="",LASTNAME="",EMAIL="",MOBILENO="";
+
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+
+        getDetails();
 
         if (getIntent().getStringExtra("orders") != null)
         {
@@ -144,8 +148,10 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setIcon(R.drawable.logot);
 
 
+        editor = getSharedPreferences("cookie",MODE_PRIVATE).edit();
 
         SharedPreferences preferences = getSharedPreferences("cookie",MODE_PRIVATE);
+
         String tok = preferences.getString("token","null");
         Boolean islogged = preferences.getBoolean("logged_in",false);
 
@@ -159,6 +165,8 @@ public class MainActivity extends AppCompatActivity
         String user = preferences.getString("username",null);
         View headerView = navigationView.getHeaderView(0);
         usernameView = headerView.findViewById(R.id.usernameTv);
+
+
         usernameView.setText("Hello, "+user);
 
 
@@ -319,6 +327,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
     public void setCartCounts(final View menuview)
     {
 
@@ -460,6 +470,42 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+    public void getDetails()
+    {
+
+        new syncAsyncTask(getApplication(), "GET", url, null, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+
+                Log.e("ob",object);
+
+                try {
+                    JSONObject object1 = new JSONObject(object);
+                    FIRSTNAME = object1.getString("firstname");
+                    LASTNAME = object1.getString("lastname");
+                    EMAIL = object1.getString("email");
+                    MOBILENO = object1.getString("telephone");
+
+                    editor.putString("firstname",FIRSTNAME);
+                    editor.putString("lastname",LASTNAME);
+                    editor.putString("username",FIRSTNAME);
+                    editor.putString("email",EMAIL);
+                    editor.putString("mobile",MOBILENO);
+                    editor.apply();
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }).execute();
+    }
+
 
 
 
