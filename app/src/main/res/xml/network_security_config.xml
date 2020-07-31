@@ -2,5 +2,8 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.1.108</domain>
+        <domain includeSubdomains="true">www.payumoney.com</domain>
+        <domain includeSubdomains="true">in.api.clevertap.com</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
     </domain-config>
 </network-security-config>

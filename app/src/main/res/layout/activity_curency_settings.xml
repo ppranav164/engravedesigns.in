@@ -25,11 +25,12 @@
                 android:src="@drawable/ic_baseline_monetization_on_24"
                 />
             <TextView
-                android:text="Select prefered currency"
+                android:text="Select your country"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
 
@@ -39,6 +40,14 @@
             android:id="@+id/selectionMain"
             android:orientation="vertical"
             >
+
+            <TextView
+                android:text="Choose International if your country is not listed below"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"/>
 
             <RadioGroup
                 android:layout_width="match_parent"

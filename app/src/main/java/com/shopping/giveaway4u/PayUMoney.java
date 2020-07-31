@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -77,6 +78,7 @@ public class PayUMoney extends AppCompatActivity implements View.OnClickListener
      LinearLayout showUpbreakups;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,9 +101,9 @@ public class PayUMoney extends AppCompatActivity implements View.OnClickListener
 
         getUserData = getSharedPreferences("user_data",MODE_PRIVATE);
 
-        String options = getUserData.getString("optionList",null);
+        String options = getUserData.getString("cost",null);
 
-        Toast.makeText(getApplicationContext(),""+optionValues,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),""+options,Toast.LENGTH_LONG).show();
 
 
         setUpUserDetails();
@@ -145,7 +147,6 @@ public class PayUMoney extends AppCompatActivity implements View.OnClickListener
         new syncCookie(getApplicationContext(), confirmURL, new info() {
             @Override
             public void getInfo(String data) {
-
 
                 Log.d("Confirm Order",data);
                 setCartData(data);
@@ -400,9 +401,12 @@ public class PayUMoney extends AppCompatActivity implements View.OnClickListener
         PayUmoneySdkInitializer.PaymentParam.Builder builder = new PayUmoneySdkInitializer.PaymentParam.Builder();
 
         double amount = 0;
-        try {
 
-            String bal = "10";
+        SharedPreferences preferences = getSharedPreferences("user_data",MODE_PRIVATE);
+
+        String bal = preferences.getString("cost","0");
+
+        try {
 
             amount = Double.parseDouble(bal);
 
@@ -470,6 +474,7 @@ public class PayUMoney extends AppCompatActivity implements View.OnClickListener
         } catch (Exception e) {
             // some exception occurred
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.e("PayUmOney 475",e.getMessage());
             payNowButton.setEnabled(true);
         }
     }

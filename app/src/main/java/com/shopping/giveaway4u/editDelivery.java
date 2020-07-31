@@ -71,6 +71,26 @@ public class editDelivery extends Fragment {
 
     String fname,lname,company,address_1,address_2,citys,postcodes,countryID,stateID,addressID;
 
+    boolean error;
+
+    TextView texTWarning;
+
+
+    //Errors
+
+    String  ERROR_WARNING ="",
+            ERROR_FIRSTNAME="",
+            ERROR_LASTNAME ="",
+            ERROR_COMPANY = "",
+            ERROR_ADDRESS_1 = "",
+            ERROR_ADDRESS_2 = "",
+            ERROR_CITY = "",
+            ERROR_POST = "";
+
+
+
+
+
     public editDelivery() {
         // Required empty public constructor
     }
@@ -142,6 +162,9 @@ public class editDelivery extends Fragment {
         address2 = view.findViewById(R.id.address2);
         city = view.findViewById(R.id.city);
         postCode = view.findViewById(R.id.postCode);
+
+
+        texTWarning = view.findViewById(R.id.textWarning);
 
 
         SharedPreferences addressgroup = getActivity().getSharedPreferences("cookie",Context.MODE_PRIVATE);
@@ -393,7 +416,6 @@ public class editDelivery extends Fragment {
             public void onClick(View v) {
 
 
-
                 int coutrySelection = countrySpinner.getSelectedItemPosition();
 
                 int statePos = regionsSpinner.getSelectedItemPosition();
@@ -408,40 +430,141 @@ public class editDelivery extends Fragment {
                 countryID = countryIds.get(coutrySelection);
                 stateID = stateIds.get(statePos);
 
+                String param = "address_id="+addressID+"&";
+                param += "payment_address=new&";
+                param += "firstname="+fname+"&";
+                param += "lastname="+lname+"&";
+                param += "company="+company+"&";
+                param += "address_1="+address_1+"&";
+                param += "address_2="+address_2+"&";
+                param += "city="+citys+"&";
+                param += "postcode="+postcodes+"&";
+                param += "country_id="+countryID+"&";
+                param += "zone_id="+stateID;
 
-                if (formVerify() != false)
-                {
+                Log.e("params",param);
 
-                    String param = "address_id="+addressID+"&";
-                    param += "payment_address=new&";
-                    param += "firstname="+fname+"&";
-                    param += "lastname="+lname+"&";
-                    param += "company="+company+"&";
-                    param += "address_1="+address_1+"&";
-                    param += "address_2="+address_2+"&";
-                    param += "city="+citys+"&";
-                    param += "postcode="+postcodes+"&";
-                    param += "country_id="+countryID+"&";
-                    param += "zone_id="+stateID;
+                new syncSavePayment(getContext(),param, new info() {
+                    @Override
+                    public void getInfo(String data) {
 
-                    Log.e("params",param);
+                        Log.e("ediDelivery > 456",data);
 
-                    new syncSavePayment(getContext(),param, new info() {
-                        @Override
-                        public void getInfo(String data) {
-
-                            Log.e("addnewaddr",data);
-
+                        if (data.equals("[]"))
+                        {
                             success();
+                            error = false;
                         }
-                    }).execute();
+
+                        closeDialog();
+
+                        try {
+
+                            JSONObject errors = new JSONObject(data);
+
+                            JSONObject object = errors.getJSONObject("error");
+
+                            if (errors.has("error"))
+                            {
+                                if (object.has("firstname"))
+                                {
+                                    ERROR_FIRSTNAME = object.getString("firstname");
+                                    firstName.setError(ERROR_FIRSTNAME);
+                                    error = true;
+
+                                }
+
+                                if (object.has("lastname"))
+                                {
+                                    ERROR_LASTNAME = object.getString("lastname");
+                                    lastName.setError(ERROR_LASTNAME);
+                                    error = true;
+                                }
+
+                                if (object.has("address_1"))
+                                {
+                                    ERROR_ADDRESS_1 = object.getString("address_1");
+                                    address1.setError(ERROR_ADDRESS_1);
+                                    error = true;
+                                }
+
+                                if (object.has("city"))
+                                {
+                                    ERROR_CITY = object.getString("city");
+                                    city.setError(ERROR_CITY);
+                                    error = true;
+                                }
+
+                            }
+
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
 
 
-                }
+                    }
+                }).execute();
+
+
 
             }
         });
 
+
+
+
+    }
+
+
+
+    public boolean veryFyServer(String data)
+    {
+
+        try {
+
+            JSONObject object = new JSONObject(data);
+
+            if (object.has("firstname"))
+            {
+                ERROR_FIRSTNAME = object.getString("firstname");
+                firstName.setError(ERROR_FIRSTNAME);
+                error = true;
+
+                return false;
+            }
+
+            if (object.has("lastname"))
+            {
+                ERROR_LASTNAME = object.getString("lastname");
+                lastName.setError(ERROR_LASTNAME);
+                error = true;
+                return false;
+            }
+
+            if (object.has("address_1"))
+            {
+                ERROR_ADDRESS_1 = object.getString("address_1");
+                address1.setError(ERROR_ADDRESS_1);
+                error = true;
+                return false;
+            }
+
+            if (object.has("city"))
+            {
+                ERROR_CITY = object.getString("city");
+                city.setError(ERROR_CITY);
+                error = true;
+
+                return false;
+            }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
 

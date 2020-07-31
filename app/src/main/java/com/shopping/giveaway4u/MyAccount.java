@@ -81,7 +81,6 @@ public class MyAccount extends AppCompatActivity  {
 
         updated = isUpdated;
 
-        Toast.makeText(getApplicationContext(),""+updated,Toast.LENGTH_SHORT).show();
 
 
     }

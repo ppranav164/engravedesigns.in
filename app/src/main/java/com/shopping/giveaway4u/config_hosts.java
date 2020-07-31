@@ -158,5 +158,9 @@ public class config_hosts {
     public final String TrackOrder = hostname+"index.php?route=api/track&order_id=";
 
 
+    //Registration
+
+    public final String register = hostname+"index.php?route=api/registration";
+
 
 }

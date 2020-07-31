@@ -49,6 +49,9 @@ public class editAddress extends Fragment {
     SharedPreferences.Editor editor ;
 
 
+    String TAG = "editAddress";
+
+
     String getAddress = "";
 
     Button saveBtn;
@@ -164,15 +167,26 @@ public class editAddress extends Fragment {
             @Override
             public void getInfo(String data) {
 
+                Log.e(TAG + "178",data);
+
                 try {
 
                     JSONObject object = new JSONObject(data);
 
-                    JSONObject addresses = object.getJSONObject("addresses");
-
-                    setAddress(addresses);
-
-                    closeDialog();
+                   if (object.getString("addresses").equals("[]"))
+                   {
+                       closeDialog();
+                       Log.e("No address","[]");
+                       saveBtn.setEnabled(false);
+                       saveBtn.setAlpha(0.5f);
+                   }else
+                   {
+                       saveBtn.setEnabled(true);
+                       saveBtn.setAlpha(1);
+                       JSONObject addresses = object.getJSONObject("addresses");
+                       setAddress(addresses);
+                       closeDialog();
+                   }
 
                 }catch (Exception e)
                 {

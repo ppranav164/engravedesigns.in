@@ -46,7 +46,7 @@ public class CurencySettings extends AppCompatActivity {
 
         radioGroup = findViewById(R.id.radiogroupCurrency);
 
-        getSupportActionBar().setTitle("Currencies");
+        getSupportActionBar().setTitle("Countries");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getCurrencyData();

@@ -18,7 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -133,6 +135,14 @@ public class checkOut extends Fragment {
 
     private String coupon_string = "";
 
+    private Handler handler;
+
+    int size;
+
+
+    boolean isShippingMethodEnabled = false;
+    boolean isPaymentEnabled = false;
+    boolean isAddressChecked = false;
 
     public checkOut() {
         // Required empty public constructor
@@ -187,6 +197,7 @@ public class checkOut extends Fragment {
             setUpdatedShippingAddress();
             setUpdatedtBillingAddress();
 
+
         }else {
 
 
@@ -205,14 +216,17 @@ public class checkOut extends Fragment {
         getPaymentMethod();
         setPaymentMethod();
 
-        initializePayment();
-
 
         editTextLoader();
 
         loadcouponbox();
 
         showDeliveryeditable();
+
+        initializePayment();
+
+
+        size = defAddDel.getText().length();
 
     }
 
@@ -251,7 +265,6 @@ public class checkOut extends Fragment {
 
 
     }
-
 
 
 
@@ -332,6 +345,8 @@ public class checkOut extends Fragment {
 
                     defAddTv.setText(fname +" "+ lname + System.lineSeparator() + address1 + System.lineSeparator() + city + System.lineSeparator() + zone + System.lineSeparator() + country +System.lineSeparator() + "PIN : " + postcode  );
 
+
+
                 }catch (Exception e)
                 {
                     e.printStackTrace();
@@ -339,6 +354,9 @@ public class checkOut extends Fragment {
 
             }
         }).execute();
+
+
+
 
     }
 
@@ -376,6 +394,9 @@ public class checkOut extends Fragment {
                     String postcode = fields.getString("postcode");
 
                     defAddDel.setText(fname +" "+ lname + System.lineSeparator() + address1 + System.lineSeparator() + city + System.lineSeparator() + zone + System.lineSeparator() + country +System.lineSeparator() + "PIN : " + postcode  );
+
+
+
 
                 }catch (Exception e)
                 {
@@ -475,6 +496,25 @@ public class checkOut extends Fragment {
 
                 Log.e("shipping Address",data);
 
+                try {
+
+                    JSONObject jsonObject = new JSONObject(data);
+
+                    if (jsonObject.has("shipping"))
+                    {
+                        Toast.makeText(getContext(),"Please select or Create an address",Toast.LENGTH_SHORT).show();
+                        closeDialog();
+                    }
+
+                    closeDialog();
+
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+
             }
         }).execute();
 
@@ -497,8 +537,6 @@ public class checkOut extends Fragment {
         }).execute();
 
     }
-
-
 
 
 
@@ -551,6 +589,8 @@ public class checkOut extends Fragment {
                         paymentGroup.addView(radioButton[index]);
 
                         radioButton[1].setChecked(true);
+
+                        isPaymentEnabled = true;
 
                     }
 
@@ -714,6 +754,7 @@ public class checkOut extends Fragment {
 
                            options.add(code);
 
+                           isShippingMethodEnabled = true;
 
                     }
 
@@ -850,7 +891,6 @@ public class checkOut extends Fragment {
 
 
 
-
                     for (int i=0; i<productsa.length(); i++)
                     {
                         JSONObject loopsPro = productsa.getJSONObject(i);
@@ -882,6 +922,7 @@ public class checkOut extends Fragment {
 
                             optionslist.put("name",jsonObject.optString("name"));
                             optionslist.put("value",jsonObject.optString("value"));
+
                         }
 
 
@@ -891,10 +932,21 @@ public class checkOut extends Fragment {
 
                         JSONObject totalvaue = totalsArray.getJSONObject(lastindex);
 
+                        JSONObject totalvaueC = totalsArray.getJSONObject(lastindex);
+
+                        String val = totalvaueC.optString("total");
+
+                        Log.e("cost",val);
+
                         String totalvaues = totalvaue.getString("text");
 
+                        String amount = totalvaues.replaceAll("[^0-9]", "");
 
-                        breakupbutton.setText("Total :"+ totalvaues);
+                        breakupbutton.setText("Total :"+ totalvaues + System.lineSeparator() + "(INR "+val+")");
+
+                        userDataEditor.clear();
+                        userDataEditor.putString("cost",val);
+                        userDataEditor.apply();
 
                         closeDialog();
 
@@ -940,7 +992,7 @@ public class checkOut extends Fragment {
 
         //It will wipe off cookies that were made during in  checkout
 
-        //Use it to reset reset
+        //Use it to reset
 
         String successAPI = hosts.successOrder;
 
@@ -1016,22 +1068,42 @@ public class checkOut extends Fragment {
             @Override
             public void onClick(View v) {
 
+                confirmOrder();
 
                 View view = getView();
 
                 int value = paymentGroup.getCheckedRadioButtonId();
-
                 paymentOption = view.findViewById(value);
 
+                if (defAddDel.getText().length() < 1)
+                {
 
-                switch (paymentOption.getTag().toString())
+                    Toast.makeText(getContext(),"Please select address",Toast.LENGTH_SHORT).show();
+
+                }else if (isShippingMethodEnabled != true)
 
                 {
-                    case "cod" : reviewChckout();
-                    break;
+                    Toast.makeText(getContext(),"Not available for your location",Toast.LENGTH_SHORT).show();
 
-                    case "instamojo" : paymentGateway();
-                    break;
+                }else if (isPaymentEnabled != true)
+
+                {
+
+                    Toast.makeText(getContext(),"Cant proceed without payment",Toast.LENGTH_SHORT).show();
+
+                } else
+
+                {
+                    switch (paymentOption.getTag().toString())
+
+                    {
+                        case "cod" : reviewChckout();
+                            break;
+
+                        case "instamojo" : paymentGateway();
+                            break;
+
+                    }
 
                 }
 

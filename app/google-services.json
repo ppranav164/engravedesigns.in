@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "563575689510",
+    "firebase_url": "https://giveaway4u-f3034.firebaseio.com",
+    "project_id": "giveaway4u-f3034",
+    "storage_bucket": "giveaway4u-f3034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563575689510:android:06f67147ac62fc982871e7",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563575689510-vvv62uvc1r3k7lobc5o6gsr9lv1bohau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIRlP-YzJ9uX65acNRTEBtaILkWJTLJF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563575689510-vvv62uvc1r3k7lobc5o6gsr9lv1bohau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
