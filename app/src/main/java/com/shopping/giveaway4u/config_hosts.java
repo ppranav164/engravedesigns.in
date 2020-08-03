@@ -94,7 +94,7 @@ public class config_hosts {
 
 
     //Order Success
-    public final String successOrder = hostname+"index.php?route=checkout/success";
+    public final String successOrder = hostname+"index.php?route=api/success";
 
 
 
