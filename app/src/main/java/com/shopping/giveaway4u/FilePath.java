@@ -20,6 +20,8 @@ public class FilePath {
      * @param uri
      * @return path of the selected  file from directory
      */
+
+
     public static String getPath(final Context context, final Uri uri) {
 
         // check here to KITKAT or new version

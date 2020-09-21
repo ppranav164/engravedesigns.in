@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -49,6 +52,7 @@ public class AccountAddress extends Fragment {
     RelativeLayout[] layouts = new RelativeLayout[5];
     TextView[] infotext = new TextView[5];
     SharedPreferences.Editor editor ;
+    ImageButton[] delbutton = new ImageButton[5];
 
     private Handler handler;
 
@@ -56,6 +60,12 @@ public class AccountAddress extends Fragment {
     String getAddress = "";
     Button saveBtn;
     RelativeLayout relativeLayout;
+
+
+    config_hosts hosts = new config_hosts();
+    String URL_DELETE_ADDRESS = hosts.DeletepaymentAddress;
+    String WARNING = "";
+    String TAG = "AccountAddress";
 
 
 
@@ -213,6 +223,10 @@ public class AccountAddress extends Fragment {
 
         RelativeLayout.LayoutParams infoparam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+        RelativeLayout.LayoutParams delparam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        delparam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        delparam.setMargins(0,50,0,0);
 
         getAddress = defaddress;
 
@@ -260,6 +274,24 @@ public class AccountAddress extends Fragment {
                 layouts[index].setTag(address_id);
                 layouts[index].setClickable(true);
                 linearLayout.addView(layouts[index]);
+
+
+                delbutton[index] = new ImageButton(getContext());
+                delbutton[index].setTag(address_id);
+                delbutton[index].setImageResource(R.drawable.ic_delete);
+                delbutton[index].setBackgroundColor(getResources().getColor(R.color.white));
+                delbutton[index].setLayoutParams(delparam);
+                layouts[index].addView(delbutton[index]);
+
+
+
+                delbutton[index].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        deleteAddress(v);
+                    }
+                });
 
 
 
@@ -373,6 +405,47 @@ public class AccountAddress extends Fragment {
         });
 
     }
+
+
+
+
+
+    public void deleteAddress(final View view)
+    {
+        String deleteWhereId = view.getTag().toString();
+
+        Log.e("deleteWhereId",deleteWhereId);
+
+        String param = "address_id="+deleteWhereId;
+
+        new syncAsyncTask(getContext(), "POST", URL_DELETE_ADDRESS, param, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+                Log.e(TAG,object);
+                try {
+
+                    JSONObject jsonObject = new JSONObject(object);
+                    if (jsonObject.has("warning"))
+                    {
+                        WARNING = jsonObject.getString("warning");
+                        Snackbar.make(view,WARNING,Snackbar.LENGTH_SHORT).show();
+                    }else {
+
+                        linearLayout.removeAllViews();
+                        getPaymentAddress();
+                    }
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
+
+
+
+    }
+
 
 
     public void alert(String message,int duration)

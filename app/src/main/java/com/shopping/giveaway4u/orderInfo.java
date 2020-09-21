@@ -28,7 +28,7 @@ public class orderInfo extends AppCompatActivity {
 
     JSONArray summaryArray = null;
 
-    TextView ordersid,ordersDate,delAddress,orderstatus,headerCount;
+    TextView ordersid,ordersDate,delAddress,orderstatus,headerCount,paymentMethod;
     RecyclerView recyclerView,summrecyclerview;
 
     Dialog dialog;
@@ -54,6 +54,7 @@ public class orderInfo extends AppCompatActivity {
         headerCount = findViewById(R.id.headercounts);
         recyclerView = findViewById(R.id.inforecyclerview);
         summrecyclerview = findViewById(R.id.summaryrecyclerview);
+        paymentMethod = findViewById(R.id.pay_method);
 
         getOrderInfo();
     }
@@ -92,6 +93,7 @@ public class orderInfo extends AppCompatActivity {
            String STATUS = "";
            String ITEMS = "";
            String ADDRESS = object.getString("shipping_address");
+           String PAYMENT_METHOD = object.getString("payment_method");
 
            JSONArray getTrackInfo = object.getJSONArray("track");
            for (int i=0; i< getTrackInfo.length(); i++)
@@ -112,7 +114,7 @@ public class orderInfo extends AppCompatActivity {
            delAddress.setText(Html.fromHtml(ADDRESS));
            delAddress.setTextColor(getResources().getColor(R.color.black));
            headerCount.setText("PRODUCTS"+" ("+ITEMS+")"+" ITEMS");
-
+           paymentMethod.setText(PAYMENT_METHOD);
            summaryArray = object.getJSONArray("totals");
 
 
@@ -134,7 +136,7 @@ public class orderInfo extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         summrecyclerview.setAdapter(summaryAdapter);
 
-       closeDialog();
+        closeDialog();
 
     }
 

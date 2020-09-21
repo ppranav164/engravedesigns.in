@@ -14,7 +14,11 @@ public class syncSlideshow extends AsyncTask<String,String,String>
 {
 
 
-    String api = "http://192.168.1.108/index.php?route=api/slideshow";
+    config_hosts hosts = new config_hosts();
+
+
+
+    String api = hosts.SLIDER_IMAGE;
 
 
     private  slideshow sliders;

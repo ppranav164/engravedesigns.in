@@ -20,7 +20,9 @@ public class syncFeatured extends AsyncTask<String,String,String>
 {
 
 
-    String api = "http://192.168.1.108/index.php?route=api/featured";
+    config_hosts hosts = new config_hosts();
+
+    String api = hosts.FEATURED;
 
 
     private  featured myfeatures;

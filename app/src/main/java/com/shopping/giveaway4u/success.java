@@ -87,7 +87,6 @@ public class success extends Fragment {
         messageview.setText(message);
 
 
-
     }
 
     @Override

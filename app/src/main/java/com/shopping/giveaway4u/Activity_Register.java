@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,8 +19,11 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
@@ -48,6 +52,8 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
     CheckBox agreement;
 
     boolean error;
+
+    private ImageView loadingview;
 
 
     //Errors
@@ -80,12 +86,13 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         agreement = findViewById(R.id.reg_agree);
         ccl = findViewById(R.id.Cancel);
         waringTv = findViewById(R.id.reg_warning);
+        loadingview = findViewById(R.id.loadingview);
 
         regbutton.setOnClickListener(this);
         ccl.setOnClickListener(this);
         policybtn.setOnClickListener(this);
 
-        AGREE = agreement.isChecked();
+        AGREE = true;
 
     }
 
@@ -125,8 +132,10 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
         if (formVerify() != false)
         {
+            showLoading();
             registerUser();
         }
+
     }
 
 
@@ -170,24 +179,28 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                             waringTv.setText(object1.getString("error_warning"));
                             waringTv.setTextColor(getResources().getColor(R.color.red));
                             error = true;
+                            resume();
                         }
 
                         if (object1.getString("error_firstname").length() > 1) {
                             ERROR_FIRSTNAME = object1.getString("error_firstname");
                             fnmae.setError(ERROR_FIRSTNAME);
                             error = true;
+                            resume();
                         }
 
                         if (object1.getString("error_lastname").length() > 1) {
                             ERROR_LASTNAME = object1.getString("error_lastname");
                             lname.setError(ERROR_LASTNAME);
                             error = true;
+                            resume();
                         }
 
                         if (object1.getString("error_email").length() > 1) {
                             ERROR_EMAIL = object1.getString("error_email");
                             email.setError(ERROR_EMAIL);
                             error = true;
+                            resume();
                         }
 
 
@@ -195,18 +208,21 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                             ERROR_MOBILE = object1.getString("error_telephone");
                             mobileno.setError(ERROR_MOBILE);
                             error = true;
+                            resume();
                         }
 
                         if (object1.getString("error_password").length() > 1) {
                             ERROR_MOBILE = object1.getString("error_password");
                             password.setError(ERROR_PASSWORD);
                             error = true;
+                            resume();
                         }
 
                         if (object1.getString("error_confirm").length() > 1) {
                             ERROR_CONFIRM = object1.getString("error_confirm");
                             cpassword.setError(ERROR_CONFIRM);
                             error = true;
+                            resume();
                         }
 
                     }
@@ -215,6 +231,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                 }catch (Exception e)
                 {
                     e.printStackTrace();
+                    resume();
                 }
 
             }
@@ -238,14 +255,14 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (TextUtils.isEmpty(fnmae.getText().toString()))
         {
             fnmae.setError("First Name can't be empty");
-
+            resume();
             return false;
         }
 
         if (TextUtils.isEmpty(lname.getText().toString()))
         {
             lname.setError("Last Name can't be empty");
-
+            resume();
             return false;
         }
 
@@ -253,7 +270,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (TextUtils.isEmpty(lname.getText().toString()))
         {
             lname.setError("Last Name can't be empty");
-
+            resume();
             return false;
         }
 
@@ -261,6 +278,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (isValidEmail(email.getText().toString()) != true)
         {
             email.setError("Invalid Email Address");
+            resume();
             return false;
         }
 
@@ -268,6 +286,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (TextUtils.isEmpty(mobileno.getText().toString()))
         {
             mobileno.setError("Please Enter Mobile Number");
+            resume();
             return false;
         }
 
@@ -275,12 +294,14 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (TextUtils.isEmpty(password.getText().toString()))
         {
             password.setError("Please Enter Password");
+            resume();
             return false;
         }
 
         if (TextUtils.isEmpty(cpassword.getText().toString()))
         {
             cpassword.setError("Please Enter Confim Password");
+            resume();
             return false;
         }
 
@@ -292,6 +313,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (!cpasss.equals(pass))
         {
             cpassword.setError("Please confirm password");
+            resume();
             return  false;
         }
 
@@ -299,6 +321,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         if (agreement.isChecked() != true)
         {
             agreement.setError("You must agree to the privacy policy");
+            resume();
             return false;
         }
 
@@ -325,6 +348,20 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
     }
 
+
+    public void showLoading()
+    {
+        regbutton.setClickable(false);
+        loadingview.setVisibility(View.VISIBLE);
+        Glide.with(getApplicationContext()).asGif().load(R.drawable.loading).into(loadingview);
+    }
+
+
+    public void resume()
+    {
+        regbutton.setClickable(true);
+        loadingview.setVisibility(View.INVISIBLE);
+    }
 
 
 

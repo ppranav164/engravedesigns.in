@@ -15,7 +15,7 @@ public class syncPayment extends AsyncTask<String,String,String>
 {
 
 
-    config_hosts hosts;
+    config_hosts hosts = new config_hosts();
 
     private Context context;
 
@@ -24,15 +24,14 @@ public class syncPayment extends AsyncTask<String,String,String>
     info info;
 
 
-    String API_URL = "http://192.168.1.108/index.php?route=api/payment";
+    String API_URL = hosts.paymentAddress;
 
 
     public syncPayment(Context cxt, info info)
     {
 
         this.context = cxt;
-
-       this.info = info;
+        this.info = info;
 
     }
 

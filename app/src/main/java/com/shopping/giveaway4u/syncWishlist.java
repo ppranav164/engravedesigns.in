@@ -17,7 +17,7 @@ public class syncWishlist extends AsyncTask<String,String,String>
 {
 
 
-    config_hosts hosts;
+    config_hosts hosts = new config_hosts();
 
     private Context context;
 
@@ -25,7 +25,7 @@ public class syncWishlist extends AsyncTask<String,String,String>
 
 
 
-    String API_URL = "http://192.168.1.108/index.php?route=api/wishlist/add";
+    String API_URL = hosts.WISHLIST_ADD;
 
     public syncWishlist(Context cxt,int productId)
     {

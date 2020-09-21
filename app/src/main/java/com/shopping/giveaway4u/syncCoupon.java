@@ -35,7 +35,7 @@ public class syncCoupon extends AsyncTask<String,String,String>
 
     String param;
 
-    config_hosts hosts;
+    config_hosts hosts = new config_hosts();;
 
     message message;
 
@@ -43,7 +43,7 @@ public class syncCoupon extends AsyncTask<String,String,String>
     public syncCoupon(Context cxt, String code , message message)
     {
 
-        hosts = new config_hosts();
+
 
         this.context = cxt;
 
@@ -65,9 +65,6 @@ public class syncCoupon extends AsyncTask<String,String,String>
     protected void onPreExecute() {
 
         super.onPreExecute();
-
-
-
 
     }
 

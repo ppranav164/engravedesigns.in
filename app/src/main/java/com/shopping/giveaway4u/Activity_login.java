@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
@@ -28,11 +32,12 @@ public class Activity_login extends AppCompatActivity {
 
     private static  String password;
 
+    private ImageView loadingview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
 
 
         setContentView(R.layout.layout_login);
@@ -44,14 +49,14 @@ public class Activity_login extends AppCompatActivity {
 
         Pass = findViewById(R.id.Enpass);
 
+        loadingview = findViewById(R.id.loadingview);
+
         accCr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(),Activity_Register.class);
                 startActivity(intent);
-
-
             }
         });
 
@@ -68,9 +73,15 @@ public class Activity_login extends AppCompatActivity {
 
                 password = Pass.getText().toString();
 
+
+                Log.e("login",email+password);
+
+                showLoading();
+
                 new syncLogin(getApplicationContext(), new login() {
 
                     Boolean isLogged_in = false;
+
 
                     @Override
                     public void confirm(String message) {
@@ -101,7 +112,7 @@ public class Activity_login extends AppCompatActivity {
                               finish();
 
                           }else {
-
+                              restart();
                               Toast.makeText(getApplicationContext(),""+object.getString("warning"),Toast.LENGTH_LONG).show();
                           }
 
@@ -109,6 +120,12 @@ public class Activity_login extends AppCompatActivity {
                         }catch (Exception e)
                         {
                             e.printStackTrace();
+
+                            Log.e("login",e.toString());
+
+
+                            Toast.makeText(getApplicationContext(),"No internet connection please try again later",Toast.LENGTH_LONG).show();
+
                         }
 
                     }
@@ -123,6 +140,21 @@ public class Activity_login extends AppCompatActivity {
     }
 
 
+
+
+    public void showLoading()
+    {
+        loginB.setClickable(false);
+        loadingview.setVisibility(View.VISIBLE);
+        Glide.with(getApplicationContext()).asGif().load(R.drawable.loading).into(loadingview);
+    }
+
+
+    public void restart()
+    {
+        loginB.setClickable(true);
+        loadingview.setVisibility(View.INVISIBLE);
+    }
 
 
 

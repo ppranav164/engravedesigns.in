@@ -29,7 +29,7 @@ public class syncInformations extends Activity {
     {
 
 
-        config_hosts hosts;
+        config_hosts hosts = new config_hosts();
 
         private Context context;
 
@@ -38,7 +38,7 @@ public class syncInformations extends Activity {
         info info;
 
 
-        String API_URL = "http://192.168.1.108/index.php?route=api/counts";
+        String API_URL = hosts.COUNTS;
 
 
 

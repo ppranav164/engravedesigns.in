@@ -16,10 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -43,11 +46,19 @@ public class editAddress extends Fragment {
 
     LinearLayout linearLayout;
 
+    LinearLayout deliveryGroup;
+
     TextView[] textViews = new TextView[5];
     RelativeLayout[] layouts = new RelativeLayout[5];
+    ImageButton[] delbutton = new ImageButton[5];
     TextView[] infotext = new TextView[5];
     SharedPreferences.Editor editor ;
 
+    config_hosts hosts = new config_hosts();
+
+    String URL_DELETE_ADDRESS = hosts.DeletepaymentAddress;
+
+    String WARNING = "";
 
     String TAG = "editAddress";
 
@@ -121,7 +132,7 @@ public class editAddress extends Fragment {
 
         editor = getContext().getSharedPreferences("addresses",Context.MODE_PRIVATE).edit();
 
-
+        deliveryGroup = view.findViewById(R.id.deliveryGroup);
         linearLayout = view.findViewById(R.id.showaddress);
 
         saveBtn = view.findViewById(R.id.save);
@@ -216,6 +227,10 @@ public class editAddress extends Fragment {
 
         RelativeLayout.LayoutParams infoparam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+        RelativeLayout.LayoutParams delparam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        delparam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        delparam.setMargins(0,50,0,0);
 
         getAddress = defaddress;
 
@@ -264,6 +279,21 @@ public class editAddress extends Fragment {
                 layouts[index].setClickable(true);
                 linearLayout.addView(layouts[index]);
 
+
+                delbutton[index] = new ImageButton(getContext());
+                delbutton[index].setTag(address_id);
+                delbutton[index].setImageResource(R.drawable.ic_delete);
+                delbutton[index].setBackgroundColor(getResources().getColor(R.color.white));
+                delbutton[index].setLayoutParams(delparam);
+                layouts[index].addView(delbutton[index]);
+
+                delbutton[index].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        deleteAddress(v);
+                    }
+                });
 
 
 
@@ -328,6 +358,46 @@ public class editAddress extends Fragment {
         {
             e.printStackTrace();
         }
+
+    }
+
+
+
+    public void deleteAddress(final View view)
+    {
+       String deleteWhereId = view.getTag().toString();
+
+       Log.e("deleteWhereId",deleteWhereId);
+
+       String param = "address_id="+deleteWhereId;
+
+       new syncAsyncTask(getContext(), "POST", URL_DELETE_ADDRESS, param, new jsonObjects() {
+           @Override
+           public void getObjects(String object) {
+               Log.e(TAG,object);
+               try {
+
+                   JSONObject jsonObject = new JSONObject(object);
+                   if (jsonObject.has("warning"))
+                   {
+                       WARNING = jsonObject.getString("warning");
+
+                       Snackbar.make(view,WARNING,Snackbar.LENGTH_SHORT).show();
+
+                   }else {
+
+                       linearLayout.removeAllViews();
+                       getPaymentAddress();
+                   }
+
+               }catch (Exception e)
+               {
+                   e.printStackTrace();
+               }
+           }
+       }).execute();
+
+
 
     }
 

@@ -707,10 +707,10 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
             previewparam.setMargins(10,10,10,10);
 
 
-
-
-
             //dfilename.setText(fileName);
+
+
+
 
             codd = view.findViewById(R.id.codes);
 

@@ -15,7 +15,7 @@ public class syncLogin extends AsyncTask<String,String,String>
 {
 
 
-    config_hosts hosts;
+    config_hosts hosts = new config_hosts();
 
     private Context context;
 
@@ -25,7 +25,7 @@ public class syncLogin extends AsyncTask<String,String,String>
 
     private String password;
 
-    String API_URL = "http://192.168.1.108/index.php?route=api/signin";
+    String API_URL = hosts.login;
 
     public syncLogin(Context cxt, login mlogin , String memail, String mpassword)
     {

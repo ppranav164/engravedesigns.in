@@ -2,13 +2,15 @@ package com.shopping.giveaway4u;
 
 public class config_hosts {
 
-    public  final String hostname = "http://192.168.1.108/";
+    public  final String hostname = "https://engravedesigns.in/";
+
+    public final  String BASE_URL = "https://engravedesigns.in";
 
     public final String home = hostname+"index.php?route=api/home";
 
     public final String cart = hostname+"index.php?route=api/cart";
 
-    public final String wishlist = hostname+"index.php?route=api/wishlist/add";
+
 
     public final  String wishlist_remove = hostname+"index.php?route=api/wishlist&remove="; //GET METHOD
 
@@ -26,6 +28,33 @@ public class config_hosts {
 
     public  final String wishlist_rm = hostname+"index.php?route=api/wishlist&remove=";
 
+    public final String wishlist = hostname+"index.php?route=api/wishlist/add";
+
+    public final String WISHLIST_ADD = hostname+"index.php?route=api/wishlist/add";
+
+
+    //UPLOAD FILE
+    public final  String FILE_UPLOAD = hostname+"index.php?route=tool/upload";
+
+
+    //FEATURED
+    public  final String FEATURED = hostname+"index.php?route=api/featured";
+
+    //LATEST
+    public  final String LATEST = hostname+"index.php?route=api/latest";
+
+
+    //SERACH / FIND PRODUCT ESPECIALLY ON CART
+    public  final String FIND_PRODUCT = hostname+"index.php?route=api/product&product_id=";
+
+
+    //SLIDER IMAGE FRONT
+    public  final  String SLIDER_IMAGE = hostname+"index.php?route=api/slideshow";
+
+
+    //Notification Count
+    public  final String COUNTS = hostname+"index.php?route=api/counts";
+
 
 
     //CART
@@ -38,12 +67,15 @@ public class config_hosts {
 
 
     //coupon POST
-
-    public final String coupon = hostname+"index.php?route=extension/total/coupon/coupon";
+    public final String coupon = hostname+"index.php?route=api/coupon";
 
 
     //Payment Address
-    public final String billingAdress = hostname+"index.php?route=api/payment";
+    public final String paymentAddress = hostname+"index.php?route=api/payment";
+
+    //Delete Payment Address POST METHOD
+    public final String DeletepaymentAddress = hostname+"index.php?route=api/payment/delete";
+
 
 
     //Store Billing Address IN db
@@ -130,7 +162,6 @@ public class config_hosts {
 
 
 
-
     //Order Info
     public final String orderInfo = hostname+"index.php?route=api/orderinfo/info&order_id=";
 
@@ -141,6 +172,13 @@ public class config_hosts {
     public final String downloadimage = hostname+"index.php?route=api/preview/download";
 
 
+    //Review Submission //POST
+
+    public final String SUBMIT_FEEDBACK = hostname+"index.php?route=api/feedback/write";
+
+
+    //GET Product Details from ORDER_ID GET method &order_id=xxxx
+    public final String GET_PRODUCT_ID = hostname+"index.php?route=api/feedback";
 
 
     //Get Currency List GET
@@ -161,6 +199,21 @@ public class config_hosts {
     //Registration
 
     public final String register = hostname+"index.php?route=api/registration";
+
+
+    public final String notification = hostname+"index.php?route=api/notification";
+
+
+    //firebase store user instance_id // PARAM :  POST
+
+    public final  String FIREBASE_SEND_TOKEN_URL = hostname+"index.php?route=api/firebase";
+
+
+    //REMOVE FIREBASE INSTANCEID FROM SERVER : POST METHOD
+
+    public final  String REMOVE_FIREBASE = hostname+"index.php?route=api/cloudmessage/deleteToken";
+
+
 
 
 }

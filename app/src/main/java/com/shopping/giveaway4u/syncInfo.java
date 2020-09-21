@@ -22,7 +22,7 @@ public class syncInfo extends AsyncTask<String,String,String>
 {
 
 
-    config_hosts hosts;
+    config_hosts hosts = new config_hosts();
 
     private Context context;
 
@@ -31,7 +31,7 @@ public class syncInfo extends AsyncTask<String,String,String>
     info info;
 
 
-    String API_URL = "http://192.168.1.108/index.php?route=api/counts";
+    String API_URL = hosts.COUNTS;
 
     public syncInfo(Context cxt , info info)
     {

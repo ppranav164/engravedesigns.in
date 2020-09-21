@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class slide_adapter extends PagerAdapter {
 
@@ -79,12 +82,19 @@ public class slide_adapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         final ImageView imageView = new ImageView(context);
 
+        imageView.setElevation(2);
+
+        imageView.setLayoutParams(params);
+
         imageView.setTag(productId.get(position));
 
-        Picasso.get().load(urlist.get(position)).into(imageView);
+        //Picasso.get().load(urlist.get(position)).into(imageView);
+
+        Picasso.get().load(urlist.get(position)).transform(new RoundedCornersTransformation(5,5)).into(imageView);
 
         ((ViewPager) container).addView(imageView,0);
 

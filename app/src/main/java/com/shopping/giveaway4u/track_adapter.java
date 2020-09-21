@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -111,15 +112,16 @@ public class track_adapter extends RecyclerView.Adapter <track_adapter.MyViewHol
 
         return dateArray.size();
 
-
     }
-
 
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder
 
     {
+
+
+      public TimelineView timelineView;
 
       TextView dateTv,statusTv,messageTv;
 
@@ -135,6 +137,8 @@ public class track_adapter extends RecyclerView.Adapter <track_adapter.MyViewHol
             messageTv = itemView.findViewById(R.id.track_message);
             iconStatus = itemView.findViewById(R.id.track_icon);
             trackEnd = itemView.findViewById(R.id.track_end);
+
+
         }
 
 

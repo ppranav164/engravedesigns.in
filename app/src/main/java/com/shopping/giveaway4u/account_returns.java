@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,10 +91,15 @@ public class account_returns extends Fragment {
                 Log.e("returns",object);
 
                 try {
-
                     JSONObject objects = new JSONObject(object);
-                    JSONArray jsonArray = objects.getJSONArray("returns");
-                    setJsonArrays(jsonArray);
+                    if (!objects.getJSONArray("returns").equals("[]"))
+                    {
+                        JSONArray jsonArray = objects.getJSONArray("returns");
+                        setJsonArrays(jsonArray);
+                    }else {
+
+                        Toast.makeText(getContext(),"Not records found",Toast.LENGTH_SHORT).show();
+                    }
                 }catch (Exception e)
                 {
                     e.printStackTrace();

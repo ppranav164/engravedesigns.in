@@ -69,6 +69,8 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
     ArrayList<String> images = new ArrayList<>();
 
+    ArrayList<Boolean> isReviewed = new ArrayList<>();
+
     JSONArray thumblink;
 
     public recycleradapter_orders(Context context, JSONArray mdata)
@@ -89,9 +91,10 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
               String price = object.getString("total");
               String name = object.getString("name");
 
+              boolean reviewed = object.getBoolean("isreviewed");
+
               images.add(object.getJSONArray("images").toString());
 
-//              String ida = object.getString("product_id");
 
 //              String images = object.getString("image");
 //              String branddetail = object.getString("brand");
@@ -101,9 +104,8 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
               stock_avl.add(stock);
               price_tag.add(price);
               product_name.add(name);
+              isReviewed.add(reviewed);
 
-
-//              prod_id.add(ida);
 //              thumbnails.add(images);
 //              brand.add(branddetail);
 
@@ -146,6 +148,29 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
         holder.stockTv.setText(stock_avl.get(pos));
 
         holder.priceTv.setText(price_tag.get(pos));
+
+        holder.reviewBtn.setTag(orderId.get(pos));
+
+
+        if (isReviewed.get(pos) == true)
+        {
+            holder.reviewBtn.setText("View Feedback");
+            holder.reviewBtn.setBackground(ctx.getDrawable(R.drawable.dusk_button));
+
+        }else {
+
+            holder.reviewBtn.setClickable(true);
+        }
+
+        if (stock_avl.get(pos).equals("Complete"))
+        {
+            holder.reviewBtn.setVisibility(View.VISIBLE);
+
+        }else {
+
+            holder.reviewBtn.setVisibility(View.INVISIBLE);
+        }
+
 
         //Picasso.get().load(thumbnails.get(pos)).into(holder.imageView);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -194,7 +219,7 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
                 String orderIds = orderId.get(holder.getAdapterPosition());
                 String orderDate = dateOfOrder.get(holder.getAdapterPosition());
 
-                Intent intent = new Intent(ctx,TrackPackage.class);
+                Intent intent = new Intent(ctx,TrackStepper.class);
                 intent.putExtra("order_id",orderIds);
                 intent.putExtra("order_date",orderDate);
                 ctx.startActivity(intent);
@@ -203,8 +228,43 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
         });
 
 
+
+
+
+        holder.reviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                int position = holder.getAdapterPosition();
+
+                boolean isReview = isReviewed.get(position);
+                String ORDER_ID = v.getTag().toString();
+                Intent intent = new Intent(ctx,ReviewOrder.class);
+                intent.putExtra("order_id",ORDER_ID);
+
+                if (isReview == true)
+                {
+
+                   openReviews();
+
+                }else {
+
+                    ctx.startActivity(intent);
+                }
+
+            }
+        });
+
+
     }
 
+
+    public void openReviews()
+    {
+
+        ctx.startActivity(new Intent(ctx,customer_reviews.class));
+    }
 
 
 
@@ -230,7 +290,7 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
 
         LinearLayout linearLayout; LinearLayout relativeLayout;
 
-        Button trackButton;
+        Button trackButton,reviewBtn;
 
 
 
@@ -261,6 +321,8 @@ public class recycleradapter_orders extends RecyclerView.Adapter <recycleradapte
             relativeLayout = itemView.findViewById(R.id.productImageshow);
 
             trackButton = itemView.findViewById(R.id.track);
+
+            reviewBtn = itemView.findViewById(R.id.revieworder);
 
         }
 

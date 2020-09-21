@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/fragment_title_padding_10"
+    android:orientation="vertical"
+    android:id="@+id/container_feedback"
+    tools:context=".ReviewOrder">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/reviewimage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+
+        <TextView
+            android:id="@+id/reviewDesc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:padding="@dimen/fragment_title_padding_10"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="@dimen/fragment_title_padding_10"
+            android:text="How would you like to rate this product?"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingbutton"
+            android:layout_below="@id/comment"
+            android:theme="@style/RatingBar"
+            android:stepSize="1"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.AppCompat.RatingBar"
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/checkbox_identitiy"
+            android:text="Send as Anonymous"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:id="@+id/reviewcomment"
+            android:hint="Comment"
+            android:lines="8"
+            android:maxLines="10"
+            android:minLines="6"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <Button
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Send"
+          android:background="@color/duskYellow"
+          android:id="@+id/sendreview"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

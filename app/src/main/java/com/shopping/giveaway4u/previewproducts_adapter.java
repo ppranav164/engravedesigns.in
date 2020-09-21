@@ -49,7 +49,10 @@ public class previewproducts_adapter extends RecyclerView.Adapter <previewproduc
     public void onBindViewHolder(final MyViewHolder holder, int pos) {
 
 
-        Picasso.get().load(array.get(pos)).into( holder.imageView);
+      if (array.get(pos) != null)
+      {
+          Picasso.get().load(array.get(pos)).into( holder.imageView);
+      }
 
     }
 

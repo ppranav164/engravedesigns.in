@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,6 +48,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity
 
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -72,9 +75,14 @@ public class MainActivity extends AppCompatActivity
 
     String TAG = "Mainactivity";
 
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        onNewIntent(getIntent());
 
 
         dialog = new Dialog(this); // Context, this, etc.
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                         String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, msg);
 
-                        fbToken.putString("token",msg);
+                        fbToken.putString("fbstring",token);
                         fbToken.apply();
                     }
                 });
@@ -113,6 +121,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
 
         getDetails();
+
+        SharedPreferences tokens = getSharedPreferences("firebase",MODE_PRIVATE);
+
+        boolean isUpdated = tokens.getBoolean("isUpdated",false);
+
+         if (tokens.getString("refreshed",null) != null && !isUpdated)
+         {
+             String token = tokens.getString("refreshed",null);
+             sendRegistrationToServer(token);
+         }
+
 
         if (getIntent().getStringExtra("orders") != null)
         {
@@ -221,6 +240,38 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void sendRegistrationToServer(String token) {
+
+        String param = "gcm="+token;
+        String URL = hosts.FIREBASE_SEND_TOKEN_URL;
+        fbToken.putString("fbstring",token);
+        fbToken.putBoolean("isUpdated",true);
+        fbToken.apply();
+        new syncAsyncTask(getApplicationContext(), "POST",URL,param, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+                Log.w("UPDATE_GCM to server",object);
+            }
+        }).execute();
+
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Bundle extras = intent.getExtras();
+
+        if (extras != null)
+        {
+            String notify = extras.getString("product_id","null");
+
+            Log.e("GCMalert",notify);
+
+        }
+
+    }
 
 
     public void openDialog() {
@@ -257,7 +308,8 @@ public class MainActivity extends AppCompatActivity
                    loadinglayout.setVisibility(View.INVISIBLE);
                    FragmentManager manager = getSupportFragmentManager();
                    FragmentTransaction transaction = manager.beginTransaction();
-                   transaction.replace(R.id.mainframeL,new ERROR("Connection Failed , Please Try again later"));
+                   transaction.replace(R.id.mainframeL,new CONNECTION_FAILED());
+                   transaction.addToBackStack(null);
                    transaction.commit();
 
                 }else {
@@ -478,19 +530,17 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         } else if (id == R.id.logout) {
             Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
-            SharedPreferences.Editor preferences = getSharedPreferences("cookie",MODE_PRIVATE).edit();
-            SharedPreferences.Editor addrepref =   getSharedPreferences("addresses",MODE_PRIVATE).edit();
 
-            preferences.putString("token","null");
-            preferences.putBoolean("logged_in",false);
-            preferences.apply();
 
-            addrepref.putString("address_id",null);
-            addrepref.apply();
+
+            clearFirebaseInstancecId();
+            deleteInstanceIdFromServer();
+
 
             Intent intent = new Intent(getApplicationContext(),Activity_login.class);
             startActivity(intent);
             finish();
+
         }else if (id == R.id.nav_orders){
 
             Fragment fragment = new orders();
@@ -517,6 +567,61 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void clearFirebaseInstancecId()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    public void deleteInstanceIdFromServer()
+    {
+        String url = hosts.REMOVE_FIREBASE;
+
+        SharedPreferences tokensSelector = getSharedPreferences("firebase",MODE_PRIVATE);
+
+        String token = tokensSelector.getString("fbstring",null);
+
+        String param = "token="+token;
+
+        Log.e("ctoken",token);
+
+        new syncAsyncTask(getApplicationContext(), "POST", url, param, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+
+                Log.e("removeToken",object);
+
+                fbToken.clear();
+                fbToken.putBoolean("isUpdated",false);
+                fbToken.apply();
+
+                SharedPreferences.Editor preferences = getSharedPreferences("cookie",MODE_PRIVATE).edit();
+                SharedPreferences.Editor addrepref =   getSharedPreferences("addresses",MODE_PRIVATE).edit();
+
+                preferences.putString("token","null");
+                preferences.putBoolean("logged_in",false);
+                preferences.apply();
+
+                addrepref.putString("address_id",null);
+                addrepref.apply();
+
+            }
+        }).execute();
+
+
+
     }
 
 

@@ -172,24 +172,25 @@
                              android:gravity="center">
 
                              <TextView
-                                 android:layout_width="wrap_content"
+                                 android:gravity="right"
+                                 android:layout_weight="1.0"
+                                 android:layout_width="match_parent"
                                  android:layout_height="wrap_content"
                                  android:text="Have a coupon code? "/>
                              <TextView
                                  android:id="@+id/entercoupon"
                                  android:layout_marginLeft="10dp"
-                                 android:layout_width="wrap_content"
+                                 android:layout_width="match_parent"
                                  android:layout_height="wrap_content"
                                  android:textColor="@color/darkbl"
                                  android:clickable="true"
                                  android:focusable="true"
+                                 android:layout_weight="1.0"
                                  android:text="Enter here"/>
 
                          </LinearLayout>
 
                      </LinearLayout>
-
-
 
                  </LinearLayout>
 
@@ -203,17 +204,50 @@
                      android:background="@color/white"
                      android:padding="10dp">
 
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:id="@+id/iconAlert"
-                         />
                      <TextView
                          android:id="@+id/messagealert"
-                         android:layout_width="wrap_content"
+                         android:layout_width="match_parent"
                          android:layout_height="wrap_content"
+                         android:gravity="center_horizontal"
                          android:paddingTop="2dp"
                          />
+
+                 </LinearLayout>
+
+
+                 <LinearLayout
+                     android:orientation="horizontal"
+                     android:layout_below="@id/messageview"
+                     android:id="@+id/scratchcard"
+                     android:background="@color/white"
+                     android:gravity="center_horizontal"
+                     android:layout_width="match_parent"
+                     android:padding="@dimen/dimen_10dp"
+                     android:visibility="invisible"
+                     android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:background="@drawable/dashed_border"
+                        android:id="@+id/coupon_card"
+                        android:padding="@dimen/dimen_10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/couponcode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                     <ImageButton
+                         android:layout_margin="@dimen/dimen_4dp"
+                         android:layout_marginTop="10dp"
+                         android:background="@color/transparent"
+                         android:src="@drawable/ic_delete"
+                         android:layout_gravity="top|left"
+                         android:id="@+id/deleteCoupon"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"/>
+
                  </LinearLayout>
 
 

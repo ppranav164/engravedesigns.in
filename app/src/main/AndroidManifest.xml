@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -20,13 +21,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
+        <activity android:name=".customer_reviews"></activity>
+        <activity android:name=".ReviewOrder" />
+        <activity
+            android:name=".TrackStepper"
+            android:theme="@style/Trackertheme" />
 
         <service android:name=".GettingDeviceTokenService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".FirebaseCloudService"
             android:exported="false">
@@ -35,7 +40,6 @@
             </intent-filter>
         </service>
 
-
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
@@ -43,12 +47,9 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
-
-
-        <activity android:name=".PrivacyPolicy"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-            ></activity>
-
+        <activity
+            android:name=".PrivacyPolicy"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name=".TrackPackage" />
         <activity android:name=".CurencySettings" />
         <activity
@@ -76,7 +77,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity_login"
-            android:theme="@style/Theme.Design.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

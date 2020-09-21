@@ -13,6 +13,25 @@
         android:id="@+id/webview_layout">
     </WebView>
 
+    <Button
+        android:id="@+id/donebtn"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/darkbl"
+        android:textColor="@color/white"
+        android:text="Done"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/alertBox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+
 
 
 

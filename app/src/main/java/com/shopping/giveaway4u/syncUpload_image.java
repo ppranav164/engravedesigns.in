@@ -61,7 +61,10 @@ public class syncUpload_image extends AsyncTask<String,String,String>
     upload upload;
 
 
-    String SERVER_URL = "http://192.168.1.108/index.php?route=tool/upload";
+    config_hosts hosts = new config_hosts();
+
+
+    String SERVER_URL = hosts.FILE_UPLOAD;
 
     public syncUpload_image(Context cxt, Uri sourceUri, upload upload)
     {
@@ -74,8 +77,7 @@ public class syncUpload_image extends AsyncTask<String,String,String>
 
         selectedFilePath = FilePath.getPath(context,sourceURI);
 
-        Toast.makeText(context,"Loaction is "+selectedFilePath,Toast.LENGTH_SHORT).show();
-
+        Log.e("PATH",selectedFilePath);
     }
 
 

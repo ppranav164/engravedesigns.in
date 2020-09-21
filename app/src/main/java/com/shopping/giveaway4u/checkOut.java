@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -112,6 +113,7 @@ public class checkOut extends Fragment {
 
 
     SharedPreferences.Editor userDataEditor;
+    SharedPreferences.Editor clearSuccess;
 
     Map<String,String> optionslist = new HashMap<>();
 
@@ -143,6 +145,10 @@ public class checkOut extends Fragment {
     boolean isShippingMethodEnabled = false;
     boolean isPaymentEnabled = false;
     boolean isAddressChecked = false;
+
+    ImageButton deleteCoupon;
+    LinearLayout couponLayout;
+    TextView couponCode;
 
     public checkOut() {
         // Required empty public constructor
@@ -182,13 +188,25 @@ public class checkOut extends Fragment {
 
         enterCoupons = view.findViewById(R.id.entercoupon);
 
-        iconview = view.findViewById(R.id.iconAlert);
-
         defAddDel = view.findViewById(R.id.defaultAddressTextDel);
 
         deliveryGroup = view.findViewById(R.id.deliveryGroup);
 
+        couponLayout = view.findViewById(R.id.scratchcard);
+        deleteCoupon = view.findViewById(R.id.deleteCoupon);
+        couponCode = view.findViewById(R.id.couponcode);
+
         userDataEditor = userDataEditor = getContext().getSharedPreferences("user_data",Context.MODE_PRIVATE).edit();
+
+
+        deleteCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openDialog();
+                removeCoupon();
+            }
+        });
 
 
         if (isUpdated == true)
@@ -1001,11 +1019,8 @@ public class checkOut extends Fragment {
             public void getInfo(String data) {
 
                 Log.e("Order Success",data);
-
                 FragmentManager manager = getFragmentManager();
-
                 FragmentTransaction transaction = manager.beginTransaction();
-
                 transaction.replace(R.id.mainframeL,new success("Thank you for purchasing with us you will receive a confirmation message")).commit();
 
             }
@@ -1100,7 +1115,7 @@ public class checkOut extends Fragment {
                         case "cod" : reviewChckout();
                             break;
 
-                        case "instamojo" : paymentGateway();
+                        case "instamojo" : instaMojoGateway();
                             break;
 
                     }
@@ -1167,6 +1182,26 @@ public class checkOut extends Fragment {
 
 
     }
+
+
+    public void instaMojoGateway()
+
+    {
+
+        Intent intent = new Intent(getContext(),instamojo.class);
+
+        intent.putExtra("cart_order_id",orderId);
+
+        clearSuccess = getContext().getSharedPreferences("VERIFY_ORDER",Context.MODE_PRIVATE).edit();
+        clearSuccess.clear();
+        clearSuccess.commit();
+
+        startActivity(intent);
+
+
+    }
+
+
 
 
 
@@ -1238,13 +1273,14 @@ public class checkOut extends Fragment {
     public void entercoupons(final String code)
     {
 
+        clearPreviousAttempts();
 
         new syncCoupon(getContext(), code, new message() {
             @Override
             public void setMessage(String message) {
 
-                setMessages(message);
-
+                setMessages(message,code);
+                closeDialog();
                 confirmOrder();
 
             }
@@ -1253,7 +1289,40 @@ public class checkOut extends Fragment {
     }
 
 
-    public void setMessages(String data)
+
+    public void removeCoupon()
+    {
+
+        clearPreviousAttempts();
+
+        new syncCoupon(getContext(), "", new message() {
+            @Override
+            public void setMessage(String message) {
+
+                Log.e("checkout","Deleting Coupon");
+                confirmOrder();
+                try {
+                    JSONObject mess = new JSONObject(message);
+                    if (mess.has("error"))
+                    {
+                        Log.e("checkout",message);
+                        clearPreviousAttempts();
+                        confirmOrder();
+                        closeDialog();
+                    }
+
+                }catch (Exception e)
+                {
+                    clearPreviousAttempts();
+                }
+
+            }
+        }).execute();
+
+    }
+
+
+    public void setMessages(String data , String code)
 
     {
 
@@ -1270,14 +1339,18 @@ public class checkOut extends Fragment {
             JSONObject mess = new JSONObject(data);
 
 
-            if (mess.has("redirect"))
+            if (mess.has("success"))
             {
 
 
-                iconview.setImageResource(R.drawable.ic_done);
 
-                alertbox.setText("Your coupon discount has been applied!");
+                String message = mess.getString("success");
+
+                alertbox.setText(message);
                 alertbox.setTextColor(Color.parseColor("#00e348"));
+
+                couponLayout.setVisibility(View.VISIBLE);
+                couponCode.setText("Coupon Code : "+ code);
 
             }
 
@@ -1285,7 +1358,7 @@ public class checkOut extends Fragment {
             {
 
                 String error = mess.getString("error");
-                iconview.setImageResource(R.drawable.ic_error_black_24dp);
+
                 alertbox.setText(error);
                 alertbox.setTextColor(Color.parseColor("#eb0000"));
             }
@@ -1294,7 +1367,7 @@ public class checkOut extends Fragment {
 
         }catch (Exception e)
         {
-
+            clearPreviousAttempts();
         }
 
         new sync_get_cart(getContext(), new cart() {
@@ -1312,6 +1385,15 @@ public class checkOut extends Fragment {
         }).execute();
 
 
+
+    }
+
+
+    public void clearPreviousAttempts()
+    {
+        couponLayout.setVisibility(View.INVISIBLE);
+        couponCode.setText(null);
+        alertbox.setText(null);
 
     }
 
@@ -1379,6 +1461,7 @@ public class checkOut extends Fragment {
                 coupon_string = input.getText().toString();
 
                 entercoupons(coupon_string);
+                openDialog();
 
             }
         });

@@ -99,6 +99,19 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:gravity="center"
+        android:layout_below="@id/butnsL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/loadingview"
+            android:visibility="invisible"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"

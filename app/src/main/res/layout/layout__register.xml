@@ -133,6 +133,8 @@
             </LinearLayout>
 
 
+
+
             <LinearLayout
                 android:id="@+id/policy"
                 android:orientation="horizontal"
@@ -160,38 +162,52 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/loadingwrapper"
+                android:gravity="center"
+                android:layout_below="@id/policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/loadingview"
+                    android:visibility="invisible"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+
 
             <LinearLayout
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_below="@id/policy"
+                android:layout_below="@id/loadingwrapper"
                 android:layout_centerHorizontal="true"
-                android:gravity="right"
-                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
                 android:id="@+id/butnsL"
                 >
 
+                <Button
+                    android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Cancel"
+                    android:text="Cancel"
+                    android:background="@drawable/shapedesign_can"
+                    android:textColor="@color/cardview_dark_background"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/reg_signup"
                     android:text="Sign Up"
-                    android:layout_marginTop="14dp"
                     android:background="@drawable/shapedesign_bg"
                     android:textColor="@color/white"
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Cancel"
-                    android:text="Cancel"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/shapedesign_can"
-                    android:textColor="@color/cardview_dark_background"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/dimen_8dp"
                     />
 
 

@@ -15,7 +15,7 @@ public class sync_get_cart extends AsyncTask<String,String,String>
 {
 
 
-    config_hosts hosts;
+    config_hosts hosts = new config_hosts();
 
     private Context context;
 
@@ -25,7 +25,9 @@ public class sync_get_cart extends AsyncTask<String,String,String>
 
 
 
-    String API_URL = "http://192.168.1.108/index.php?route=api/cart";
+    //String API_URL = "http://192.168.1.108/index.php?route=api/cart";
+
+    String API_URL = hosts.cart;
 
     public sync_get_cart(Context cxt , cart cart)
     {

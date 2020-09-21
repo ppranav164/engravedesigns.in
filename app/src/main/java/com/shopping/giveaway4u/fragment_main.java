@@ -1,6 +1,7 @@
 package com.shopping.giveaway4u;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,14 +9,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,8 +61,12 @@ public class fragment_main extends Fragment {
 
      private Runnable runnable;
 
+     private boolean connected = false;
+
 
     ViewPager pager;
+
+    SliderView sliderView;
 
     JSONArray sliderstotal;
 
@@ -66,6 +78,9 @@ public class fragment_main extends Fragment {
 
     ArrayList<String> wishlist_products = new ArrayList<>();
 
+    LinearLayout featuredHeader;
+
+    LinearLayout latestHeader;
 
     public fragment_main() {
         // Required empty public constructor
@@ -110,12 +125,57 @@ public class fragment_main extends Fragment {
 
         View view = getView();
 
+        checkInternet();
 
         loadData();
 
+    }
 
 
 
+    public void checkInternet()
+    {
+        new CHECK_CONNECTION(getContext(), "GET", null, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+
+                if (object.equals("error"))
+                {
+                    FragmentManager manager = getFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.mainframeL,new CONNECTION_FAILED());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isConnected(false);
+                    connected = false;
+                }
+            }
+        }).execute();
+    }
+
+
+
+
+
+    public void checkCoonection()
+    {
+
+        new syncInfo(getContext(), new info() {
+            @Override
+            public void getInfo(String data) {
+
+
+
+
+            }
+        }).execute();
+
+    }
+
+
+    public boolean isConnected(boolean isCon)
+    {
+        return isCon;
     }
 
 
@@ -235,42 +295,15 @@ public class fragment_main extends Fragment {
 
         if (view !=null)
         {
-            pager = view.findViewById(R.id.slider);
 
-            pager.setAdapter(new slide_adapter(getContext(),array));
-
-            pager.setPageTransformer(true,new DepthPageTransformer());
-
-            handler = new Handler();
-
-
-
-            final int maximum = array.length() - 1;
-
-            handler.postDelayed(new Runnable() {
-
-                int count= 0;
-
-                @Override
-                public void run() {
-
-                    count++;
-
-                    pager.setCurrentItem(count);
-                    if (count > maximum)
-                    {
-                        count = 0;
-
-                        pager.setCurrentItem(0);
-                    }
-
-                    handler.postDelayed(this,4000);
-
-
-                }
-            },4000);
-
-
+            sliderView = view.findViewById(R.id.imageSlider);
+            sliderView.setSliderAdapter(new SliderAdapterExample(getContext(),array));
+            sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+            sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+            sliderView.setIndicatorSelectedColor(Color.WHITE);
+            sliderView.setIndicatorUnselectedColor(Color.GRAY);
+            sliderView.setScrollTimeInSec(4); //set scroll delay in seconds :
+            sliderView.startAutoCycle();
 
         }
 
@@ -307,20 +340,32 @@ public class fragment_main extends Fragment {
     public void getFeturedData(String info)
     {
 
+        int size = info.length();
 
-        try {
+        Log.e("featured",String.valueOf(size));
 
-            JSONObject object = new JSONObject(info);
-
-            JSONArray array = object.getJSONArray("products");
-
-            setFeaturedInfo(array);
-
-
-        }catch (Exception e)
+        if (size == 0)
         {
-            e.printStackTrace();
+            featuredHeader.setVisibility(View.GONE);
+        }else {
+
+            try {
+
+                JSONObject object = new JSONObject(info);
+
+
+                JSONArray array = object.getJSONArray("products");
+
+                setFeaturedInfo(array);
+
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
+
 
 
 
@@ -334,6 +379,11 @@ public class fragment_main extends Fragment {
     {
 
         View view = getView();
+
+        if (array.length() > 0)
+        {
+            latestHeader.setVisibility(View.VISIBLE);
+        }
 
         recyclerView  =  view.findViewById(R.id.latest_recyclerview);
 
@@ -398,8 +448,13 @@ public class fragment_main extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_layout_main, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_layout_main, container, false);
+
+        featuredHeader = view.findViewById(R.id.headL);
+        latestHeader = view.findViewById(R.id.latestText);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
