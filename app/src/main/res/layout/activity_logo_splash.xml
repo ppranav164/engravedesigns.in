@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkbl"
+    android:background="@color/white"
     tools:context=".logo_splash">
 
 
@@ -15,12 +15,33 @@
         android:layout_height="wrap_content"
         android:src="@drawable/logosplash"/>
 
+
+    <TextView
+        android:id="@+id/logotext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_22sp"
+        android:text="Engravedesigns"/>
+
     <ImageView
         android:id="@+id/loading"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_below="@+id/logo"
+        android:layout_below="@+id/logotext"
         android:layout_centerInParent="true"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dimen_50dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/black"
+        android:text="Powered by Engravedesigns"/>
 
 </RelativeLayout>

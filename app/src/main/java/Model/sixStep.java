@@ -3,7 +3,7 @@ package Model;
 import android.view.View;
 import android.widget.TextView;
 
-import com.shopping.giveaway4u.R;
+import com.shopping.engravedesigns.R;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 

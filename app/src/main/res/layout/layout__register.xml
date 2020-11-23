@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity_Register"
-    android:background="@color/darkbl">
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,9 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/logo"
+                android:src="@drawable/logosplash"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="90dp"
                 android:id="@+id/logo"/>
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="Create an Account"
                 android:layout_below="@id/logo"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
                 android:textSize="30dp"
                 android:id="@+id/ltext"/>
@@ -147,41 +147,35 @@
                 <CheckBox
                     android:id="@+id/reg_agree"
                     android:gravity="center_vertical"
-                    android:buttonTint="@color/white"
+                    android:buttonTint="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:clickable="true"
                     android:id="@+id/reg_policy"
-                    android:text="I have read and agree to the privacy plicy"/>
+                    android:text="I have read and agree to the privacy policy"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/loadingwrapper"
                 android:gravity="center"
                 android:layout_below="@id/policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/loadingview"
-                    android:visibility="invisible"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"/>
+
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_below="@id/loadingwrapper"
                 android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
@@ -198,6 +192,7 @@
                     android:background="@drawable/shapedesign_can"
                     android:textColor="@color/cardview_dark_background"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:padding="@dimen/dimen_10dp"
                     />
 
                 <Button
@@ -210,7 +205,21 @@
                     android:layout_marginLeft="@dimen/dimen_8dp"
                     />
 
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/loadingwrapper2"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_below="@id/butnsL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/loadingview"
+                    android:visibility="invisible"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
         </RelativeLayout>

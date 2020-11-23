@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Procceed to Checkout"
-        android:background="@color/darkbl"
+        android:background="@color/black"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
         />

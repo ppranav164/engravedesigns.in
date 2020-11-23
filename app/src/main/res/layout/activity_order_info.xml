@@ -81,7 +81,7 @@
                        android:id="@+id/header"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="DELIVER TO"/>
+                       android:text="Billing Address"/>
 
                    <TextView
                        android:layout_below="@id/header"

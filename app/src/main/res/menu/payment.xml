@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home_back"
+        android:title="Home"
+        android:icon="@drawable/cart"
+        app:actionLayout="@layout/home_btn"
+        app:showAsAction="always"
+        android:orderInCategory="1"/>
+
+</menu>

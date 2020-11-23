@@ -46,7 +46,7 @@
                              android:layout_marginLeft="5dp"
                              android:layout_width="match_parent"
                              android:layout_height="wrap_content"
-                             android:text="Delivery Address" />
+                             android:text="Billing Address" />
                      </LinearLayout>
 
                      <LinearLayout
@@ -89,6 +89,7 @@
                  android:layout_marginTop="5dp"
                  android:gravity="left"
                  android:padding="10dp"
+                 android:visibility="gone"
                  android:orientation="horizontal">
 
                  <TextView
@@ -119,6 +120,7 @@
                  android:gravity="left"
                  android:orientation="horizontal"
                  android:padding="10dp"
+                 android:visibility="gone"
                  android:background="@color/white">
 
                  <TextView
@@ -276,14 +278,15 @@
             android:textColor="@color/payumoney_black"
             android:layout_weight="1.0"
             android:text="Loading..."
+            android:clickable="false"
             />
         <Button
             android:id="@+id/startPay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm"
-            android:background="@color/darkbl"
-            android:textColor="@color/white"
+            android:background="@color/duskYellow"
+            android:textColor="@color/black"
             android:layout_weight="1.0"
             />
     </LinearLayout>

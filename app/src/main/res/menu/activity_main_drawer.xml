@@ -13,12 +13,6 @@
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_home"
                 android:title="Home" />
-
-            <item
-                android:id="@+id/cat"
-                android:icon="@drawable/menu_account"
-                android:title="T-Shirt Printing" />
-
         </menu>
     </item>
 
@@ -41,13 +35,18 @@
                 android:title="Wishlist" />
 
             <item
+                android:id="@+id/nav_downloads"
+                android:icon="@drawable/ic_downloads"
+                android:title="Downloads" />
+
+            <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="Logout" />
         </menu>
     </item>
 
-    <item android:title="Currency Settings">
+    <item android:title="Currency Settings" android:visible="false">
         <menu>
             <item
                 android:id="@+id/nav_currency"

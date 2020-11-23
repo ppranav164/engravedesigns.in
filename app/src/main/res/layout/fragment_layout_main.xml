@@ -74,8 +74,8 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/headingF"
-              android:text="Featured Products"
-              android:textColor="@color/darkbl"
+              android:text="Featured Designs"
+              android:textColor="@color/black"
               android:paddingLeft="10dp"
               android:textSize="22dp"/>
       </LinearLayout>
@@ -98,17 +98,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/headL"
         android:id="@+id/featured">
 
        <androidx.recyclerview.widget.RecyclerView
            android:layout_width="match_parent"
-           android:layout_height="match_parent"
+           android:layout_height="wrap_content"
            android:id="@+id/vrecyclerview"
-           android:paddingBottom="@dimen/dimen_20dp"
-           android:paddingRight="@dimen/dimen_20dp"
-           android:paddingLeft="@dimen/dimen_20dp"
            >
 
        </androidx.recyclerview.widget.RecyclerView>
@@ -167,19 +164,17 @@
 
 
     <LinearLayout
+        android:gravity="top"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/latestText">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/latest_recyclerview"
-            android:paddingBottom="@dimen/dimen_20dp"
-            android:paddingRight="@dimen/dimen_20dp"
-            android:paddingLeft="@dimen/dimen_20dp"
             >
-
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>

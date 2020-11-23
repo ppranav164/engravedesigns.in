@@ -8,9 +8,11 @@
     tools:context=".Activity_products"
     android:id="@+id/mainL"
     android:background="@color/white"
+
     >
 
-    <ScrollView android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
@@ -18,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingBottom="100dp"
             android:background="@color/white">
 
             <LinearLayout
@@ -32,13 +35,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Brand: "
                         android:textSize="18dp"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/brand"
+                        android:id="@+id/display"
                         android:text="Loading.."
                         android:textSize="18dp"
                         android:textColor="@color/black"
@@ -81,8 +83,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/display"
+                    android:textStyle="bold"
+                    android:id="@+id/stock"
+                    android:textColor="@color/green"
                     android:text="Loading"/>
+
             </LinearLayout>
 
 
@@ -93,6 +98,7 @@
                android:padding="10dp">
 
              <androidx.viewpager.widget.ViewPager
+                 android:clickable="true"
                  android:layout_width="match_parent"
                  android:layout_height="300dp"
                  android:id="@+id/productslider"
@@ -129,6 +135,7 @@
                    android:layout_alignParentRight="true"
                    android:layout_alignParentBottom="true"
                    android:tooltipText="Share"
+                   android:visibility="invisible"
                    />
 
 
@@ -166,29 +173,26 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/priceView"
                     android:textSize="32dp"
-                    android:textColor="@color/design_default_color_primary"/>
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/special"
                     android:layout_below="@id/priceView"
-                    android:textColor="@color/design_default_color_primary"
+                    android:textColor="@color/black"
                    />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/stock"
-                    android:layout_below="@id/special"/>
+
 
                 <LinearLayout
+                    android:visibility="invisible"
                     android:id="@+id/qla"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_below="@id/stock">
+                    android:layout_below="@id/special">
 
 
                     <ImageButton
@@ -203,7 +207,6 @@
                         android:id="@+id/quantity"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/stock"
                         android:ems="10"
                         android:inputType="number"
                         />
@@ -319,11 +322,9 @@
         android:layout_height="wrap_content"
         android:text="Add to Cart"
         android:layout_alignParentBottom="true"
-        android:background="@color/darkbl"
+        android:background="@color/black"
         android:textColor="@color/white"
        />
-
-
 
 
 

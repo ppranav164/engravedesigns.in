@@ -98,7 +98,7 @@
             android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Make Deafult"
+            android:text="Done"
             android:background="@color/duskYellow"
             android:textColor="@color/black"
             android:layout_weight="1.0"

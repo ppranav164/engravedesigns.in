@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal"
+    android:focusable="true"
+    android:background="@color/white"
+   >
+
+    <SearchView
+        android:id="@+id/searchview_inps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:queryHint="Search.."
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:background="@drawable/search_bg"
+        />
+
+</LinearLayout>
