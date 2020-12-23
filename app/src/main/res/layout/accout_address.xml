@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:textColor="@color/payumoney_black"
+            android:textColor="@color/black"
             android:layout_weight="1.0"
             android:text="Add New"
             />

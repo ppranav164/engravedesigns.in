@@ -124,12 +124,16 @@ public class editDelivery extends Fragment {
 
         Log.e(getString(R.string.which_actv),this.getClass().getSimpleName());
 
+        Log.e("Message","Edit Address in checkout");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
+
         return inflater.inflate(R.layout.fragment_edit_delivery, container, false);
     }
 
@@ -150,6 +154,7 @@ public class editDelivery extends Fragment {
 
         dialog = new Dialog(getContext());
 
+        openDialog();
 
         idview = view.findViewById(R.id.addressID);
         saveaddressbtn = view.findViewById(R.id.savenewAddress);
@@ -303,6 +308,10 @@ public class editDelivery extends Fragment {
 
         regionsSpinner.setAdapter(arrayAdapter);
 
+        if (arrayAdapter.getCount() > 0)
+        {
+            closeDialog();
+        }
         regionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -417,6 +426,8 @@ public class editDelivery extends Fragment {
 
                 int statePos = regionsSpinner.getSelectedItemPosition();
 
+                openDialog();
+
                 fname = firstName.getText().toString();
                 lname = lastName.getText().toString();
                 company = companYname.getText().toString();
@@ -445,22 +456,37 @@ public class editDelivery extends Fragment {
                     @Override
                     public void getInfo(String data) {
 
+                        Log.e("editDelivery.java",data);
+
+                        if (data.length() > 0 )
+                        {
+                            closeDialog();
+                        }
+
                         if (data.equals("[]"))
                         {
                             success();
                             error = false;
                         }
 
-                        closeDialog();
 
                         try {
 
                             JSONObject errors = new JSONObject(data);
 
-                            JSONObject object = errors.getJSONObject("error");
+                            if (errors.has("isSaved"))
+                            {
+                                if (errors.getBoolean("isSaved") == true )
+                                {
+                                    success();
+                                    error = false;
+                                }
+                            }
 
                             if (errors.has("error"))
                             {
+                                JSONObject object = errors.getJSONObject("error");
+
                                 if (object.has("firstname"))
                                 {
                                     ERROR_FIRSTNAME = object.getString("firstname");

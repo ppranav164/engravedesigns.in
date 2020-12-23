@@ -96,6 +96,8 @@ public class FirebaseCloudService extends FirebaseMessagingService {
         intent.putExtra("product_id",id);
         intent.putExtra("order_id",id);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);

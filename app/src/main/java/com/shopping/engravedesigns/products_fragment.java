@@ -679,33 +679,18 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     public void onActivityResult(final int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null)
         {
             filePath = data.getData();
-
             //dfilename = view.findViewById(R.id.filename);
-
             String selectedFilePath = FilePath.getPath(getContext(),data.getData());
-
             String[] parts = selectedFilePath.split("/");
-
             final String fileName = parts[parts.length - 1];
-
             final int plus = 1;
-
             final LinearLayout.LayoutParams previewparam = new LinearLayout.LayoutParams(300,300);
-
             previewparam.setMargins(10,10,10,10);
-
-
             //dfilename.setText(fileName);
-
-
-
-
             codd = view.findViewById(R.id.codes);
-
             new syncUpload_image(getContext(),filePath, new upload() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
@@ -746,10 +731,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                 }
             }).execute();
 
-
             cid = view.findViewById(R.id.cid);
-
-
         }
 
 

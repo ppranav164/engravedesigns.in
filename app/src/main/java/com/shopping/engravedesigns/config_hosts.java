@@ -230,13 +230,10 @@ public class config_hosts {
     public final String updateCurrency = hostname+"index.php?route=api/curruncy/currency";
 
     //Track Order
-
-
     public final String TrackOrder = hostname+"index.php?route=api/track&order_id=";
 
 
     //Registration
-
     public final String register = hostname+"index.php?route=api/registration";
 
 
@@ -244,7 +241,6 @@ public class config_hosts {
 
 
     //firebase store user instance_id // PARAM :  POST
-
     public final  String FIREBASE_SEND_TOKEN_URL = hostname+"index.php?route=api/firebase";
 
 

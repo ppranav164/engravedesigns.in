@@ -80,7 +80,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Total : 100"
-                   android:textColor="@color/opaque_black"
+                   android:textColor="@color/black"
                    android:clickable="true"
                    android:gravity="center"
                    />

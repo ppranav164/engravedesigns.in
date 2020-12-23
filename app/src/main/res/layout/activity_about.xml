@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".AboutActivity">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logosplash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:id="@+id/logo"/>
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_below="@id/logo"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/app_version"
+        android:layout_below="@id/app_name"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/links"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_10"
+        android:layout_below="@id/app_version"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/termslink"
+            android:text="Terms and Conditions"
+            android:textColor="@color/grey"
+            android:layout_weight="1.0"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/margin_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/policylink"
+            android:text="Privacy Policy"
+            android:textColor="@color/grey"
+            android:layout_weight="1.0"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/margin_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:text="@string/powered"
+        android:textColor="@color/grey"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/dimen_30dp"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

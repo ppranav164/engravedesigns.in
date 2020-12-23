@@ -6,11 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class previewproducts_adapter extends RecyclerView.Adapter <previewproducts_adapter.MyViewHolder>  {
@@ -34,18 +31,14 @@ public class previewproducts_adapter extends RecyclerView.Adapter <previewproduc
     @Override
     public MyViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
 
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.previewproducts,parent,false);
-
         MyViewHolder vh = new MyViewHolder(view);
-
         return vh;
     }
 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int pos) {
-
 
       if (array.get(pos) != null)
       {
@@ -57,16 +50,8 @@ public class previewproducts_adapter extends RecyclerView.Adapter <previewproduc
     @Override
     public int getItemCount() {
 
-
         return array.size();
-
-
     }
-
-
-
-
-
 
 
 
@@ -75,15 +60,10 @@ public class previewproducts_adapter extends RecyclerView.Adapter <previewproduc
     {
 
         ImageView imageView;
-
         public MyViewHolder( View itemView) {
-
             super(itemView);
-
             imageView = itemView.findViewById(R.id.imageContainer);
-
             itemView.setOnClickListener(this);
-
         }
 
         @Override

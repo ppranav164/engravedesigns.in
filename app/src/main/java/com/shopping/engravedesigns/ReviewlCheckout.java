@@ -21,8 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.payumoney.core.PayUmoneySdkInitializer;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,7 +37,6 @@ public class ReviewlCheckout extends AppCompatActivity implements View.OnClickLi
     private SharedPreferences.Editor editor;
     private SharedPreferences userDetailsPreference;
     private Button payNowButton;
-    private PayUmoneySdkInitializer.PaymentParam mPaymentParams;
     private SharedPreferences.Editor userDataEditor;
     private SharedPreferences getUserData;
     Map<String,String> optionValues;

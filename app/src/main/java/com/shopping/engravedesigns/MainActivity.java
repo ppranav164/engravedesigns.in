@@ -3,6 +3,7 @@ package com.shopping.engravedesigns;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -32,6 +33,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -218,9 +222,12 @@ public class MainActivity extends AppCompatActivity
 
         if (tok == null && islogged == false)
         {
-            Intent intent = new Intent(getApplicationContext(),Activity_login.class);
-            startActivity(intent);
-            finish();
+            ForceLoggout();
+        }
+
+        if (islogged == false)
+        {
+            ForceLoggout();
         }
 
         String user = preferences.getString("username",null);
@@ -228,9 +235,9 @@ public class MainActivity extends AppCompatActivity
         usernameView = headerView.findViewById(R.id.usernameTv);
 
 
-        usernameView.setText("Hello, "+user);
-        usernameView.setTextColor(getResources().getColor(R.color.black));
+        Log.e("Greetings","Hello "+user + " This guy is "+ islogged);
 
+        usernameView.setText("Hello, "+user);
 
         checkCoonection();
 
@@ -437,6 +444,9 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.mainframeL,new fragment_main());
             transaction.commit();
             return true;
+        }else if (id == R.id.myaccount)
+        {
+            showMyaccountScreen();
         }
 
         return super.onOptionsItemSelected(item);
@@ -480,8 +490,6 @@ public class MainActivity extends AppCompatActivity
 
             clearFirebaseInstancecId();
             deleteInstanceIdFromServer();
-
-
             Intent intent = new Intent(getApplicationContext(),Activity_login.class);
             startActivity(intent);
             finish();
@@ -496,9 +504,7 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         }else if (id == R.id.nav_account){
 
-            Intent intent = new Intent(getApplicationContext(),MyAccount.class);
-            startActivity(intent);
-            finish();
+            showMyaccountScreen();
         }
         else if (id == R.id.nav_currency){
 
@@ -509,14 +515,35 @@ public class MainActivity extends AppCompatActivity
 
             Intent intent = new Intent(getApplicationContext(),downloadsActity.class);
             startActivity(intent);
-        }
 
+        }else if (id == R.id.nav_about)
+        {
+            showAboutUsScreen();
+        }else if (id == R.id.nav_rate)
+        {
+            askRatings();
+        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    public void showMyaccountScreen()
+    {
+        Intent intent = new Intent(getApplicationContext(),MyAccount.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void showAboutUsScreen()
+    {
+        Intent intent = new Intent(getApplicationContext(),AboutActivity.class);
+        startActivity(intent);
+    }
+
 
 
     public void clearFirebaseInstancecId()
@@ -575,6 +602,16 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    public void ForceLoggout()
+    {
+
+        clearFirebaseInstancecId();
+        deleteInstanceIdFromServer();
+        Intent intent = new Intent(getApplicationContext(),Activity_login.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     public void getDetails()
     {
@@ -620,8 +657,17 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    public  void askRatings() {
 
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+BuildConfig.APPLICATION_ID)));
+        }catch (Exception e)
+        {
+            Log.e("askRatings",e.getMessage());
 
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+BuildConfig.APPLICATION_ID)));
+        }
+    }
 
 
 

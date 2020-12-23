@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -20,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".searchProduct"></activity>
+        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".WebBrowser" />
+        <activity android:name=".searchProduct" />
         <activity android:name=".forgottpasswrodActivity" />
         <activity android:name=".downloadsActity" />
         <activity android:name=".customer_reviews" />
@@ -52,6 +53,11 @@
         <activity
             android:name=".PrivacyPolicy"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".TermsConditions"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
         <activity android:name=".TrackPackage" />
         <activity android:name=".CurencySettings" />
         <activity
@@ -64,11 +70,6 @@
         <activity
             android:name=".logo_splash"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".PayUMoney">
-            <meta-data
-                android:name=".MainActivity"
-                android:value="com.shopping.engravedesigns.MainActivity" />
-        </activity>
         <activity android:name=".instamojo" />
         <activity android:name=".ReviewlCheckout" />
         <activity android:name=".syncInformations" />

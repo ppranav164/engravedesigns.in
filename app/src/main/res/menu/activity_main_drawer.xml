@@ -39,6 +39,19 @@
                 android:icon="@drawable/ic_downloads"
                 android:title="Downloads" />
 
+
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_rate"
+                android:title="Rate the App" />
+
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info"
+                android:title="About Us" />
+
+
+
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"

@@ -24,4 +24,6 @@
 
     <color name="strongYellow">#f7cb2d</color>
 
+    <color name="transparent">@android:color/transparent</color>
+
 </resources>

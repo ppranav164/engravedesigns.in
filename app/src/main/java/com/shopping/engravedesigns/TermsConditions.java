@@ -1,16 +1,16 @@
 package com.shopping.engravedesigns;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 
-public class PrivacyPolicy extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class TermsConditions extends AppCompatActivity {
 
     config_hosts hosts = new config_hosts();
 
-    String URL = hosts.privacyPolicy;
+    String URL = hosts.TERMSC;
 
     WebView webView;
     @Override

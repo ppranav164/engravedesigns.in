@@ -1,12 +1,16 @@
 package com.shopping.engravedesigns;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,6 +81,7 @@ public class recycleradapter_downloads extends RecyclerView.Adapter <recyclerada
         holder.titletv.setText(TITLE.get(pos));
         holder.sizetv.setText(SIZE.get(pos));
         holder.downloadbtn.setTag(URL.get(pos));
+        holder.copylink.setTag(URL.get(pos));
 
         holder.downloadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +89,14 @@ public class recycleradapter_downloads extends RecyclerView.Adapter <recyclerada
                 String link = v.getTag().toString();
                 String title = TITLE.get(holder.getAdapterPosition());
                 clicklistener.getPosition(holder.getAdapterPosition(),link,title);
+            }
+        });
+
+        holder.copylink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String link = v.getTag().toString();
+                CopyClipBoard(link);
             }
         });
     }
@@ -98,12 +111,22 @@ public class recycleradapter_downloads extends RecyclerView.Adapter <recyclerada
     }
 
 
+    public void CopyClipBoard(String link)
+    {
+        ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Download Url",link);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(ctx,"Link Copied",Toast.LENGTH_SHORT).show();
+    }
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder
 
     {
         TextView orderidtv,datetv,titletv,sizetv;
-        Button downloadbtn;
+        Button downloadbtn,copylink;
 
         public MyViewHolder( View itemView) {
 
@@ -114,6 +137,7 @@ public class recycleradapter_downloads extends RecyclerView.Adapter <recyclerada
             titletv = itemView.findViewById(R.id.title);
             sizetv = itemView.findViewById(R.id.size);
             downloadbtn = itemView.findViewById(R.id.downloadBtn);
+            copylink = itemView.findViewById(R.id.copylink);
         }
 
     }

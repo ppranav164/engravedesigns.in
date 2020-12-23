@@ -294,31 +294,18 @@ public class cartFragment extends Fragment  {
     public void setJsonData(JSONArray array, JSONArray totals)
     {
         this.Jsondata = array;
-
         this.Totals = totals;
-
-
         View view = getView();
-
         RecyclerView recyclerView = view.findViewById(R.id.cart_recyclerview);
-
         recycleradapter_cart adapter = new recycleradapter_cart(getContext(),Jsondata,Totals);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         recyclerView.setAdapter(adapter);
-
         recyclerView.smoothScrollToPosition(0);
         recyclerView.setFocusable(true);
         recyclerView.setNestedScrollingEnabled(false);
-
         adapter.notifyDataSetChanged();
-
         closeDialog();
-
-
         try {
-
 
           for (int i=0; i < Totals.length(); i++)
           {
@@ -331,24 +318,16 @@ public class cartFragment extends Fragment  {
 
           }
 
-
         }catch (Exception e)
         {
             e.printStackTrace();
         }
 
-
         CustomAdapter ladapter = new CustomAdapter(getContext(),R.layout.listviews,totaldata);
-
         listView = view.findViewById(R.id.listviews);
-
         listView.setAdapter(ladapter);
-
         ladapter.notifyDataSetChanged();
-
         listView.invalidateViews();
-
-
     }
 
 

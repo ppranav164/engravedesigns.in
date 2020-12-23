@@ -48,8 +48,6 @@ public class accounts_editDelivery extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    String TAG = "accounts_editDelivery";
-
     TextView idview;
 
     Button saveaddressbtn;

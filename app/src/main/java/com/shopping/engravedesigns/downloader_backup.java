@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class downloader extends AsyncTask<String,String,String>
+public class downloader_backup extends AsyncTask<String,String,String>
 {
 
     private Context context;
@@ -30,7 +30,7 @@ public class downloader extends AsyncTask<String,String,String>
 
     private ProgressDialog pDialog;
 
-
+    HttpURLConnection connection;
 
     String filename;
 
@@ -42,11 +42,7 @@ public class downloader extends AsyncTask<String,String,String>
 
     String size = "loading";
 
-    int downloadedSize = 0;
-
-    int fileSize = 0;
-
-    public downloader(Context cxt, String method, String apiurl,String filename, String param, jsonObjects info)
+    public downloader_backup(Context cxt, String method, String apiurl, String filename, String param, jsonObjects info)
     {
         this.context = cxt;
         this.method = method;
@@ -70,6 +66,8 @@ public class downloader extends AsyncTask<String,String,String>
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                isAborted = true;
+                connection.disconnect();
                 Toast.makeText(context,"Download Canceled",Toast.LENGTH_LONG).show();
                 deleteFile();
 
@@ -117,12 +115,8 @@ public class downloader extends AsyncTask<String,String,String>
 
         pDialog.dismiss();
 
-        if (downloadedSize < fileSize)
+        if (!isAborted)
         {
-            Toast.makeText(context,"Download Corrupted please try in web",Toast.LENGTH_LONG).show();
-
-        }else {
-
             Toast.makeText(context,"File saved to "+root,Toast.LENGTH_LONG).show();
         }
     }
@@ -145,14 +139,19 @@ public class downloader extends AsyncTask<String,String,String>
 
             URL url = new URL(API_URL);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            Log.e("Downloading from ",API_URL);
+
+            connection = (HttpURLConnection) url.openConnection();
+
             connection.setRequestMethod(method);
-            connection.setRequestProperty("Cookie","OCSESSID="+token+";");
 
             if (method.equals("POST"))
             {
                 connection.setDoOutput(true);
             }
+
+            connection.setRequestProperty("Cookie","OCSESSID="+token+";");
+
 
             if (param != null)
             {
@@ -160,6 +159,11 @@ public class downloader extends AsyncTask<String,String,String>
             }
 
             connection.connect();
+
+            if (isAborted == true)
+            {
+                connection.disconnect();
+            }
 
             // getting file length
             int lenghtOfFile = connection.getContentLength();
@@ -186,13 +190,9 @@ public class downloader extends AsyncTask<String,String,String>
                 pDialog.setIndeterminate(false);
                 pDialog.setMax(100);
 
-
                 Log.e("Percent","Downloading > "+total*100/lenghtOfFile);
 
                 int downloaded = (int) (total*100/lenghtOfFile);
-
-                downloadedSize = downloaded;
-                fileSize = lenghtOfFile;
 
                 Log.e("DOWNLOAD",progressText(bytesIntoHumanReadable(lenghtOfFile),bytesIntoHumanReadable(total)));
 
@@ -205,10 +205,9 @@ public class downloader extends AsyncTask<String,String,String>
             // flushing output
             output.flush();
 
-            input.close();
-
             // closing streams
             output.close();
+            input.close();
 
         }catch (Exception e)
         {
@@ -250,7 +249,6 @@ public class downloader extends AsyncTask<String,String,String>
     public String progressText(String filesize,String downloadedSize)
     {
         size = filesize+"/"+downloadedSize;
-
         return filesize+"/"+downloadedSize;
     }
 

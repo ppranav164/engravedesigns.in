@@ -84,9 +84,6 @@ public class Activity_login extends AppCompatActivity {
 
                 password = Pass.getText().toString();
 
-
-                Log.e("login",email+password);
-
                 showLoading();
 
                 new syncLogin(getApplicationContext(), new login() {
@@ -97,7 +94,10 @@ public class Activity_login extends AppCompatActivity {
                     @Override
                     public void confirm(String message) {
 
+                        Log.e("Login",message);
+
                         try {
+
 
                             JSONObject object = new JSONObject(message);
 

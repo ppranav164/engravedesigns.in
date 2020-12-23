@@ -399,7 +399,6 @@ public class Product_info extends Fragment implements RecyclerViewClickListener 
 
                     fulldata = data;
 
-
                     setProductInfo(data);
 
                     try {
@@ -1242,7 +1241,6 @@ public class Product_info extends Fragment implements RecyclerViewClickListener 
            public void onClick(View v) {
 
                entireView = getView();
-
 
                qtext = entireView.findViewById(R.id.quantity);
 

@@ -115,7 +115,6 @@ public class checkOut extends Fragment {
 
     Map<String,String> optionslist = new HashMap<>();
 
-    PayUMoney payUMoney ;
 
     View view;
 
@@ -1170,19 +1169,6 @@ public class checkOut extends Fragment {
 
 
 
-
-    public void paymentGateway()
-
-    {
-
-        Intent intent = new Intent(getContext(),PayUMoney.class);
-
-        intent.putExtra("order_id",orderId);
-
-        startActivity(intent);
-
-
-    }
 
 
     public void instaMojoGateway()

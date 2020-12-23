@@ -1,22 +1,16 @@
 package com.shopping.engravedesigns;
 
-/**
- * Created by Rahul Hooda on 14/7/17.
- */
 
-/**
- * This class keeps all the app prefernces
- * */
 public class AppPreference {
 
     private String dummyAmount = "10";//"10";
-    private String dummyEmail = "ppranav_tr@icloud.com";//"";//d.basak.db@gmail.com
-    private String productInfo ="Appile iPhone 12";// "product_info";
-    private String firstName = "James KJ"; //"firstname";
+    private String dummyEmail = "";//"";//d.basak.db@gmail.com
+    private String productInfo ="";// "product_info";
+    private String firstName = ""; //"firstname";
     private boolean isOverrideResultScreen = true;
  
-    public static final String USER_EMAIL = "ppranav_tr@icloud.com";
-    public static final String USER_MOBILE = "8129361783";
+    public static final String USER_EMAIL = "";
+    public static final String USER_MOBILE = "";
     public static final String PHONE_PATTERN = "^[987]\\d{9}$";
     public static final long MENU_DELAY = 300;
     public static String USER_DETAILS = "user_details";

@@ -27,6 +27,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+
 public class downloadsActity extends AppCompatActivity implements adapterClicklistener {
 
 
@@ -45,6 +47,7 @@ public class downloadsActity extends AppCompatActivity implements adapterClickli
     RecyclerView recyclerView;
 
     boolean hasPermission;
+
 
 
 
@@ -207,23 +210,79 @@ public class downloadsActity extends AppCompatActivity implements adapterClickli
     @Override
     public void getPosition(int pos, String data,String title) {
 
+
+        Log.e("Download Link",data);
+
+        openWebPage(data);
+        //directDownload(data,title);
+        //testServer(data);
+    }
+
+
+    public void testServer(String downloadURL)
+    {
+        new syncAsyncTask(getApplicationContext(), "GET",downloadURL, null, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+
+                Log.e("Test Response",object);
+            }
+        }).execute();
+
+    }
+
+
+    public void directDownload(String url,String title)
+    {
         hasPermission = checkPermissionForReadExtertalStorage();
+
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+
+        if (file.isDirectory())
+        {
+            Log.e("Downloads Folder","Exists");
+        }else {
+
+            Log.e("Downloads Folder","Doesn't Exist");
+            file.mkdir();
+        }
 
         if (!hasPermission)
         {
+
             grantWritePermission();
+
         }else{
 
-            new downloader(downloadsActity.this, "GET", data,title,null, new jsonObjects() {
+            new downloader(downloadsActity.this, "GET",url,title,null, new jsonObjects() {
                 @Override
                 public void getObjects(String object) {
+                    Log.e("Response Download","Status :"+object);
                 }
             }).execute();
         }
 
         Log.e("Folder Creatable","Status "+hasPermission);
-
     }
+
+
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+
+    public void openbrowser(String url,String filename)
+    {
+        Intent intent = new Intent(downloadsActity.this,WebBrowser.class);
+        intent.putExtra("download_link",url);
+        intent.putExtra("file",filename);
+        startActivity(intent);
+    }
+
 
     public void grantWritePermission()
     {

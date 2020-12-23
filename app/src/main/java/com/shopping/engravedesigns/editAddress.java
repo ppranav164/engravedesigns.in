@@ -116,7 +116,6 @@ public class editAddress extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
-
     }
 
     @Override
@@ -129,9 +128,6 @@ public class editAddress extends Fragment {
 
         dialog = new Dialog(getContext());
 
-        openDialog();
-
-
         editor = getContext().getSharedPreferences("addresses",Context.MODE_PRIVATE).edit();
 
         deliveryGroup = view.findViewById(R.id.deliveryGroup);
@@ -141,6 +137,8 @@ public class editAddress extends Fragment {
 
         addnewbtn = view.findViewById(R.id.addnew);
 
+        openDialog();
+
         getPaymentAddress();
 
         saveAddress();
@@ -148,7 +146,6 @@ public class editAddress extends Fragment {
         addNewAddress();
 
         return view;
-
 
 
     }
@@ -180,6 +177,10 @@ public class editAddress extends Fragment {
             @Override
             public void getInfo(String data) {
 
+                if (data.length() > 0)
+                {
+                    closeDialog();
+                }
 
                 try {
 
@@ -282,6 +283,7 @@ public class editAddress extends Fragment {
                 delbutton[index] = new ImageButton(getContext());
                 delbutton[index].setTag(address_id);
                 delbutton[index].setImageResource(R.drawable.ic_delete);
+                delbutton[index].setVisibility(View.INVISIBLE);
                 delbutton[index].setBackgroundColor(getResources().getColor(R.color.white));
                 delbutton[index].setLayoutParams(delparam);
                 layouts[index].addView(delbutton[index]);
@@ -304,8 +306,8 @@ public class editAddress extends Fragment {
                     infotext[index] = new TextView(getContext());
                     infotext[index].setLayoutParams(infoparam);
                     infotext[index].setPadding(10,10,10,10);
-                    infotext[index].setTextColor(getResources().getColor(R.color.darkbl));
-                    infotext[index].setText("Default");
+                    infotext[index].setTextColor(getResources().getColor(R.color.grey));
+                    infotext[index].setText("Selected");
                     infotext[index].setGravity(Gravity.RIGHT);
                     layouts[index].addView(infotext[index]);
                     getAddress = layouts[index].getTag().toString();
@@ -448,6 +450,7 @@ public class editAddress extends Fragment {
                                 if (jsonObject.getBoolean("isSaved"))
                                 {
                                     checkOutScreen();
+
                                 }else {
 
                                     String message = jsonObject.getString("message");
