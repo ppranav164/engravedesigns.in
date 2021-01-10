@@ -63,6 +63,8 @@ public class fragment_main extends Fragment {
      private boolean connected = false;
 
 
+     config_hosts hosts  = new config_hosts();
+
     ViewPager pager;
 
     SliderView sliderView;
@@ -80,6 +82,10 @@ public class fragment_main extends Fragment {
     LinearLayout featuredHeader;
 
     LinearLayout latestHeader;
+
+    RecyclerView categoryview;
+
+    JSONArray cats;
 
     public fragment_main() {
         // Required empty public constructor
@@ -127,6 +133,7 @@ public class fragment_main extends Fragment {
         checkInternet();
 
         loadData();
+
 
     }
 
@@ -181,6 +188,8 @@ public class fragment_main extends Fragment {
 
     public void loadData()
     {
+
+        category();
 
         getWishlistData();
 
@@ -409,22 +418,54 @@ public class fragment_main extends Fragment {
         recyclerView  =  view.findViewById(R.id.vrecyclerview);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false));
-
         recyclerView.smoothScrollToPosition(0);
-
-
-
         recycleradapter recadapter = new recycleradapter(getContext(),array,wishlist_products);
-
         recyclerView.setAdapter(recadapter);
-
         recyclerView.setFocusable(false);
-
         recyclerView.setNestedScrollingEnabled(false);
 
 
     }
 
+
+
+    public JSONArray  category()
+    {
+
+        String Cat_link = hosts.GET_CATEGORY;
+
+        new syncAsyncTask(getContext(), "GET", Cat_link, null, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(object);
+                    JSONArray array = jsonObject.getJSONArray("categories");
+                    showCategory(array);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
+
+        return  cats;
+    }
+
+
+    public void showCategory(JSONArray array)
+    {
+
+        categoryview.setLayoutManager(new GridLayoutManager(getContext(),3,LinearLayoutManager.VERTICAL,false));
+        categoryview.smoothScrollToPosition(0);
+        categoriesAdapter categoriesAdapter = new categoriesAdapter(getContext(),array);
+        categoryview.setAdapter(categoriesAdapter);
+        categoryview.setFocusable(false);
+        categoryview.setNestedScrollingEnabled(false);
+
+    }
 
 
 
@@ -447,6 +488,7 @@ public class fragment_main extends Fragment {
 
         featuredHeader = view.findViewById(R.id.headL);
         latestHeader = view.findViewById(R.id.latestText);
+        categoryview = view.findViewById(R.id.categoryLayout);
 
         return view;
     }

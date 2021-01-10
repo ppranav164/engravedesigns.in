@@ -1161,6 +1161,7 @@ public class Product_info extends Fragment implements RecyclerViewClickListener 
 
 
           LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
           Iterator iterator = uploadKeys.entrySet().iterator();
 
           int index =-1;

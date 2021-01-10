@@ -116,9 +116,7 @@ public class MainActivity extends AppCompatActivity
 
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-
         getDetails();
-
         SharedPreferences tokens = getSharedPreferences("firebase",MODE_PRIVATE);
 
         boolean isUpdated = tokens.getBoolean("isUpdated",false);
@@ -132,16 +130,13 @@ public class MainActivity extends AppCompatActivity
 
         if (getIntent().getStringExtra("orders") != null)
         {
-
             Fragment fragment = new orders();
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.mainframeL,fragment,"orders");
             transaction.addToBackStack("home");
             transaction.commit();
-
             drawerLayout.closeDrawers();
-
             closeDialog();
 
         }else if (getIntent().getStringExtra("success") !=null)
@@ -152,7 +147,6 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.mainframeL,succesfrag);
             transaction.commit();
-
             drawerLayout.closeDrawers();
             closeDialog();
 
@@ -203,7 +197,7 @@ public class MainActivity extends AppCompatActivity
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Engravedesigns");
+        getSupportActionBar().setTitle(getString(R.string.app_name));
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
 
@@ -519,7 +513,6 @@ public class MainActivity extends AppCompatActivity
             askRatings();
         }
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -532,6 +525,15 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         finish();
     }
+
+
+    public void showTrackOrder()
+    {
+        Intent intent = new Intent(getApplicationContext(),TrackPackage.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     public void showAboutUsScreen()
     {

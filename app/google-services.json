@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1085192509514",
-    "firebase_url": "https://engravedesigns-bc4f4.firebaseio.com",
-    "project_id": "engravedesigns-bc4f4",
-    "storage_bucket": "engravedesigns-bc4f4.appspot.com"
+    "project_number": "563575689510",
+    "firebase_url": "https://giveaway4u-f3034.firebaseio.com",
+    "project_id": "giveaway4u-f3034",
+    "storage_bucket": "giveaway4u-f3034.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1085192509514:android:ebdb422678423889f4aeb3",
+        "mobilesdk_app_id": "1:563575689510:android:cddb488bdb32ed252871e7",
         "android_client_info": {
-          "package_name": "com.shopping.engravedesigns"
+          "package_name": "com.shopping.gway_4u"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1085192509514-a0g6atrm0c6dboe0p4vsf773kn75pk8s.apps.googleusercontent.com",
+          "client_id": "563575689510-vvv62uvc1r3k7lobc5o6gsr9lv1bohau.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCmFmkh6eFLmvSMvHkK1pSeJ8vPVYWBdG4"
+          "current_key": "AIzaSyCIRlP-YzJ9uX65acNRTEBtaILkWJTLJF4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1085192509514-a0g6atrm0c6dboe0p4vsf773kn75pk8s.apps.googleusercontent.com",
+              "client_id": "563575689510-vvv62uvc1r3k7lobc5o6gsr9lv1bohau.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

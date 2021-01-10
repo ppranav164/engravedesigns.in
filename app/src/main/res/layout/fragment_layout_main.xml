@@ -45,11 +45,30 @@
 
    </LinearLayout>
 
+    <TextView
+        android:layout_below="@id/sliderwrapper"
+        android:text="Shop by Category"
+        android:gravity="center"
+        android:padding="@dimen/margin_10"
+        android:id="@+id/category_name"
+        android:background="@drawable/border_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryLayout"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_below="@id/category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </androidx.recyclerview.widget.RecyclerView>
+
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_below="@id/sliderwrapper"
+       android:layout_below="@id/categoryLayout"
        android:id="@+id/headL"
        android:gravity="center_vertical"
        android:orientation="horizontal"
@@ -74,7 +93,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/headingF"
-              android:text="Featured Designs"
+              android:text="Featured"
               android:textColor="@color/black"
               android:paddingLeft="10dp"
               android:textSize="22dp"/>

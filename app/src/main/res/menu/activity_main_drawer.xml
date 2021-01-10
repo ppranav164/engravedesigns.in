@@ -34,6 +34,9 @@
                 android:icon="@drawable/menu_wishlist"
                 android:title="Wishlist" />
 
+
+
+
             <item
                 android:id="@+id/nav_downloads"
                 android:icon="@drawable/ic_downloads"
@@ -49,7 +52,6 @@
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info"
                 android:title="About Us" />
-
 
 
             <item

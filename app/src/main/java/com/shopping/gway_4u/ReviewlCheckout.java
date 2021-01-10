@@ -307,7 +307,7 @@ public class ReviewlCheckout extends AppCompatActivity implements View.OnClickLi
 
 
 
-        notifyThis("Engravedesign","Thank you for purchasing with us");
+        notifyThis(getString(R.string.app_name),"Thank you for purchasing with us");
 
     }
 

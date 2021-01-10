@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Engravedesigns</string>
+    <string name="app_name">giveaway4u</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">engravedesigns</string>
@@ -20,6 +20,6 @@
 
     <string name="which_actv">Activity | Fragment ></string>
 
-    <string name="powered">Engravedesigns.in © 2020  </string>
+    <string name="powered">ADsCO © 2020 </string>
 
 </resources>

@@ -132,6 +132,7 @@ public class FirebaseCloudService extends FirebaseMessagingService {
         editor.putString("refreshed",token);
         editor.apply();
 
+        Log.e(TAG,"Sending a Token");
         sendRegistrationToServer(token);
 
     }
@@ -144,7 +145,7 @@ public class FirebaseCloudService extends FirebaseMessagingService {
             @Override
             public void getObjects(String object) {
 
-                Log.w("GCM to server",object);
+                Log.e("Stored a token",object);
 
             }
         }).execute();

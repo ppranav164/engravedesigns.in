@@ -14,17 +14,9 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="88dp"
-        android:layout_height="match_parent"
+        android:layout_height="88dp"
         android:src="@drawable/logosplash" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:layout_marginLeft="@dimen/dimen_5dp"
-        android:text="@string/app_name"
-        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/usernameTv"

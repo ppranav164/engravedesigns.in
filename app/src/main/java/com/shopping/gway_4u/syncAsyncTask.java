@@ -58,7 +58,6 @@ public class syncAsyncTask extends AsyncTask<String,String,String>
         String token = sharedpref.getString("token","nil");
 
 
-
         try {
 
             URL url = new URL(API_URL);
