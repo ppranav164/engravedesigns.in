@@ -183,8 +183,8 @@
 
 
     <LinearLayout
+        android:id="@+id/latestview"
         android:gravity="top"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/latestText">
@@ -200,10 +200,73 @@
 
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryLayout"
+        android:id="@+id/specialHead"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fragment_title_padding_10"
+        android:paddingRight="@dimen/fragment_title_padding_10"
+        android:paddingLeft="@dimen/fragment_title_padding_10"
+        android:visibility="visible"
+        android:background="@drawable/layout_border"
+        android:elevation="@dimen/dimen_2dp"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/star"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/headingSpecial"
+                android:text="Special Offer"
+                android:textColor="@color/black"
+                android:paddingLeft="10dp"
+                android:textSize="22dp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+            <Button
+                android:id="@+id/specials"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/red"
+                android:background="@drawable/layout_border"
+                android:text="More"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/specialview"
+        android:gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/specialHead">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/special_recyclerview"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+
 </RelativeLayout>
-
-
-
 
 
 </ScrollView>

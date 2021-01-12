@@ -977,8 +977,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
            linearLayout = view.findViewById(R.id.uploadbox);
            JSONObject optb = objects.getJSONObject("upload");
-           JSONArray array = optb.getJSONArray("file");
-           JSONArray textArea = optb.getJSONArray("textarea");
 
 
           for (int i=0; i < objects.length(); i++)
@@ -987,31 +985,42 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
               if (objects.has("upload"))
               {
 
-                  for (int k=0; k<array.length(); k++)
+                  Log.e("extra_option",optb.toString());
+
+                  if (optb.has("file"))
                   {
-                      JSONObject jsonObject = array.getJSONObject(k);
-                      String type = jsonObject.getString("type");
-                      String uploadId = jsonObject.getString("product_option_id");
-                      String upload_title = jsonObject.getString("name");
-                      int upload_id = Integer.parseInt(uploadId);
-                      uploadKeys.put(upload_id,upload_title);
-                      linearLayout.setVisibility(View.VISIBLE);
-                      isFileRequired = true;
-                      product_options_id = Integer.parseInt(uploadId);
+                      JSONArray array = optb.getJSONArray("file");
+                      for (int k=0; k<array.length(); k++)
+                      {
+                          JSONObject jsonObject = array.getJSONObject(k);
+                          String type = jsonObject.getString("type");
+                          String uploadId = jsonObject.getString("product_option_id");
+                          String upload_title = jsonObject.getString("name");
+                          int upload_id = Integer.parseInt(uploadId);
+                          uploadKeys.put(upload_id,upload_title);
+                          linearLayout.setVisibility(View.VISIBLE);
+                          isFileRequired = true;
+                          product_options_id = Integer.parseInt(uploadId);
+                      }
                   }
 
-                  for (int k=0; k<textArea.length(); k++)
+                  if (optb.has("textarea"))
                   {
-                      JSONObject jsonObject = textArea.getJSONObject(k);
-                      String type = jsonObject.getString("type");
-                      String option_text_id = jsonObject.getString("product_option_id");
-                      String textTitle = jsonObject.getString("name");
-                      int textID = Integer.parseInt(option_text_id);
-                      textKeys.put(textID,textTitle);
-                      Textboxlayout.setVisibility(View.VISIBLE);
-                      isTextRequired = true;
-                      textArea_product_id = Integer.parseInt(option_text_id);
+                      JSONArray textArea = optb.getJSONArray("textarea");
 
+                      for (int k=0; k<textArea.length(); k++)
+                      {
+                          JSONObject jsonObject = textArea.getJSONObject(k);
+                          String type = jsonObject.getString("type");
+                          String option_text_id = jsonObject.getString("product_option_id");
+                          String textTitle = jsonObject.getString("name");
+                          int textID = Integer.parseInt(option_text_id);
+                          textKeys.put(textID,textTitle);
+                          Textboxlayout.setVisibility(View.VISIBLE);
+                          isTextRequired = true;
+                          textArea_product_id = Integer.parseInt(option_text_id);
+
+                      }
                   }
 
               }
@@ -1020,13 +1029,15 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
           if (objects.has("upload"))
           {
-              if (array.length() > 0)
+              if (optb.has("file"))
               {
+                  JSONArray array = optb.getJSONArray("file");
                   uploadFileView(array.length());
               }
 
-              if (textArea.length() > 0)
+              if (optb.has("textarea"))
               {
+                  JSONArray textArea = optb.getJSONArray("textarea");
                   TextArea(textArea.length());
               }
           }
@@ -1362,9 +1373,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                        }
                    }
                }
-
-
-               if (isCheckRequired == true && isChecked != true)
+               else if (isCheckRequired == true && isChecked != true)
                {
                    error = true;
                    Toast.makeText(getContext(),"Please check color option",Toast.LENGTH_SHORT).show();
@@ -1397,8 +1406,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
                    error = false;
                }
-
-
 
 
                try {

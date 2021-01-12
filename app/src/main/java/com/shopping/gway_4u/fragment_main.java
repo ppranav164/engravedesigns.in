@@ -81,6 +81,8 @@ public class fragment_main extends Fragment {
 
     LinearLayout featuredHeader;
 
+    LinearLayout specialLayout;
+
     LinearLayout latestHeader;
 
     RecyclerView categoryview;
@@ -349,9 +351,7 @@ public class fragment_main extends Fragment {
     {
 
         int size = info.length();
-
         Log.e("featured",String.valueOf(size));
-
        if (size > 0)
        {
            featuredHeader.setVisibility(View.VISIBLE);

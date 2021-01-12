@@ -47,8 +47,24 @@ public class config_hosts {
     //FEATURED
     public  final String FEATURED = hostname+"index.php?route=api/featured";
 
+    //LATEST WITHOUT LIMIT (MORE PRODUCTS BY LATEST)
+
+    public  final String FEATURED_MORE = hostname+"index.php?route=api/featured/more";
+
+
     //LATEST
     public  final String LATEST = hostname+"index.php?route=api/latest";
+    //LATEST WITHOUT LIMIT (MORE PRODUCTS BY LATEST)
+    public  final String LATEST_MORE = hostname+"index.php?route=api/latest/more";
+
+
+
+    //SPECIAL
+    public  final String SPECIAL = hostname+"index.php?route=api/offers";
+    //SPECIAL WITHOUT LIMIT (MORE PRODUCTS BY SPECIAL)
+    public  final String SPECIAL_MORE = hostname+"index.php?route=api/offers/more";
+
+
 
 
     //SERACH / FIND PRODUCT ESPECIALLY ON CART
