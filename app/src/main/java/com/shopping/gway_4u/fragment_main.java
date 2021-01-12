@@ -72,6 +72,7 @@ public class fragment_main extends Fragment {
     JSONArray sliderstotal;
 
     RecyclerView recyclerView;
+    RecyclerView specialRecycler;
 
     ArrayList<String> sliderURL= new ArrayList<>();
 
@@ -220,6 +221,15 @@ public class fragment_main extends Fragment {
             }
         }).execute();
 
+
+        new syncAsyncTask(getContext(), "GET", hosts.SPECIAL, null, new jsonObjects() {
+            @Override
+            public void getObjects(String object) {
+
+                getSpecialProduct(object);
+            }
+        }).execute();
+
     }
 
 
@@ -349,28 +359,63 @@ public class fragment_main extends Fragment {
 
     public void getFeturedData(String info)
     {
-
         int size = info.length();
         Log.e("featured",String.valueOf(size));
        if (size > 0)
        {
            featuredHeader.setVisibility(View.VISIBLE);
        }
+        try {
+            JSONObject object = new JSONObject(info);
+            JSONArray array = object.getJSONArray("products");
+            setFeaturedInfo(array);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
+
+
+    public void getSpecialProduct(String products)
+    {
         try {
 
-            JSONObject object = new JSONObject(info);
+            JSONObject jsonObject = new JSONObject(products);
 
-
-            JSONArray array = object.getJSONArray("products");
-
-            setFeaturedInfo(array);
-
+            if (jsonObject.has("products"))
+            {
+                JSONArray specials = jsonObject.getJSONArray("products");
+                showSpecialProduct(specials);
+            }
 
         }catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+
+    public void showSpecialProduct(JSONArray array)
+    {
+        if (array.length() > 0)
+        {
+            specialLayout.setVisibility(View.VISIBLE);
+        }else {
+
+            specialLayout.setVisibility(View.GONE);
+        }
+
+        specialRecycler.setLayoutManager(new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false));
+        specialRecycler.smoothScrollToPosition(0);
+
+
+        special_recycler_adapter recadapter = new special_recycler_adapter(getContext(),array,wishlist_products);
+        specialRecycler.setAdapter(recadapter);
+        specialRecycler.setFocusable(false);
+        specialRecycler.setNestedScrollingEnabled(false);
+        Log.e("showSpecialProduct",array.toString());
+
 
     }
 
@@ -389,21 +434,16 @@ public class fragment_main extends Fragment {
         }
 
         recyclerView  =  view.findViewById(R.id.latest_recyclerview);
-
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false));
-
         recyclerView.smoothScrollToPosition(0);
 
 
         featured_recycler_adapter recadapter = new featured_recycler_adapter(getContext(),array,wishlist_products);
-
         recyclerView.setAdapter(recadapter);
-
         recyclerView.setFocusable(false);
-
         recyclerView.setNestedScrollingEnabled(false);
-
         Log.e("Latest",array.toString());
+
     }
 
 
@@ -488,7 +528,10 @@ public class fragment_main extends Fragment {
 
         featuredHeader = view.findViewById(R.id.headL);
         latestHeader = view.findViewById(R.id.latestText);
+        specialLayout = view.findViewById(R.id.specialHead);
         categoryview = view.findViewById(R.id.categoryLayout);
+
+        specialRecycler = view.findViewById(R.id.special_recyclerview);
 
         return view;
     }
