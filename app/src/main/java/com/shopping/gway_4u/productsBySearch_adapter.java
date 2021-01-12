@@ -126,9 +126,7 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
 
                 bundle.putString("_id",id);
 
-                bundle.putString("product_id","Iphone X");
-
-                Fragment fragment = new Product_info(ctx);
+                Fragment fragment = new products_fragment(ctx);
 
                 fragment.setArguments(bundle);
 
@@ -137,7 +135,7 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
                 FragmentTransaction transaction = manager.beginTransaction();
 
                 transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                transaction.replace(R.id.searchlayout,fragment,"product");
+                transaction.replace(R.id.mainframeL,fragment,"product");
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
                 transaction.commit();
@@ -159,8 +157,6 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
 
                bundle.putString("_id",id);
 
-               bundle.putString("product_id","Iphone X");
-
                Fragment fragment = new products_fragment(ctx);
 
                fragment.setArguments(bundle);
@@ -170,7 +166,7 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
                FragmentTransaction transaction = manager.beginTransaction();
 
                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-               transaction.replace(R.id.searchlayout,fragment,"product");
+               transaction.replace(R.id.mainframeL,fragment,"product");
                transaction.addToBackStack("main");
 
                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -190,9 +186,6 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
 
 
     }
-
-
-
 
 
 

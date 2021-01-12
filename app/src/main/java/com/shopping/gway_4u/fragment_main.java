@@ -413,7 +413,8 @@ public class fragment_main extends Fragment implements View.OnClickListener {
     {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.mainframeL,new more_product(code,getContext()),null);
+        transaction.replace(R.id.mainframeL,new more_product(code,getContext()),"more");
+        transaction.addToBackStack("main");
         transaction.commit();
     }
 

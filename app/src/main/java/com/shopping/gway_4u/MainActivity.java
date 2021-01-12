@@ -328,7 +328,6 @@ public class MainActivity extends AppCompatActivity
         if(getFragmentManager().getBackStackEntryCount() > 0){
             getFragmentManager().popBackStack();
         }
-
     }
 
 
