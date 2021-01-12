@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -704,11 +706,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                 public void status(String status) {
 
                     Log.e("error",status);
-
                     try {
-
                         JSONObject object = new JSONObject(status);
-
                         if (object.has("code"))
                         {
                             String code = object.getString("code");
@@ -727,7 +726,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                         }else
                         {
                             Log.e("isUploaded",object.getString("uploaded"));
-
                             Toast.makeText(getContext(),object.getString("error"),Toast.LENGTH_SHORT).show();
                         }
 
@@ -749,13 +747,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     public void setUploadCode(int requestCode,String code)
     {
         StringBuilder builder = new StringBuilder();
-
         String data = "option["+requestCode+"]="+code+"&";
-
         builder.append(data);
-
     }
-
 
 
     public  void setDescriptions(String data)
@@ -770,15 +764,10 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     public void setReviewData(JSONArray array)
     {
-
         this.reviewsJson = array;
-
         String count =String.valueOf(array.length());
-
         reviewTotalTv.setText("("+count+")");
-
         ratingbar.setRating(reviewsCount);
-
     }
 
 
@@ -980,144 +969,10 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
           }
 
 
-           Map<String,String> radiokeys = new HashMap<>();
 
            radioGroup = view.findViewById(R.id.radios);
 
-           JSONArray optionsArray = objects.getJSONArray("options");
-
-           ArrayList<String> radioidlistId = new ArrayList<>();
-
-           ArrayList<String> radiolistTitile = new ArrayList<>();
-
-
-           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-
-                   LinearLayout.LayoutParams.WRAP_CONTENT);
-
-           LinearLayout.LayoutParams groupmargin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-
-                   LinearLayout.LayoutParams.WRAP_CONTENT);
-
-           LinearLayout.LayoutParams radiogroupparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-
-                   LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
-           LinearLayout.LayoutParams textviewparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-
-           textviewparam.setMargins(20,20,0,0);
-
-
-
-
-           for (int l=0; l < optionsArray.length(); l++)
-          {
-              JSONObject optionObj = optionsArray.getJSONObject(l);
-
-              String type = optionObj.getString("type");
-
-              String title = optionObj.getString("title");
-
-              String optionId = optionObj.getString("id");
-
-              radiotxt = view.findViewById(R.id.radioid);
-
-              radiotxt.setText(optionId);
-
-              radioHeader[l] = new TextView(getContext());
-              radioHeader[l].setText(title);
-              radioHeader[l].setLayoutParams(textviewparam);
-              radioHeader[l].setTextColor(getResources().getColor(R.color.black));
-
-
-
-              radioGroup.addView(radioHeader[l]);
-
-
-
-              radioGroups[l] = new RadioGroup(getContext());
-              radioGroups[l].setTag(title);
-              radioGroups[l].setId(Integer.parseInt(optionId));
-              radioGroups[l].setOrientation(LinearLayout.HORIZONTAL);
-
-              radioGroup.addView(radioGroups[l]);
-
-
-
-
-              LinearLayout.LayoutParams radioparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-
-              radioparams.setMargins(20,20,0,0);
-
-
-
-              JSONArray items = optionObj.getJSONArray("items");
-
-              for (int p=0; p < items.length(); p++)
-              {
-                  JSONObject itemObj = items.getJSONObject(p);
-
-                  String id = itemObj.getString("id");
-
-                  String value = itemObj.getString("value");
-
-
-                  radioButtons[p] = new RadioButton(getContext());
-                  radioButtons[p].setButtonDrawable(android.R.color.transparent);
-                  radioButtons[p].setBackgroundResource(R.drawable.radio_background);
-                  radioButtons[p].setLayoutParams(params);
-                  radioButtons[p].setPadding(20,20,20,20);
-
-                  radioButtons[p].setId(Integer.parseInt(id));
-                  radioButtons[p].setTag(id);
-                  radioButtons[p].setText(value);
-                  radioButtons[0].setChecked(true);
-                  radioButtons[p].setLayoutParams(radioparams);
-                  radioGroups[l].addView(radioButtons[p]);
-                  radioButtons[p].setGravity(Gravity.CENTER);
-
-
-                  int key = radioGroups[l].getId();
-
-                  String values = String.valueOf(radioGroups[l].getCheckedRadioButtonId());
-
-
-                  keyValue.put(key,values);
-
-                  isChecked = true;
-
-
-                  radioGroups[l].setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-                      @Override
-                      public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                          int who = group.getId();
-
-                          String rbId = String.valueOf(checkedId);
-
-                          keyValue.put(who,rbId);
-
-                          isChecked = true;
-
-                      }
-                  });
-
-
-
-
-              }
-
-
-              if (type.equals("radio"))
-              {
-                  int total = radiokeys.size();
-                  isCheckRequired = true;
-                  Iterator it = radiokeys.entrySet().iterator();
-              }
-
-          }
+          radioOptionsview(objects);
 
 
            linearLayout = view.findViewById(R.id.uploadbox);
@@ -1187,6 +1042,136 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
    }
 
 
+
+   public void radioOptionsview(JSONObject objects)
+   {
+       try {
+
+           JSONArray optionsArray = objects.getJSONArray("options");
+
+
+           Map<String,String> radiokeys = new HashMap<>();
+
+           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+
+                   LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+           LinearLayout.LayoutParams textviewparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+
+           textviewparam.setMargins(20,20,0,0);
+
+
+
+
+           for (int l=0; l < optionsArray.length(); l++)
+           {
+               JSONObject optionObj = optionsArray.getJSONObject(l);
+
+               String type = optionObj.getString("type");
+
+               String title = optionObj.getString("title");
+
+               String optionId = optionObj.getString("id");
+
+               radiotxt = view.findViewById(R.id.radioid);
+
+               radiotxt.setText(optionId);
+
+               radioHeader[l] = new TextView(getContext());
+               radioHeader[l].setText(title);
+               radioHeader[l].setLayoutParams(textviewparam);
+               radioHeader[l].setTextColor(getResources().getColor(R.color.black));
+
+
+
+               radioGroup.addView(radioHeader[l]);
+
+
+
+               radioGroups[l] = new RadioGroup(getContext());
+               radioGroups[l].setTag(title);
+               radioGroups[l].setId(Integer.parseInt(optionId));
+               radioGroups[l].setOrientation(LinearLayout.HORIZONTAL);
+
+               radioGroup.addView(radioGroups[l]);
+
+
+
+
+               LinearLayout.LayoutParams radioparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+
+               radioparams.setMargins(20,20,0,0);
+
+
+
+               JSONArray items = optionObj.getJSONArray("items");
+
+               for (int p=0; p < items.length(); p++)
+               {
+                   JSONObject itemObj = items.getJSONObject(p);
+
+                   String id = itemObj.getString("id");
+
+                   String value = itemObj.getString("value");
+
+
+                   radioButtons[p] = new RadioButton(getContext());
+                   radioButtons[p].setButtonDrawable(android.R.color.transparent);
+                   radioButtons[p].setBackgroundResource(R.drawable.radio_background);
+                   radioButtons[p].setLayoutParams(params);
+                   radioButtons[p].setPadding(20,20,20,20);
+
+                   radioButtons[p].setId(Integer.parseInt(id));
+                   radioButtons[p].setTag(id);
+                   radioButtons[p].setText(value);
+                   radioButtons[0].setChecked(true);
+                   radioButtons[p].setLayoutParams(radioparams);
+                   radioGroups[l].addView(radioButtons[p]);
+                   radioButtons[p].setGravity(Gravity.CENTER);
+
+
+                   int key = radioGroups[l].getId();
+
+                   String values = String.valueOf(radioGroups[l].getCheckedRadioButtonId());
+
+
+                   keyValue.put(key,values);
+
+                   isChecked = true;
+
+
+                   radioGroups[l].setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+                       @Override
+                       public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                           int who = group.getId();
+                           String rbId = String.valueOf(checkedId);
+                           keyValue.put(who,rbId);
+                           isChecked = true;
+
+                       }
+                   });
+
+               }
+
+               if (type.equals("radio"))
+               {
+                   int total = radiokeys.size();
+                   isCheckRequired = true;
+                   Iterator it = radiokeys.entrySet().iterator();
+               }
+
+           }
+
+       }catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+   }
+
+
    public void uploadFileView(int length)
    {
        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1195,7 +1180,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
        int index =-1;
 
-       TextView[] texts = new TextView[2];
+       TextView[] texts = new TextView[length];
        texts[0] = new TextView(getContext());
        texts[0].setText("File Upload :");
        uploadlayout.addView(texts[0]);
@@ -1250,15 +1235,15 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
        int index = -1;
 
-       while (index != length)
+       while (iterator.hasNext())
        {
 
            index++;
 
            Map.Entry pair = (Map.Entry) iterator.next();
            String value = pair.getValue().toString();
-           int id = Integer.parseInt(pair.getKey().toString());
-           String codes = String.valueOf(id);
+           final int id = Integer.parseInt(pair.getKey().toString());
+           final String codes = String.valueOf(id);
 
 
            texts[index] = new TextView(getContext());
@@ -1266,11 +1251,42 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            Textboxlayout.addView(texts[index]);
 
            editTexts[index] = new EditText(getContext());
-           editTexts[index].setHint(value);
-           editTexts[index].setLines(8);
+           editTexts[index].setLines(4);
+           editTexts[index].setTag(codes);
            Textboxlayout.addView(editTexts[index]);
 
            rules.put(codes,true);
+
+           editTexts[index].addTextChangedListener(new TextWatcher() {
+               @Override
+               public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+               }
+
+               @Override
+               public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                   int textlength = count;
+                   String chars = s.toString();
+
+                   if (count > 0)
+                   {
+                       keyValue.put(id,chars);
+                       rules.put(codes,false);
+                   }else {
+
+                       keyValue.remove(id);
+                       rules.put(codes,true);
+                   }
+
+               }
+
+               @Override
+               public void afterTextChanged(Editable s) {
+
+
+               }
+           });
 
        }
 
@@ -1313,7 +1329,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
               if (success !=false)
               {
-                  redirectHome();
+                  //redirectHome();
               }
 
                int cart_pro_id = 0;
@@ -1326,8 +1342,27 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                String id = radiotxt.getText().toString();
 
 
-
-
+               if (textKeys.size() > 0)
+               {
+                   Iterator iterator = textKeys.entrySet().iterator();
+                   while (iterator.hasNext())
+                   {
+                       Map.Entry pair = (Map.Entry) iterator.next();
+                       Log.e("Textarea",pair.getKey().toString());
+                       String tag = pair.getKey().toString();
+                       EditText editText = Textboxlayout.findViewWithTag(tag);
+                       int textLength = editText.length();
+                       if (textLength == 0)
+                       {
+                           editText.setError("Please Enter text");
+                           error = true;
+                       }else {
+                           String text = editText.getText().toString();
+                           keyValue.put(Integer.parseInt(tag),pair.getValue().toString());
+                           editText.setError(null);
+                       }
+                   }
+               }
 
 
                if (isCheckRequired == true && isChecked != true)
