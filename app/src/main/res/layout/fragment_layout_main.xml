@@ -104,6 +104,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="right">
           <Button
+              android:id="@+id/featured_more"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
@@ -170,6 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right">
             <Button
+                android:id="@+id/latest_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -239,7 +241,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right">
             <Button
-                android:id="@+id/specials"
+                android:id="@+id/special_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
