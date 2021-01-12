@@ -46,10 +46,12 @@ public class searchProduct extends AppCompatActivity {
 
         if (getIntent().getStringExtra("tag") != null)
         {
+            String tags = getIntent().getStringExtra("tag");
             searchView.setQuery(title,true);
             searchView.clearFocus();
             searchSubmit(title);
         }
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

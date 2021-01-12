@@ -1,6 +1,7 @@
 package com.shopping.gway_4u;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -39,7 +42,7 @@ import java.util.HashMap;
  * Use the {@link fragment_main#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_main extends Fragment {
+public class fragment_main extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,45 +53,29 @@ public class fragment_main extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+     private OnFragmentInteractionListener mListener;
 
-    private  loadMainData mainData;
+     private  loadMainData mainData;
 
-    private static int[] Extimages;
-
+     private static int[] Extimages;
      private Handler handler;
-
      private Runnable runnable;
-
      private boolean connected = false;
 
-
      config_hosts hosts  = new config_hosts();
-
     ViewPager pager;
-
     SliderView sliderView;
-
     JSONArray sliderstotal;
-
     RecyclerView recyclerView;
     RecyclerView specialRecycler;
-
-    ArrayList<String> sliderURL= new ArrayList<>();
-
-    HashMap<String,String> keyvalswishlist = new HashMap<>();
-
     ArrayList<String> wishlist_products = new ArrayList<>();
-
     LinearLayout featuredHeader;
-
     LinearLayout specialLayout;
-
     LinearLayout latestHeader;
-
     RecyclerView categoryview;
-
     JSONArray cats;
+
+    Button btn_featured,btn_latest,btn_special;
 
     public fragment_main() {
         // Required empty public constructor
@@ -373,6 +360,7 @@ public class fragment_main extends Fragment {
         {
             e.printStackTrace();
         }
+
     }
 
 
@@ -421,13 +409,21 @@ public class fragment_main extends Fragment {
 
 
 
+    public void showMoreProductByCode(String code)
+    {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.mainframeL,new more_product(code,getContext()),null);
+        transaction.commit();
+    }
+
+
+
 
     public void setLatestInfo(JSONArray array)
 
     {
-
         View view = getView();
-
         if (array.length() > 0)
         {
             latestHeader.setVisibility(View.VISIBLE);
@@ -530,8 +526,19 @@ public class fragment_main extends Fragment {
         latestHeader = view.findViewById(R.id.latestText);
         specialLayout = view.findViewById(R.id.specialHead);
         categoryview = view.findViewById(R.id.categoryLayout);
-
         specialRecycler = view.findViewById(R.id.special_recyclerview);
+
+        //BUTTONs
+
+        btn_featured = view.findViewById(R.id.featured_more);
+        btn_latest = view.findViewById(R.id.latest_more);
+        btn_special = view.findViewById(R.id.special_more);
+
+        //listener
+
+        btn_featured.setOnClickListener(this);
+        btn_special.setOnClickListener(this);
+        btn_latest.setOnClickListener(this);
 
         return view;
     }
@@ -555,6 +562,25 @@ public class fragment_main extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+
+    @Override
+    public void onClick(View v) {
+
+        showMoreProductByCode(v.getTag().toString());
+    }
+
+
+
+
+    public boolean menuSearch(String tag)
+    {
+        startActivity(new Intent(getContext(),searchProduct.class).putExtra("tag",tag));
+        return true;
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

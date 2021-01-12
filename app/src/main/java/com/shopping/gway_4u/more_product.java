@@ -4,15 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +15,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,12 +33,12 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link searchContents.OnFragmentInteractionListener} interface
+ * {@link more_product.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link searchContents#newInstance} factory method to
+ * Use the {@link more_product#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class searchContents extends Fragment {
+public class more_product extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,11 +70,13 @@ public class searchContents extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public searchContents() {
+    JSONArray product_array;
+
+    public more_product() {
         // Required empty public constructor
     }
 
-    public searchContents(String query,Context actvity)
+    public more_product(String query, Context actvity)
     {
         paramt = query;
         this.context = actvity;
@@ -91,8 +91,8 @@ public class searchContents extends Fragment {
      * @return A new instance of fragment searchContents.
      */
     // TODO: Rename and change types and number of parameters
-    public static searchContents newInstance(String param1, String param2) {
-        searchContents fragment = new searchContents();
+    public static more_product newInstance(String param1, String param2) {
+        more_product fragment = new more_product();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -188,35 +188,31 @@ public class searchContents extends Fragment {
                 {
                     case "high" : params.put("sort","p.price");
                                   params.put("order","DESC");
-                                  params.put("search",paramt);
                                   setFilter();
                                   showUpFilters();
                                   break;
 
                     case "low" : params.put("sort","p.price");
                                  params.put("order","ASC");
-                                 params.put("search",paramt);
                                  setFilter();
-                                  showUpFilters();
+                                 showUpFilters();
                                  break;
 
 
                     case "ratinghigh" : params.put("sort","rating");
                                         params.put("order","DESC");
-                                        params.put("search",paramt);
                                         setFilter();
                                         showUpFilters();
                                         break;
 
                     case "ratinglow" : params.put("sort","rating");
                                        params.put("order","ASC");
-                                       params.put("search",paramt);
                                        setFilter();
                                        showUpFilters();
                                        break;
 
                     case "default" :
-                                       params.put("search",paramt);
+
                                        params.put("order","");
                                        params.put("sort","");
 
@@ -273,128 +269,108 @@ public class searchContents extends Fragment {
 
     public void loadData(String params)
     {
-        params = "search="+params;
-        new syncSearch(getContext(), params, new info() {
-            @Override
-            public void getInfo(String data) {
-                setsearchdata(data);
-            }
-        }).execute();
-
+       switch (params)
+       {
+           case "featured" : showByFeatured(null);
+           break;
+           case "latest" : showByLatest(null);
+           break;
+           case  "special" : showBySpecial(null);
+           break;
+       }
     }
 
 
 
-    public void showByFeatured()
+    public void showByFeatured(String defaultParam)
     {
         String URL = hosts.FEATURED_MORE;
 
-        new syncAsyncTask(getContext(), "GET", URL, null, new jsonObjects() {
+        new syncAsyncTask(getContext(), "POST", URL,defaultParam, new jsonObjects() {
             @Override
             public void getObjects(String object) {
-
                 Log.e("showByFeatured",object);
+                setsearchdata(object);
             }
         }).execute();
     }
 
-    public void showByLatest()
+    public void showByLatest(String defaultParam)
     {
         String URL = hosts.LATEST_MORE;
-
-        new syncAsyncTask(getContext(), "GET", URL, null, new jsonObjects() {
+        new syncAsyncTask(getContext(), "POST", URL, defaultParam, new jsonObjects() {
             @Override
             public void getObjects(String object) {
-
-                Log.e("showByFeatured",object);
+                Log.e("showByLatest",object);
+                setsearchdata(object);
             }
         }).execute();
     }
 
-    public void showBySpecial()
+    public void showBySpecial(String defaultParam)
     {
         String URL = hosts.SPECIAL_MORE;
-
-        new syncAsyncTask(getContext(), "GET", URL, null, new jsonObjects() {
+        new syncAsyncTask(getContext(), "POST", URL,defaultParam, new jsonObjects() {
             @Override
             public void getObjects(String object) {
-
-                Log.e("showByFeatured",object);
+                Log.e("showBySpecial",object);
+                setsearchdata(object);
             }
         }).execute();
     }
-
-
 
 
 
     public void setFilter()
     {
-
        String sort = params.get("sort");
-
        String order = params.get("order");
-
-       String search = params.get("search");
-
-       Log.e("filter",sort+order+search);
-
-       String keyvals = "sort="+sort+"&order="+order+"&search="+search;
-
+       Log.e("filter",sort+order);
+       String keyvals = "sort="+sort+"&order="+order;
        Log.e("param",keyvals);
-
-       filter(keyvals);
-
+       filter(paramt,keyvals);
     }
 
 
-    public void filter(String params)
+    public void filter(String code,String params)
     {
-        new syncSearch(getContext(), params, new info() {
-            @Override
-            public void getInfo(String data) {
-                setsearchdata(data);
-            }
-        }).execute();
 
+        Log.e("filter code",code);
+
+        switch (code)
+        {
+            case "featured" : showByFeatured(params);
+                break;
+            case "latest" : showByLatest(params);
+                break;
+            case  "special" : showBySpecial(params);
+                break;
+        }
     }
 
 
 
     public void setsearchdata(String info)
     {
-
-
         try {
 
             JSONObject object = new JSONObject(info);
-
             JSONArray array = object.getJSONArray("products");
+            product_array = array;
 
-           if (array.isNull(0))
-           {
+            Log.e("product_array",array.toString());
 
-               FragmentManager manager = getFragmentManager();
+            if (array.length() > 0)
+            {
+                setsetsearchInfo(array);
+            }else {
 
-               FragmentTransaction transaction = manager.beginTransaction();
-
-               transaction.replace(R.id.searchlayout,new ERROR("Nothing found"));
-               transaction.commit();
-
-               closeDialog();
-
-           }else {
-
-               setsetsearchInfo(array);
-           }
-
-
+                dialog.dismiss();
+            }
         }catch (Exception e)
         {
             e.printStackTrace();
         }
-
-
 
     }
 

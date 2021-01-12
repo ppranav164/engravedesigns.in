@@ -109,6 +109,7 @@
               android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
               android:textColor="@color/red"
+              android:tag="featured"
               android:background="@drawable/layout_border"
               android:text="More"/>
       </RelativeLayout>
@@ -175,6 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:tag="latest"
                 android:textColor="@color/red"
                 android:background="@drawable/layout_border"
                 android:text="More"/>
@@ -246,6 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/red"
+                android:tag="special"
                 android:background="@drawable/layout_border"
                 android:text="More"/>
         </RelativeLayout>
