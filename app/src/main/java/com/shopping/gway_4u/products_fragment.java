@@ -76,6 +76,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     ViewPager viewPager;
 
     LinearLayout linearLayout;
+    LinearLayout Textboxlayout;
 
     Button UploadBtn;
 
@@ -128,8 +129,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     String fulldata;
 
     boolean isFileRequired;
-
     boolean isCheckRequired;
+    boolean isTextRequired;
 
     boolean isChecked;
 
@@ -176,6 +177,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     int product_options_id = 0; //227 for file options[227] = code // gf44gr44e434ww435df345234523452345
 
+
+    int textArea_product_id = 0;
+
     recycleradapter_cart cart;
 
 
@@ -185,6 +189,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
     HashMap<Integer,String> uploadKeys = new HashMap<>();
+    HashMap<Integer,String> textKeys = new HashMap<>();
 
     HashMap<String,Boolean> rules = new HashMap<>();
 
@@ -238,6 +243,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
         view = inflater.inflate(R.layout.layout_products,container,false);
 
         viewPager = view.findViewById(R.id.productslider);
+
+        Textboxlayout = view.findViewById(R.id.textbox);
 
         return view;
     }
@@ -1039,11 +1046,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
 
-
               LinearLayout.LayoutParams radioparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 
               radioparams.setMargins(20,20,0,0);
-
 
 
 
@@ -1056,7 +1061,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                   String id = itemObj.getString("id");
 
                   String value = itemObj.getString("value");
-
 
 
                   radioButtons[p] = new RadioButton(getContext());
@@ -1089,7 +1093,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                       @Override
                       public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-
                           int who = group.getId();
 
                           String rbId = String.valueOf(checkedId);
@@ -1109,23 +1112,18 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
               if (type.equals("radio"))
               {
-
                   int total = radiokeys.size();
                   isCheckRequired = true;
                   Iterator it = radiokeys.entrySet().iterator();
-
-
               }
-
-
 
           }
 
 
-
-
            linearLayout = view.findViewById(R.id.uploadbox);
-
+           JSONObject optb = objects.getJSONObject("upload");
+           JSONArray array = optb.getJSONArray("file");
+           JSONArray textArea = optb.getJSONArray("textarea");
 
 
           for (int i=0; i < objects.length(); i++)
@@ -1133,98 +1131,51 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
               if (objects.has("upload"))
               {
-                  JSONObject optb = objects.getJSONObject("upload");
-
-                  JSONArray array = optb.getJSONArray("file");
 
                   for (int k=0; k<array.length(); k++)
                   {
-
                       JSONObject jsonObject = array.getJSONObject(k);
-
                       String type = jsonObject.getString("type");
-
                       String uploadId = jsonObject.getString("product_option_id");
-
                       String upload_title = jsonObject.getString("name");
-
                       int upload_id = Integer.parseInt(uploadId);
-
                       uploadKeys.put(upload_id,upload_title);
+                      linearLayout.setVisibility(View.VISIBLE);
+                      isFileRequired = true;
+                      product_options_id = Integer.parseInt(uploadId);
+                  }
 
-
-                      if (type.equals("file"))
-                      {
-                          linearLayout.setVisibility(View.VISIBLE);
-
-                          isFileRequired = true;
-
-                          product_options_id = Integer.parseInt(uploadId);
-
-                      }
-
+                  for (int k=0; k<textArea.length(); k++)
+                  {
+                      JSONObject jsonObject = textArea.getJSONObject(k);
+                      String type = jsonObject.getString("type");
+                      String option_text_id = jsonObject.getString("product_option_id");
+                      String textTitle = jsonObject.getString("name");
+                      int textID = Integer.parseInt(option_text_id);
+                      textKeys.put(textID,textTitle);
+                      Textboxlayout.setVisibility(View.VISIBLE);
+                      isTextRequired = true;
+                      textArea_product_id = Integer.parseInt(option_text_id);
 
                   }
+
               }
 
-
           }
 
-
-          LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-          Iterator iterator = uploadKeys.entrySet().iterator();
-
-          int index =-1;
-
-           TextView[] texts = new TextView[2];
-
-           texts[0] = new TextView(getContext());
-
-           texts[0].setText("File Upload :");
-
-           uploadlayout.addView(texts[0]);
-
-          while (iterator.hasNext())
+          if (objects.has("upload"))
           {
+              if (array.length() > 0)
+              {
+                  uploadFileView(array.length());
+              }
 
-              index++;
-
-              Map.Entry pair = (Map.Entry) iterator.next();
-
-              String value = pair.getValue().toString();
-
-              int id = Integer.parseInt(pair.getKey().toString());
-
-              linearLayouts[index] = new LinearLayout(getContext());
-              linearLayouts[index].setLayoutParams(params1);
-              linearLayouts[index].setId(id);
-
-              uploadlayout.addView(linearLayouts[index]);
-
-
-              uploadButton[index] = new Button(getContext());
-              uploadButton[index].setTag(id);
-              uploadButton[index].setText(value);
-              uploadButton[index].setBackgroundResource(R.drawable.upload_active);
-
-
-              String codes = String.valueOf(id);
-
-              rules.put(codes,true);
-              uploadlayout.addView(uploadButton[index]);
-              uploadButton[index].setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-
-                     String opt = v.getTag().toString();
-                     int code = Integer.parseInt(opt);
-                     fileChooser(code);
-
-                  }
-              });
-
-
+              if (textArea.length() > 0)
+              {
+                  TextArea(textArea.length());
+              }
           }
+
 
        }catch (Exception e)
        {
@@ -1232,6 +1183,96 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
        }
 
 
+
+   }
+
+
+   public void uploadFileView(int length)
+   {
+       LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+       params1.setMargins(5,5,5,5);
+       Iterator iterator = uploadKeys.entrySet().iterator();
+
+       int index =-1;
+
+       TextView[] texts = new TextView[2];
+       texts[0] = new TextView(getContext());
+       texts[0].setText("File Upload :");
+       uploadlayout.addView(texts[0]);
+
+       while (iterator.hasNext())
+       {
+
+           index++;
+
+           Map.Entry pair = (Map.Entry) iterator.next();
+
+           String value = pair.getValue().toString();
+
+           int id = Integer.parseInt(pair.getKey().toString());
+
+           linearLayouts[index] = new LinearLayout(getContext());
+           linearLayouts[index].setLayoutParams(params1);
+           linearLayouts[index].setId(id);
+
+           uploadlayout.addView(linearLayouts[index]);
+
+
+           uploadButton[index] = new Button(getContext());
+           uploadButton[index].setTag(id);
+           uploadButton[index].setText(value);
+           uploadButton[index].setBackgroundResource(R.drawable.upload_active);
+
+
+           String codes = String.valueOf(id);
+
+           rules.put(codes,true);
+           uploadlayout.addView(uploadButton[index]);
+           uploadButton[index].setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+
+                   String opt = v.getTag().toString();
+                   int code = Integer.parseInt(opt);
+                   fileChooser(code);
+               }
+           });
+       }
+   }
+
+
+
+   public void TextArea(int length)
+   {
+       Iterator iterator = textKeys.entrySet().iterator();
+       TextView[] texts = new TextView[length];
+       EditText[] editTexts = new EditText[length];
+
+       int index = -1;
+
+       while (index != length)
+       {
+
+           index++;
+
+           Map.Entry pair = (Map.Entry) iterator.next();
+           String value = pair.getValue().toString();
+           int id = Integer.parseInt(pair.getKey().toString());
+           String codes = String.valueOf(id);
+
+
+           texts[index] = new TextView(getContext());
+           texts[index].setText(value);
+           Textboxlayout.addView(texts[index]);
+
+           editTexts[index] = new EditText(getContext());
+           editTexts[index].setHint(value);
+           editTexts[index].setLines(8);
+           Textboxlayout.addView(editTexts[index]);
+
+           rules.put(codes,true);
+
+       }
 
    }
 
@@ -1378,6 +1419,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                        @Override
                        public void loadCarts(String data) {
 
+
+                           Log.e("loadCarts",data);
 
                            try {
 
