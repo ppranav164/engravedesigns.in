@@ -18,6 +18,8 @@ public class syncCartAdd extends AsyncTask<String,String,String>
 
     config_hosts hosts = new config_hosts();
 
+    String TAG = "syncCartAdd";
+
     private Context context;
 
     int proid;
@@ -86,7 +88,7 @@ public class syncCartAdd extends AsyncTask<String,String,String>
             connection.setRequestMethod("POST");
 
 
-            Log.e("checkbox",param);
+            Log.e(TAG,param);
 
             connection.setRequestMethod("POST");
 

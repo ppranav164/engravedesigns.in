@@ -1358,7 +1358,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                            error = true;
                        }else {
                            String text = editText.getText().toString();
-                           keyValue.put(Integer.parseInt(tag),pair.getValue().toString());
                            editText.setError(null);
                        }
                    }
@@ -1367,14 +1366,10 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
                if (isCheckRequired == true && isChecked != true)
                {
-
                    error = true;
-
                    Toast.makeText(getContext(),"Please check color option",Toast.LENGTH_SHORT).show();
-
                    Log.e("isChecked",String.valueOf(isChecked));
                    Log.e("chech required",String.valueOf(isCheckRequired));
-
                }
 
                else if (isFileRequired != false && uploadCodes == null) {
@@ -1409,32 +1404,24 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                try {
 
                       cart_pro_id = data.getInt("product_id");
-
                       StringBuilder stringBuilder = new StringBuilder();
-
                       Iterator iterator = keyValue.entrySet().iterator();
 
 
                       while (iterator.hasNext())
                       {
                           Map.Entry pair = (Map.Entry) iterator.next();
-
                           int key = Integer.parseInt( pair.getKey().toString());
-
                           String values = pair.getValue().toString();
-
                           keyValue.put(key,values);
-
                           String params = "option["+key+"]="+values+"&";
-
                           stringBuilder.append(params);
-
                       }
 
-
                       options = stringBuilder.toString();
-
                       options += "product_id="+cart_pro_id+"&quantity="+quantity;
+
+                      Log.e("Selected Option",options);
 
 
                }catch (Exception e)
@@ -1454,30 +1441,19 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                        @Override
                        public void loadCarts(String data) {
 
-
                            Log.e("loadCarts",data);
-
                            try {
-
                                JSONObject messageobj = new JSONObject(data);
-
                                String message = messageobj.getString("status");
-
                                Log.e("Server Response",message);
-
-
-
                                if (message == "success")
                                {
                                   success = true;
-
                                }
-
                            }catch (Exception e)
                            {
                                e.printStackTrace();
                            }
-
                        }
                    }).execute();
 
@@ -1489,7 +1465,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                            try {
 
                                JSONObject jsonObject = new JSONObject(data);
-
                                String items = jsonObject.getString("text_items");
 
                                //Textview here to set count to cart basket
