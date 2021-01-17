@@ -128,7 +128,14 @@ public class MainActivity extends AppCompatActivity
          }
 
 
-        if (getIntent().getStringExtra("orders") != null)
+        if (getIntent().getStringExtra("tag") != null){
+
+            String id = getIntent().getStringExtra("tag");
+
+            showFragment(new products_fragment(getApplicationContext()),R.id.mainframeL,"product",id).commit();
+
+        }else if (getIntent().getStringExtra("orders") != null)
+
         {
             Fragment fragment = new orders();
             FragmentManager manager = getSupportFragmentManager();
@@ -230,6 +237,25 @@ public class MainActivity extends AppCompatActivity
 
         checkCoonection();
 
+    }
+
+
+
+    public FragmentTransaction showFragment(Fragment fragment,int resouceId,String tag,String param)
+    {
+        if (param != null)
+        {
+            Bundle bundle = new Bundle();
+            bundle.putString("_id",param);
+            fragment.setArguments(bundle);
+        }
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(resouceId,fragment,tag);
+        transaction.addToBackStack("home");
+        closeDialog();
+        return  transaction;
     }
 
 

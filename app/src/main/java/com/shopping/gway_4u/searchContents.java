@@ -403,30 +403,15 @@ public class searchContents extends Fragment {
     public void setsetsearchInfo(JSONArray array)
 
     {
-
         View view = getView();
-
         recyclerView  =  view.findViewById(R.id.vrecyclerview);
-
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2, LinearLayoutManager.VERTICAL,false));
-
         recyclerView.smoothScrollToPosition(0);
-
-
         productsBySearch_adapter recadapter = new productsBySearch_adapter(context,array);
-
         recyclerView.setAdapter(recadapter);
-
         recadapter.notifyDataSetChanged();
-
         closeDialog();
-
-
     }
-
-
-
-
 
 
 

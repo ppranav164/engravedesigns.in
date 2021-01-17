@@ -2,7 +2,9 @@ package com.shopping.gway_4u;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
     JSONArray array;
 
 
+    String TAG = "productsBySearch_adapter";
+
 
     public productsBySearch_adapter(Context context, JSONArray data)
     {
@@ -46,6 +50,8 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
     @Override
     public MyViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
 
+
+        Log.e("TAG",TAG);
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.searchbyproducts,parent,false);
 
@@ -117,66 +123,21 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Toast.makeText(ctx,"Link :"+ids.get(holder.getPosition()),Toast.LENGTH_LONG).show();
-
                 String id = ids.get(holder.getPosition());
-
-                Bundle bundle = new Bundle();
-
-                bundle.putString("_id",id);
-
-                Fragment fragment = new products_fragment(ctx);
-
-                fragment.setArguments(bundle);
-
-                FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
-
-                FragmentTransaction transaction = manager.beginTransaction();
-
-                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                transaction.replace(R.id.mainframeL,fragment,"product");
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-                transaction.commit();
+                showProduct(id);
             }
         });
 
 
 
-
-       holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-
-               //Toast.makeText(ctx,"Link :"+ids.get(holder.getPosition()),Toast.LENGTH_LONG).show();
-
-               String id = ids.get(holder.getPosition());
-
-               Bundle bundle = new Bundle();
-
-               bundle.putString("_id",id);
-
-               Fragment fragment = new products_fragment(ctx);
-
-               fragment.setArguments(bundle);
-
-               FragmentManager manager = ((FragmentActivity)ctx).getSupportFragmentManager();
-
-               FragmentTransaction transaction = manager.beginTransaction();
-
-               transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-               transaction.replace(R.id.mainframeL,fragment,"product");
-               transaction.addToBackStack("main");
-
-               transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-               transaction.commit();
-           }
-       });
-
-
     }
+
+
+    public void showProduct(String id)
+    {
+        ctx.startActivity(new Intent(ctx,MainActivity.class).putExtra("tag",id));
+    }
+
 
     @Override
     public int getItemCount() {
