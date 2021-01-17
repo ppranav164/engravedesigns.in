@@ -79,6 +79,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     LinearLayout linearLayout;
     LinearLayout Textboxlayout;
+    LinearLayout datebox;
 
     Button UploadBtn;
 
@@ -178,9 +179,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
     int product_options_id = 0; //227 for file options[227] = code // gf44gr44e434ww435df345234523452345
-
-
     int textArea_product_id = 0;
+    int dateOption_id = 0;
 
     recycleradapter_cart cart;
 
@@ -192,6 +192,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     HashMap<Integer,String> uploadKeys = new HashMap<>();
     HashMap<Integer,String> textKeys = new HashMap<>();
+    HashMap<Integer,String> dateKeys = new HashMap<>();
 
     HashMap<String,Boolean> rules = new HashMap<>();
 
@@ -247,6 +248,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
         viewPager = view.findViewById(R.id.productslider);
 
         Textboxlayout = view.findViewById(R.id.textbox);
+
+        datebox = view.findViewById(R.id.datebox);
 
         return view;
     }
@@ -481,17 +484,12 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
     public void setWishlist(View view)
     {
-
-
         wishlist = view.findViewById(R.id.wishlistB);
-
         wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String tag = wishlist.getTag().toString();
-
-
                 switch (tag)
                 {
                     case "yellow" :  wishlist.setBackgroundResource(R.drawable.wishlistp);
@@ -504,8 +502,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                                      removeWishlist();
                                      break;
                 }
-
-
             }
         });
 
@@ -1029,6 +1025,24 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                       }
                   }
 
+
+                  if (optb.has("date"))
+                  {
+                      JSONArray dateOption = optb.getJSONArray("date");
+
+                      for (int k=0; k<dateOption.length(); k++)
+                      {
+                          JSONObject jsonObject = dateOption.getJSONObject(k);
+                          String option_text_id = jsonObject.getString("product_option_id");
+                          String textTitle = jsonObject.getString("name");
+                          int textID = Integer.parseInt(option_text_id);
+                          dateKeys.put(textID,textTitle);
+                          dateOption_id = Integer.parseInt(option_text_id);
+                          datebox.setVisibility(View.VISIBLE);
+
+                      }
+                  }
+
               }
 
           }
@@ -1046,6 +1060,14 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                   JSONArray textArea = optb.getJSONArray("textarea");
                   TextArea(textArea.length());
               }
+
+              if (optb.has("date"))
+              {
+                  JSONArray textArea = optb.getJSONArray("date");
+                  setdeliveryDate(textArea.length());
+              }
+
+
           }
 
 
@@ -1311,8 +1333,78 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
 
+    public void setdeliveryDate(int length)
+    {
+        Iterator iterator = dateKeys.entrySet().iterator();
+        TextView[] texts = new TextView[length];
+        EditText[] editTexts = new EditText[length];
 
-   public void FullScreenSlider(List<String> images)
+        int index = -1;
+
+        while (iterator.hasNext()) {
+
+            index++;
+
+            Map.Entry pair = (Map.Entry) iterator.next();
+            String value = pair.getValue().toString();
+            final int id = Integer.parseInt(pair.getKey().toString());
+            final String codes = String.valueOf(id);
+
+
+            texts[index] = new TextView(getContext());
+            texts[index].setText(value);
+            datebox.addView(texts[index]);
+
+            editTexts[index] = new EditText(getContext());
+            editTexts[index].setLines(4);
+            editTexts[index].setTag(codes);
+            datebox.addView(editTexts[index]);
+
+            rules.put(codes, true);
+
+
+            editTexts[index].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    int textlength = count;
+                    String chars = s.toString();
+
+                    if (count > 0)
+                    {
+                        keyValue.put(id,chars);
+                        rules.put(codes,false);
+                    }else {
+
+                        keyValue.remove(id);
+                        rules.put(codes,true);
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+
+                }
+            });
+
+
+
+        }
+
+    }
+
+
+
+
+
+    public void FullScreenSlider(List<String> images)
    {
        int position = viewPager.getCurrentItem();
        Intent intent = new Intent(getContext(),FullscreenSlider.class);
@@ -1327,78 +1419,24 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
    {
 
-
-
        view.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
 
                entireView = getView();
-
-
                qtext = entireView.findViewById(R.id.quantity);
-
                Log.e("Cart ",keyValue.toString());
-
                Log.e("rules",rules.toString());
 
 
-
-              if (success !=false)
-              {
-                  //redirectHome();
-              }
-
                int cart_pro_id = 0;
-
                int quantity = Integer.parseInt(qtext.getText().toString());
-
-
                radiotxt = entireView.findViewById(R.id.radioid);
-
                String id = radiotxt.getText().toString();
 
-
-               if (textKeys.size() > 0)
-               {
-                   Iterator iterator = textKeys.entrySet().iterator();
-                   while (iterator.hasNext())
-                   {
-                       Map.Entry pair = (Map.Entry) iterator.next();
-                       Log.e("Textarea",pair.getKey().toString());
-                       String tag = pair.getKey().toString();
-                       EditText editText = Textboxlayout.findViewWithTag(tag);
-                       int textLength = editText.length();
-                       if (textLength == 0)
-                       {
-                           editText.setError("Please Enter text");
-                           error = true;
-                       }else {
-                           String text = editText.getText().toString();
-                           editText.setError(null);
-                       }
-                   }
-               }
-               else if (isCheckRequired == true && isChecked != true)
-               {
-                   error = true;
-                   Toast.makeText(getContext(),"Please check color option",Toast.LENGTH_SHORT).show();
-                   Log.e("isChecked",String.valueOf(isChecked));
-                   Log.e("chech required",String.valueOf(isCheckRequired));
-               }
-
-               else if (isFileRequired != false && uploadCodes == null) {
-
-
-                   Toast.makeText(getContext(),"Please Upload files",Toast.LENGTH_SHORT).show();
-                   error = true;
-
-               }
-
-               else  if (rules.containsValue(true))
-               {
-
-                   Toast.makeText(getContext(),"Please Upload files",Toast.LENGTH_SHORT).show();
+              if (rules.containsValue(true))
+                 {
+                   Toast.makeText(getContext(),"Please select options required",Toast.LENGTH_SHORT).show();
                    error = true;
                    Iterator iter = rules.entrySet().iterator();
                    while (iter.hasNext())
@@ -1409,7 +1447,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                }
                else
                {
-
                    error = false;
                }
 
@@ -1455,14 +1492,30 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                        public void loadCarts(String data) {
 
                            Log.e("loadCarts",data);
+
                            try {
+
                                JSONObject messageobj = new JSONObject(data);
-                               String message = messageobj.getString("status");
-                               Log.e("Server Response",message);
-                               if (message == "success")
+
+
+                               if (messageobj.has("error"))
                                {
-                                  success = true;
+                                   success = false;
+                                   showError(messageobj.getJSONObject("error"));
                                }
+
+
+                               if (messageobj.has("status"))
+                               {
+                                   String message = messageobj.getString("status");
+                                   Log.e("Server Response",message);
+                                   if (message.equals("success"))
+                                   {
+                                       success = true;
+                                       redirectHome();
+                                   }
+                               }
+
                            }catch (Exception e)
                            {
                                e.printStackTrace();
@@ -1470,36 +1523,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                        }
                    }).execute();
 
-
-                   new syncInfo(getContext(), new info() {
-                       @Override
-                       public void getInfo(String data) {
-
-                           try {
-
-                               JSONObject jsonObject = new JSONObject(data);
-                               String items = jsonObject.getString("text_items");
-
-                               //Textview here to set count to cart basket
-                               notify = menutabs.findViewById(R.id.notify_badge);
-
-                               notify.setText(items);
-
-                               Log.e("total",items);
-
-                           }catch (Exception e)
-                           {
-                               e.printStackTrace();
-                           }
-
-                       }
-                   }).execute();
 
                    setHasOptionsMenu(true);
 
-                   Snackbar.make(view,"Item added to cart",Snackbar.LENGTH_SHORT).show();
-
-                   redirectHome();
 
                }
 
@@ -1513,6 +1539,41 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
 
+   public void showError(JSONObject errors)
+   {
+       try {
+          if (errors.has("option"))
+          {
+              JSONObject object = errors.getJSONObject("option");
+              Iterator<?> keys = object.keys();
+              while (keys.hasNext())
+              {
+                  String objectKey = (String) keys.next();
+                  Log.e("objectKey",objectKey);
+                  String text_warning = object.getString(objectKey);
+                  Toast.makeText(getContext(),text_warning,Toast.LENGTH_LONG).show();
+
+                  EditText dates = datebox.findViewWithTag(objectKey);
+                  EditText textareas = Textboxlayout.findViewWithTag(objectKey);
+
+                  if (textareas.findViewWithTag(objectKey) != null)
+                  {
+                      textareas.setError(text_warning);
+                  }else if (dates.findViewWithTag(objectKey) != null)
+                  {
+                      dates.setError(text_warning);
+                  }
+
+              }
+          }
+
+       }catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+   }
+
+
    public void redirectHome()
 
    {
@@ -1522,6 +1583,39 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
        transaction.replace(R.id.mainframeL,fragment);
        transaction.commit();
 
+       reloadScreen();
+
+       Snackbar.make(view,"Item added to cart",Snackbar.LENGTH_SHORT).show();
+
+
+   }
+
+
+   public void reloadScreen()
+   {
+       new syncInfo(getContext(), new info() {
+           @Override
+           public void getInfo(String data) {
+
+               try {
+
+                   JSONObject jsonObject = new JSONObject(data);
+                   String items = jsonObject.getString("text_items");
+
+                   //Textview here to set count to cart basket
+                   notify = menutabs.findViewById(R.id.notify_badge);
+
+                   notify.setText(items);
+
+                   Log.e("total",items);
+
+               }catch (Exception e)
+               {
+                   e.printStackTrace();
+               }
+
+           }
+       }).execute();
    }
 
 
