@@ -975,6 +975,12 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
           radioOptionsview(objects);
 
 
+
+           //Product options here
+           //show random options required for a product
+           //all items should  atleast be checked at index 0 (Checked / selected )
+
+
            linearLayout = view.findViewById(R.id.uploadbox);
            JSONObject optb = objects.getJSONObject("upload");
 
