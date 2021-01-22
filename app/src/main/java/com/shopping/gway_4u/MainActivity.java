@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity
     SearchView searchView;
 
     fragment_list searchlist;
+
+    BackStacks backStacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -341,8 +344,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     @Override
     public void onBackPressed() {
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -354,6 +360,12 @@ public class MainActivity extends AppCompatActivity
         if(getFragmentManager().getBackStackEntryCount() > 0){
             getFragmentManager().popBackStack();
         }
+
+        backStacks = new BackStacks();
+        backStacks.getInstance(MainActivity.this);
+
+        Log.e("previous",""+backStacks.getCurrentActivity());
+
     }
 
 

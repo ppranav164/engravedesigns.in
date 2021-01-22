@@ -1,6 +1,7 @@
 package com.shopping.gway_4u;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -104,9 +105,7 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
            //Toast.makeText(ctx,"Data "+urlist,Toast.LENGTH_LONG).show();
 
            Picasso.get().load(urlist.get(pos)).into(holder.imageView);
-
            holder.textView.setText(tlist.get(pos));
-
            holder.Tprice.setText(plist.get(pos));
 
 
@@ -119,7 +118,6 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
 
         //Picasso.get().load(data[pos]).into( holder.imageView);
 
-
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,8 +125,6 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
                 showProduct(id);
             }
         });
-
-
 
     }
 
@@ -144,7 +140,6 @@ public class productsBySearch_adapter extends RecyclerView.Adapter <productsBySe
 
 
         return array.length();
-
 
     }
 

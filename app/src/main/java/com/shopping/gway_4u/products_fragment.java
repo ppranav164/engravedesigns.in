@@ -251,6 +251,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     private Handler handler;
 
 
+    BackStacks backStacks;
+
+
     public products_fragment(Context context) {
 
         this.context = context;
@@ -292,16 +295,16 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
 
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
 
+        backStacks = new BackStacks();
+        backStacks.getInstance(getContext());
+        backStacks.setCurrentActivity("PRODUCT");
 
         final View view = getView();
-
 
 
         qtext = view.findViewById(R.id.quantity);
