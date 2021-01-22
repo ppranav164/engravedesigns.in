@@ -12,7 +12,6 @@ public class config_hosts {
     public final String cart = hostname+"index.php?route=api/cart";
 
 
-
     public final  String wishlist_remove = hostname+"index.php?route=api/wishlist&remove="; //GET METHOD
 
 

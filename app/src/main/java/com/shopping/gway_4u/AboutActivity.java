@@ -31,6 +31,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
 
         termslink.setOnClickListener(this);
         privacylink.setOnClickListener(this);
+
     }
 
     @Override

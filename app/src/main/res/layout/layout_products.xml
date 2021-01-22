@@ -187,7 +187,7 @@
 
 
                 <LinearLayout
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:id="@+id/qla"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -260,6 +260,7 @@
                     android:visibility="gone"
                     />
 
+
             </LinearLayout>
 
 
@@ -267,7 +268,7 @@
                 android:background="@drawable/upload_active"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="left"
                 android:id="@+id/uploadbox"
                 android:padding="20dp"
@@ -288,9 +289,41 @@
             android:gravity="left"
             android:id="@+id/textbox"
             android:padding="20dp"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="left"
+                android:id="@+id/datebox"
+                android:padding="20dp"
+                android:visibility="gone"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="left"
+                android:id="@+id/timebox"
+                android:padding="20dp"
+                android:visibility="gone"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="left"
+                android:id="@+id/datetimebox"
+                android:padding="20dp"
+                android:visibility="gone"
+                />
 
 
             <com.google.android.material.tabs.TabLayout
