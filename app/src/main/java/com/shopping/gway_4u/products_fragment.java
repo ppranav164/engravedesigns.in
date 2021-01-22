@@ -63,6 +63,10 @@ import java.util.Map;
 public class products_fragment extends Fragment implements RecyclerViewClickListener , product_slider_listener {
 
     private static final int RESULT_OK = 1 ;
+
+
+    language_text languageText = new language_text();
+
     View view;
 
     View entireView;
@@ -76,6 +80,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     RecyclerView productsrecyclerviw;
 
     ViewPager viewPager;
+
 
     LinearLayout linearLayout;
     LinearLayout Textboxlayout;
@@ -195,6 +200,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     HashMap<Integer,String> dateKeys = new HashMap<>();
 
     HashMap<String,Boolean> rules = new HashMap<>();
+    HashMap<Integer,String> text_error = new HashMap<>();
 
     ArrayList<String> fileErrors = new ArrayList<>();
 
@@ -712,6 +718,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                             keyValue.put(requestCode,code);
                             String cod = String.valueOf(requestCode);
                             rules.replace(cod,false);
+                            text_error.remove(requestCode);
                             Log.e("final",keyValue.toString());
                             ImageView imageView = new ImageView(getContext());
                             imageView.setId(plus+requestCode);
@@ -719,6 +726,17 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                             previewLayout.addView(imageView);
                             ImageView screen = (ImageView) previewLayout.findViewById(plus+requestCode);
                             screen.setImageURI(filePath);
+
+
+                            String error_tag = "error_"+requestCode;
+                            TextView uploadtext = uploadlayout.findViewWithTag(error_tag);
+
+                            if (uploadtext != null)
+                            {
+                                uploadtext.setVisibility(View.INVISIBLE);
+                            }
+
+
                         }else
                         {
                             Log.e("isUploaded",object.getString("uploaded"));
@@ -968,7 +986,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
            radioGroup = view.findViewById(R.id.radios);
 
-          radioOptionsview(objects);
+           radioOptionsview(objects);
 
 
 
@@ -1066,7 +1084,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                   JSONArray textArea = optb.getJSONArray("date");
                   setdeliveryDate(textArea.length());
               }
-
 
           }
 
@@ -1224,6 +1241,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
        texts[0].setText("File Upload :");
        uploadlayout.addView(texts[0]);
 
+
        while (iterator.hasNext())
        {
 
@@ -1251,6 +1269,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            String codes = String.valueOf(id);
 
            rules.put(codes,true);
+           text_error.put(id,language_text.TEXT_UPLOAD);
+
            uploadlayout.addView(uploadButton[index]);
            uploadButton[index].setOnClickListener(new View.OnClickListener() {
                @Override
@@ -1261,7 +1281,21 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                    fileChooser(code);
                }
            });
+
+
+           String error_tag = "error_"+id;
+           TextView[] text_warning = new TextView[length];
+           text_warning[0] = new TextView(getContext());
+           text_warning[0].setText(language_text.TEXT_UPLOAD);
+           text_warning[0].setTag(error_tag);
+           text_warning[0].setVisibility(View.INVISIBLE);
+           text_warning[0].setTextColor(getResources().getColor(R.color.red));
+           uploadlayout.addView(text_warning[0]);
+
        }
+
+
+
    }
 
 
@@ -1294,7 +1328,22 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            editTexts[index].setTag(codes);
            Textboxlayout.addView(editTexts[index]);
 
+
            rules.put(codes,true);
+           text_error.put(id,language_text.TEXT_TEXTAREA);
+
+
+
+           String error_tag = "error_"+id;
+           TextView[] text_warning = new TextView[length];
+           text_warning[index] = new TextView(getContext());
+           text_warning[index].setText(language_text.TEXT_TEXTAREA);
+           text_warning[index].setTag(error_tag);
+           text_warning[index].setVisibility(View.INVISIBLE);
+           text_warning[index].setTextColor(getResources().getColor(R.color.red));
+           Textboxlayout.addView(text_warning[index]);
+
+
 
            editTexts[index].addTextChangedListener(new TextWatcher() {
                @Override
@@ -1308,14 +1357,34 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                    int textlength = count;
                    String chars = s.toString();
 
+                   String error_tag = "error_"+id;
+                   TextView textAreatext = Textboxlayout.findViewWithTag(error_tag);
+                   TextView dateText = datebox.findViewWithTag(error_tag);
+
+
                    if (count > 0)
                    {
                        keyValue.put(id,chars);
                        rules.put(codes,false);
+                       text_error.remove(id);
+
+                       if (textAreatext != null)
+                       {
+                           textAreatext.setVisibility(View.INVISIBLE);
+                       }
+
+
                    }else {
 
                        keyValue.remove(id);
                        rules.put(codes,true);
+                       text_error.put(id,language_text.TEXT_TEXTAREA);
+
+                       if (textAreatext != null)
+                       {
+                           textAreatext.setVisibility(View.VISIBLE);
+                       }
+
                    }
 
                }
@@ -1328,6 +1397,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            });
 
        }
+
 
    }
 
@@ -1360,7 +1430,20 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
             editTexts[index].setTag(codes);
             datebox.addView(editTexts[index]);
 
+
+            String error_tag = "error_"+id;
+            TextView[] text_warning = new TextView[length];
+            text_warning[index] = new TextView(getContext());
+            text_warning[index].setText(language_text.TEXT_DATE);
+            text_warning[index].setTag(error_tag);
+            text_warning[index].setVisibility(View.INVISIBLE);
+            text_warning[index].setTextColor(getResources().getColor(R.color.red));
+            datebox.addView(text_warning[index]);
+
+
+
             rules.put(codes, true);
+            text_error.put(id,language_text.TEXT_DATE);
 
 
             editTexts[index].addTextChangedListener(new TextWatcher() {
@@ -1375,14 +1458,32 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                     int textlength = count;
                     String chars = s.toString();
 
+
+                    String error_tag = "error_"+id;
+                    TextView dateText = datebox.findViewWithTag(error_tag);
+
                     if (count > 0)
                     {
                         keyValue.put(id,chars);
                         rules.put(codes,false);
+                        text_error.remove(id);
+
+                        if (dateText != null)
+                        {
+                            dateText.setVisibility(View.INVISIBLE);
+                        }
+
                     }else {
 
                         keyValue.remove(id);
                         rules.put(codes,true);
+                        text_error.put(id,language_text.TEXT_DATE);
+
+                         if (dateText != null)
+                        {
+                            dateText.setVisibility(View.VISIBLE);
+                        }
+
                     }
 
                 }
@@ -1436,13 +1537,36 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
               if (rules.containsValue(true))
                  {
-                   Toast.makeText(getContext(),"Please select options required",Toast.LENGTH_SHORT).show();
+
                    error = true;
                    Iterator iter = rules.entrySet().iterator();
                    while (iter.hasNext())
                    {
                        Map.Entry keys = (Map.Entry) iter.next();
                        boolean val = (Boolean) keys.getValue();
+
+                       String error_tag = "error_"+keys.getKey();
+                       TextView uploadtext = uploadlayout.findViewWithTag(error_tag);
+                       TextView textAreatext = Textboxlayout.findViewWithTag(error_tag);
+                       TextView dateText = datebox.findViewWithTag(error_tag);
+
+                       if (uploadtext != null)
+                       {
+                           uploadtext.setVisibility(View.VISIBLE);
+                       }
+
+                       if (textAreatext != null)
+                       {
+                           textAreatext.setVisibility(View.VISIBLE);
+                       }
+
+                       if (dateText != null)
+                       {
+                           dateText.setVisibility(View.VISIBLE);
+                       }
+
+
+                       Log.e("error_tag","error_"+keys.getKey());
                    }
                }
                else
