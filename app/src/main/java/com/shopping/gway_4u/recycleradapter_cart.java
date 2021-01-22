@@ -3,6 +3,7 @@ package com.shopping.gway_4u;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,7 +168,7 @@ public class recycleradapter_cart extends RecyclerView.Adapter <recycleradapter_
             holder.stockTv.setVisibility(View.GONE);
         }
 
-
+        showOption(holder.optionLayout,options.get(pos));
 
         holder.name.setText(product_name.get(pos));
 
@@ -195,6 +196,27 @@ public class recycleradapter_cart extends RecyclerView.Adapter <recycleradapter_
     }
 
 
+
+    public void showOption(LinearLayout layout,String option)
+    {
+
+        Log.e("showOption",option);
+        try {
+            JSONArray array = new JSONArray(option);
+           for (int i=0; i < array.length(); i++)
+           {
+               JSONObject jsonObject = array.getJSONObject(i);
+               TextView[] textView = new TextView[array.length()];
+               textView[i] = new TextView(ctx);
+               textView[i].setText(jsonObject.getString("name")+": "+jsonObject.getString("value"));
+               Log.e("options",jsonObject.getString("name"));
+               layout.addView(textView[i]);
+           }
+       }catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+    }
 
 
     public void syncRemove(int key, final MyViewHolder holder)
@@ -262,7 +284,7 @@ public class recycleradapter_cart extends RecyclerView.Adapter <recycleradapter_
 
         ImageView imageView,cart,remove;
 
-        LinearLayout linearLayout;
+        LinearLayout linearLayout,optionLayout;
 
 
 
@@ -289,6 +311,8 @@ public class recycleradapter_cart extends RecyclerView.Adapter <recycleradapter_
             linearLayout = itemView.findViewById(R.id.llot);
 
             remove = itemView.findViewById(R.id.removebtn);
+
+            optionLayout = itemView.findViewById(R.id.optionView);
 
         }
 
