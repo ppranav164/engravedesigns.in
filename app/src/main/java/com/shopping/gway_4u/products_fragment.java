@@ -1945,13 +1945,11 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
                                JSONObject messageobj = new JSONObject(data);
 
-
                                if (messageobj.has("error"))
                                {
                                    success = false;
                                    showError(messageobj.getJSONObject("error"));
                                }
-
 
                                if (messageobj.has("status"))
                                {

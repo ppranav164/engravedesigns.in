@@ -59,6 +59,9 @@ public class cartFragment extends Fragment  {
     Button appCoupon;
 
 
+    String TAG = "cartfragment";
+
+
     LinearLayout linearLayout;
 
 
@@ -132,6 +135,7 @@ public class cartFragment extends Fragment  {
         }
 
 
+        Log.e("TAG",TAG);
 
     }
 
