@@ -1070,6 +1070,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                           String textTitle = jsonObject.getString("name");
                           int textID = Integer.parseInt(option_text_id);
                           dateKeys.put(textID,textTitle);
+                          datebox.setVisibility(View.VISIBLE);
                           dateOption_id = Integer.parseInt(option_text_id);
                           datebox.setVisibility(View.VISIBLE);
 
@@ -1088,6 +1089,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                           String textTitle = jsonObject.getString("name");
                           int textID = Integer.parseInt(option_text_id);
                           timeKeys.put(textID,textTitle);
+                          timebox.setVisibility(View.VISIBLE);
                           timeOption_id = Integer.parseInt(option_text_id);
 
                       }
@@ -1106,6 +1108,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                           String textTitle = jsonObject.getString("name");
                           int textID = Integer.parseInt(option_text_id);
                           datetimeKeys.put(textID,textTitle);
+                          datetimebox.setVisibility(View.VISIBLE);
                           datetimeOption_id = Integer.parseInt(option_text_id);
                       }
                   }
@@ -1726,7 +1729,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
             String error_tag = "error_"+id;
             TextView[] text_warning = new TextView[length];
             text_warning[index] = new TextView(getContext());
-            text_warning[index].setText(language_text.TEXT_TIME);
+            text_warning[index].setText(language_text.TEXT_TIME_DATE);
             text_warning[index].setTag(error_tag);
             text_warning[index].setVisibility(View.INVISIBLE);
             text_warning[index].setTextColor(getResources().getColor(R.color.red));
@@ -1826,7 +1829,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
         timePickerDialog.show();
 
-
     }
 
 
@@ -1881,19 +1883,16 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            @Override
            public void onClick(View v) {
 
-
-               validateError();
-
                entireView = getView();
                qtext = entireView.findViewById(R.id.quantity);
                Log.e("Cart ",keyValue.toString());
                Log.e("rules",rules.toString());
 
-
                int cart_pro_id = 0;
                int quantity = Integer.parseInt(qtext.getText().toString());
                radiotxt = entireView.findViewById(R.id.radioid);
                String id = radiotxt.getText().toString();
+
 
               if (!rules.containsValue(true))
                  {
@@ -1902,7 +1901,6 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
                try {
-
                       cart_pro_id = data.getInt("product_id");
                       StringBuilder stringBuilder = new StringBuilder();
                       Iterator iterator = keyValue.entrySet().iterator();
@@ -2004,6 +2002,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            TextView textAreatext = Textboxlayout.findViewWithTag(error_tag);
            TextView dateText = datebox.findViewWithTag(error_tag);
            TextView timeText = timebox.findViewWithTag(error_tag);
+           TextView datetimeText = datetimebox.findViewWithTag(error_tag);
 
            if (uploadtext != null)
            {
@@ -2024,15 +2023,60 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            {
                timeText.setVisibility(View.VISIBLE);
            }
+
+           if (datetimeText != null)
+           {
+               datetimeText.setVisibility(View.VISIBLE);
+           }
        }
 
    }
+
+
+    public void showErrorByCode(int code)
+    {
+
+        Log.e("showErrorByCode",""+code);
+        String error_tag = "error_"+code;
+        TextView uploadtext = uploadlayout.findViewWithTag(error_tag);
+        TextView textAreatext = Textboxlayout.findViewWithTag(error_tag);
+        TextView dateText = datebox.findViewWithTag(error_tag);
+        TextView timeText = timebox.findViewWithTag(error_tag);
+        TextView datetimeText = datetimebox.findViewWithTag(error_tag);
+
+        if (uploadtext != null)
+        {
+            uploadtext.setVisibility(View.VISIBLE);
+        }
+
+        if (textAreatext != null)
+        {
+            textAreatext.setVisibility(View.VISIBLE);
+        }
+
+        if (dateText != null)
+        {
+            dateText.setVisibility(View.VISIBLE);
+        }
+
+        if (timeText != null)
+        {
+            timeText.setVisibility(View.VISIBLE);
+        }
+
+        if (datetimeText != null)
+        {
+            datetimeText.setVisibility(View.VISIBLE);
+        }
+
+    }
 
 
 
    public void showError(JSONObject errors)
    {
        try {
+
           if (errors.has("option"))
           {
               JSONObject object = errors.getJSONObject("option");
@@ -2042,7 +2086,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                   String objectKey = (String) keys.next();
                   Log.e("objectKey",objectKey);
                   String text_warning = object.getString(objectKey);
-                  Toast.makeText(getContext(),text_warning,Toast.LENGTH_LONG).show();
+
+                  showErrorByCode(Integer.parseInt(objectKey));
 
                   EditText dates = datebox.findViewWithTag(objectKey);
                   EditText textareas = Textboxlayout.findViewWithTag(objectKey);
