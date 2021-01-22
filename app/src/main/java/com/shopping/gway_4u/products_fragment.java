@@ -2,6 +2,8 @@ package com.shopping.gway_4u;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,6 +36,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,10 +58,13 @@ import com.google.android.material.tabs.TabLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class products_fragment extends Fragment implements RecyclerViewClickListener , product_slider_listener {
@@ -85,6 +92,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     LinearLayout linearLayout;
     LinearLayout Textboxlayout;
     LinearLayout datebox;
+    LinearLayout timebox;
+    LinearLayout datetimebox;
 
     Button UploadBtn;
 
@@ -186,6 +195,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     int product_options_id = 0; //227 for file options[227] = code // gf44gr44e434ww435df345234523452345
     int textArea_product_id = 0;
     int dateOption_id = 0;
+    int timeOption_id = 0;
+    int datetimeOption_id = 0;
 
     recycleradapter_cart cart;
 
@@ -198,6 +209,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
     HashMap<Integer,String> uploadKeys = new HashMap<>();
     HashMap<Integer,String> textKeys = new HashMap<>();
     HashMap<Integer,String> dateKeys = new HashMap<>();
+    HashMap<Integer,String> timeKeys = new HashMap<>();
+    HashMap<Integer,String> datetimeKeys = new HashMap<>();
 
     HashMap<String,Boolean> rules = new HashMap<>();
     HashMap<Integer,String> text_error = new HashMap<>();
@@ -250,12 +263,11 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
         view = inflater.inflate(R.layout.layout_products,container,false);
-
         viewPager = view.findViewById(R.id.productslider);
-
         Textboxlayout = view.findViewById(R.id.textbox);
-
         datebox = view.findViewById(R.id.datebox);
+        timebox = view.findViewById(R.id.timebox);
+        datetimebox =  view.findViewById(R.id.datetimebox);
 
         return view;
     }
@@ -719,6 +731,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                             String cod = String.valueOf(requestCode);
                             rules.replace(cod,false);
                             text_error.remove(requestCode);
+
+                            Log.e("requestCode","Upload for >> "+requestCode);
+
                             Log.e("final",keyValue.toString());
                             ImageView imageView = new ImageView(getContext());
                             imageView.setId(plus+requestCode);
@@ -1061,6 +1076,41 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                       }
                   }
 
+
+                  if (optb.has("time"))
+                  {
+                      JSONArray dateOption = optb.getJSONArray("time");
+
+                      for (int k=0; k<dateOption.length(); k++)
+                      {
+                          JSONObject jsonObject = dateOption.getJSONObject(k);
+                          String option_text_id = jsonObject.getString("product_option_id");
+                          String textTitle = jsonObject.getString("name");
+                          int textID = Integer.parseInt(option_text_id);
+                          timeKeys.put(textID,textTitle);
+                          timeOption_id = Integer.parseInt(option_text_id);
+
+                      }
+                  }
+
+
+
+                  if (optb.has("datetime"))
+                  {
+                      JSONArray dateOption = optb.getJSONArray("datetime");
+
+                      for (int k=0; k<dateOption.length(); k++)
+                      {
+                          JSONObject jsonObject = dateOption.getJSONObject(k);
+                          String option_text_id = jsonObject.getString("product_option_id");
+                          String textTitle = jsonObject.getString("name");
+                          int textID = Integer.parseInt(option_text_id);
+                          datetimeKeys.put(textID,textTitle);
+                          datetimeOption_id = Integer.parseInt(option_text_id);
+                      }
+                  }
+
+
               }
 
           }
@@ -1083,6 +1133,18 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
               {
                   JSONArray textArea = optb.getJSONArray("date");
                   setdeliveryDate(textArea.length());
+              }
+
+              if (optb.has("time"))
+              {
+                  JSONArray textArea = optb.getJSONArray("time");
+                  setdeliveryTime(textArea.length());
+              }
+
+              if (optb.has("datetime"))
+              {
+                  JSONArray textArea = optb.getJSONArray("datetime");
+                  setDateTime(textArea.length());
               }
 
           }
@@ -1411,6 +1473,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
         int index = -1;
 
+
         while (iterator.hasNext()) {
 
             index++;
@@ -1426,7 +1489,8 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
             datebox.addView(texts[index]);
 
             editTexts[index] = new EditText(getContext());
-            editTexts[index].setLines(4);
+            editTexts[index].setLines(1);
+            editTexts[index].setFocusable(false);
             editTexts[index].setTag(codes);
             datebox.addView(editTexts[index]);
 
@@ -1444,6 +1508,18 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
             rules.put(codes, true);
             text_error.put(id,language_text.TEXT_DATE);
+
+
+            editTexts[index].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    EditText editText = (EditText) v;
+
+                    updateDate(editText);
+
+                }
+            });
 
 
             editTexts[index].addTextChangedListener(new TextWatcher() {
@@ -1504,6 +1580,287 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
 
 
 
+    public void setdeliveryTime(int length)
+    {
+        Iterator iterator = timeKeys.entrySet().iterator();
+        TextView[] texts = new TextView[length];
+        EditText[] editTexts = new EditText[length];
+
+        int index = -1;
+
+
+        while (iterator.hasNext()) {
+
+            index++;
+
+            Map.Entry pair = (Map.Entry) iterator.next();
+            String value = pair.getValue().toString();
+            final int id = Integer.parseInt(pair.getKey().toString());
+            final String codes = String.valueOf(id);
+
+
+            texts[index] = new TextView(getContext());
+            texts[index].setText(value);
+            timebox.addView(texts[index]);
+
+            editTexts[index] = new EditText(getContext());
+            editTexts[index].setLines(1);
+            editTexts[index].setFocusable(false);
+            editTexts[index].setTag(codes);
+            timebox.addView(editTexts[index]);
+
+
+            String error_tag = "error_"+id;
+            TextView[] text_warning = new TextView[length];
+            text_warning[index] = new TextView(getContext());
+            text_warning[index].setText(language_text.TEXT_TIME);
+            text_warning[index].setTag(error_tag);
+            text_warning[index].setVisibility(View.INVISIBLE);
+            text_warning[index].setTextColor(getResources().getColor(R.color.red));
+            timebox.addView(text_warning[index]);
+
+
+
+            rules.put(codes, true);
+            text_error.put(id,language_text.TEXT_DATE);
+
+
+            editTexts[index].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    EditText editText = (EditText) v;
+
+                    updateTime(editText);
+
+                }
+            });
+
+
+            editTexts[index].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    int textlength = count;
+                    String chars = s.toString();
+
+
+                    String error_tag = "error_"+id;
+                    TextView dateText = timebox.findViewWithTag(error_tag);
+
+                    if (count > 0)
+                    {
+                        keyValue.put(id,chars);
+                        rules.put(codes,false);
+                        text_error.remove(id);
+
+                        if (dateText != null)
+                        {
+                            dateText.setVisibility(View.INVISIBLE);
+                        }
+
+                    }else {
+
+                        keyValue.remove(id);
+                        rules.put(codes,true);
+                        text_error.put(id,language_text.TEXT_DATE);
+
+                        if (dateText != null)
+                        {
+                            dateText.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+
+                }
+            });
+
+
+
+        }
+
+    }
+
+
+    public void setDateTime(int length)
+    {
+        Iterator iterator = datetimeKeys.entrySet().iterator();
+        TextView[] texts = new TextView[length];
+        EditText[] editTexts = new EditText[length];
+
+        int index = -1;
+
+
+        while (iterator.hasNext()) {
+
+            index++;
+
+            Map.Entry pair = (Map.Entry) iterator.next();
+            String value = pair.getValue().toString();
+            final int id = Integer.parseInt(pair.getKey().toString());
+            final String codes = String.valueOf(id);
+
+
+            texts[index] = new TextView(getContext());
+            texts[index].setText(value);
+            datetimebox.addView(texts[index]);
+
+            editTexts[index] = new EditText(getContext());
+            editTexts[index].setLines(1);
+            editTexts[index].setFocusable(false);
+            editTexts[index].setTag(codes);
+            datetimebox.addView(editTexts[index]);
+
+
+            String error_tag = "error_"+id;
+            TextView[] text_warning = new TextView[length];
+            text_warning[index] = new TextView(getContext());
+            text_warning[index].setText(language_text.TEXT_TIME);
+            text_warning[index].setTag(error_tag);
+            text_warning[index].setVisibility(View.INVISIBLE);
+            text_warning[index].setTextColor(getResources().getColor(R.color.red));
+            datetimebox.addView(text_warning[index]);
+
+
+
+            rules.put(codes, true);
+            text_error.put(id,language_text.TEXT_DATE);
+
+
+            editTexts[index].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    EditText editText = (EditText) v;
+
+                    updateTime(editText);
+
+                }
+            });
+
+
+            editTexts[index].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    int textlength = count;
+                    String chars = s.toString();
+
+
+                    String error_tag = "error_"+id;
+                    TextView dateText = datetimebox.findViewWithTag(error_tag);
+
+                    if (count > 0)
+                    {
+                        keyValue.put(id,chars);
+                        rules.put(codes,false);
+                        text_error.remove(id);
+
+                        if (dateText != null)
+                        {
+                            dateText.setVisibility(View.INVISIBLE);
+                        }
+
+                    }else {
+
+                        keyValue.remove(id);
+                        rules.put(codes,true);
+                        text_error.put(id,language_text.TEXT_DATE);
+
+                        if (dateText != null)
+                        {
+                            dateText.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+
+                }
+            });
+
+
+
+        }
+
+    }
+
+
+
+    private void updateTime(final EditText v)
+    {
+
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Log.e("onTimeSet",hourOfDay+":"+minute);
+
+                String times = String.valueOf(hourOfDay)+":"+String.valueOf(minute);
+                v.setText(times);
+            }
+        },hour,minute,false);
+
+        timePickerDialog.show();
+
+
+    }
+
+
+
+    private void updateDate(final EditText v)
+    {
+
+        final Calendar calendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,month);
+                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                Log.e("dateset",sdf.format(calendar.getTime()));
+
+                String dateset = sdf.format(calendar.getTime());
+                v.setText(dateset);
+
+            }
+        };
+
+        new DatePickerDialog(getContext(),dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH))
+                .show();
+
+
+    }
+
+
 
     public void FullScreenSlider(List<String> images)
    {
@@ -1524,6 +1881,9 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
            @Override
            public void onClick(View v) {
 
+
+               validateError();
+
                entireView = getView();
                qtext = entireView.findViewById(R.id.quantity);
                Log.e("Cart ",keyValue.toString());
@@ -1535,44 +1895,10 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                radiotxt = entireView.findViewById(R.id.radioid);
                String id = radiotxt.getText().toString();
 
-              if (rules.containsValue(true))
+              if (!rules.containsValue(true))
                  {
-
-                   error = true;
-                   Iterator iter = rules.entrySet().iterator();
-                   while (iter.hasNext())
-                   {
-                       Map.Entry keys = (Map.Entry) iter.next();
-                       boolean val = (Boolean) keys.getValue();
-
-                       String error_tag = "error_"+keys.getKey();
-                       TextView uploadtext = uploadlayout.findViewWithTag(error_tag);
-                       TextView textAreatext = Textboxlayout.findViewWithTag(error_tag);
-                       TextView dateText = datebox.findViewWithTag(error_tag);
-
-                       if (uploadtext != null)
-                       {
-                           uploadtext.setVisibility(View.VISIBLE);
-                       }
-
-                       if (textAreatext != null)
-                       {
-                           textAreatext.setVisibility(View.VISIBLE);
-                       }
-
-                       if (dateText != null)
-                       {
-                           dateText.setVisibility(View.VISIBLE);
-                       }
-
-
-                       Log.e("error_tag","error_"+keys.getKey());
-                   }
-               }
-               else
-               {
-                   error = false;
-               }
+                     error = false;
+                }
 
 
                try {
@@ -1647,9 +1973,7 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
                        }
                    }).execute();
 
-
                    setHasOptionsMenu(true);
-
 
                }
 
@@ -1658,6 +1982,49 @@ public class products_fragment extends Fragment implements RecyclerViewClickList
        });
 
 
+
+   }
+
+
+
+
+   public void validateError()
+   {
+
+       Iterator iterator = text_error.entrySet().iterator();
+
+       while (iterator.hasNext())
+       {
+           Map.Entry keys = (Map.Entry) iterator.next();
+
+           Log.e("validateError",""+keys.getKey());
+
+           String error_tag = "error_"+keys.getKey();
+           TextView uploadtext = uploadlayout.findViewWithTag(error_tag);
+           TextView textAreatext = Textboxlayout.findViewWithTag(error_tag);
+           TextView dateText = datebox.findViewWithTag(error_tag);
+           TextView timeText = timebox.findViewWithTag(error_tag);
+
+           if (uploadtext != null)
+           {
+               uploadtext.setVisibility(View.VISIBLE);
+           }
+
+           if (textAreatext != null)
+           {
+               textAreatext.setVisibility(View.VISIBLE);
+           }
+
+           if (dateText != null)
+           {
+               dateText.setVisibility(View.VISIBLE);
+           }
+
+           if (timeText != null)
+           {
+               timeText.setVisibility(View.VISIBLE);
+           }
+       }
 
    }
 
