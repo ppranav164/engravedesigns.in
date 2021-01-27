@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity
 
     BackStacks backStacks;
 
+    private Handler producthandler;
+    private Runnable productrunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity
 
         onNewIntent(getIntent());
 
+        DeepLinking();
 
         dialog = new Dialog(this); // Context, this, etc.
 
@@ -312,6 +316,42 @@ public class MainActivity extends AppCompatActivity
         dialog.dismiss();
     }
 
+
+
+
+    public void DeepLinking()
+    {
+        Intent intent = getIntent();
+        Uri data = intent.getData();
+        if (data != null)
+        {
+            String product_id = data.getQueryParameter("product_id");
+            showProductBId(product_id);
+        }
+    }
+
+
+
+    public void showProductBId(String id)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("_id",id);
+        Fragment fragment = new products_fragment(getApplicationContext());
+        fragment.setArguments(bundle);
+        FragmentManager manager = getSupportFragmentManager();
+        final FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.mainframeL,fragment,"product");
+        transaction.addToBackStack("main");
+        //transaction.commit();
+        producthandler = new Handler();
+        producthandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                transaction.commit();
+            }
+        },2000);
+    }
 
 
 
