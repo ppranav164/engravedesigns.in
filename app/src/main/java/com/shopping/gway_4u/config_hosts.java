@@ -3,9 +3,9 @@ package com.shopping.gway_4u;
 public class config_hosts {
 
 
-    public  final String hostname = "http://ecommerce.engravedesigns.in/";
+    public  final String hostname = "https://engravedesigns.in/";
 
-    public final  String BASE_URL = "http://ecommerce.engravedesigns.in";
+    public final  String BASE_URL = "https://engravedesigns.in";
 
     public final String home = hostname+"index.php?route=api/home";
 
