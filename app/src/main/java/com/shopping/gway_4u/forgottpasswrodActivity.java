@@ -43,11 +43,16 @@ public class forgottpasswrodActivity extends AppCompatActivity implements TextWa
     String OTP;
 
 
+    String TAG = "forgottpasswrodActivity";
+
     Button clearOtp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        Log.e("TAG",TAG);
 
         dialog = new ProgressDialog(forgottpasswrodActivity.this);
         dialog.setTitle("Verifying");
