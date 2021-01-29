@@ -172,7 +172,8 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                     if (object1.has("success"))
                     {
                         error = false;
-                        showLogin();
+
+                        VerifyOtpImmediate(EMAIL);
 
                     }else {
 
@@ -249,6 +250,16 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         Intent intent = new Intent(getApplicationContext(),Activity_login.class);
         startActivity(intent);
         finish();
+    }
+
+
+
+
+    public void VerifyOtpImmediate(String emailID)
+    {
+        Intent intent = new Intent(Activity_Register.this,VerificationOtp.class);
+        intent.putExtra("email",emailID);
+        startActivity(intent);
     }
 
 

@@ -23,4 +23,7 @@
     <string name="powered">Engravedesigns © 2021 </string>
     <string name="host">ecommerce.engravedesigns.in</string>
 
+
+    <string name="text_verify" translatable="false">An OTP code sent to your email : %s </string>
+
 </resources>

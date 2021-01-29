@@ -266,8 +266,18 @@ public class config_hosts {
 
 
 
-    //retrieve categories with images
+    /**
+     * Verification link upon registration
+     * @method GET
+     * @param code
+     * @param email
+     *
+     */
 
+    public final  String SIGN_VERIFY = hostname+"index.php?route=api/verification";
+
+
+    //retrieve categories with images
     public final  String GET_CATEGORY = hostname+"index.php?route=api/category";
 
 
